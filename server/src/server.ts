@@ -1,4 +1,4 @@
-import express, { Application, Router } from 'express';
+import express from 'express';
 import bodyParser from 'body-parser';
 import router from './router';
 import sequelize from './config/dbconfig';
@@ -15,7 +15,7 @@ class Server {
 
     private config() {
         this.app.use(bodyParser.urlencoded({ extended: true }));
-        this.app.use(bodyParser.json({ limit: '1mb' })); // 100kb default
+        this.app.use(bodyParser.json({ limit: '1mb' }));
     }
 
     private dbConnect() {
