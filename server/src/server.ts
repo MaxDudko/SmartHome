@@ -1,7 +1,9 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import passport from "passport";
+import strategy from "./config/passport";
 import router from './router';
-import sequelize from './config/dbconfig';
+import DB from './models';
 
 class Server {
     private app;
@@ -11,6 +13,7 @@ class Server {
         this.config();
         this.routerConfig();
         this.dbConnect();
+        this.passport();
     }
 
     private config() {
@@ -19,16 +22,18 @@ class Server {
     }
 
     private dbConnect() {
-        sequelize
-            .authenticate()
+        DB.sequelize.sync()
             .then(() => {
-                console.log('Connection has been established successfully.');
+                console.log('DB: Connection has been established successfully.');
             })
             .catch(err => {
-
-                console.error('Unable to connect to the database:', err);
-
+                console.error('DB: Unable to connect to the database:', err);
             });
+    }
+
+    private passport() {
+        passport.use(strategy);
+
     }
 
     private routerConfig() {
