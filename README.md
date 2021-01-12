@@ -1,13 +1,13 @@
 ## Smart Home
 
-###Список технологий:
+### Список технологий:
 
 * **BackEnd:** Node.js, Express
 * **FrontEnd:** Materialize, React, Redux
 * **DataBase:** Postgresql, Sequelize
 * **Интеграция с устройствами:** Samsung SmartThings (https://graph.api.smartthings.com/)
 
-###Требования:
+### Требования:
 
 * обеспечить адаптивную вёрстку. На мокапах присутствует только desktop версия. Мобильной версия должна быть похожа на desktop, и перед выполнением её нужно согласовать.
 * Авторизация пользователей
