@@ -1,0 +1,107 @@
+.Authentication {
+  height: 100%;
+  .welcomeScreen {
+    height: 100%;
+    background: #37435a;
+    padding-left: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    .header {
+      margin: 67px 0;
+    }
+    .slide {
+      color: #ffffff;
+      text-align: left;
+      font-size: 50px;
+      margin-bottom: 100px;
+      p {
+        margin: 0;
+      }
+      p:first-child {
+        font-weight: 300;
+      }
+      p:last-child {
+        font-weight: 500;
+      }
+    }
+    .footer {
+      display: flex;
+      align-items: center;
+      color: #1f8efa;
+      margin: 67px 0;
+      .icon {
+        font-size: 50px !important;
+      }
+      span {
+        margin-left: 20px;
+      }
+    }
+  }
+  .authForm {
+    height: 100%;
+    background: #242e42;
+    color: #ffffff;
+    .header {
+      margin-top: 8rem;
+    }
+    .form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+      .wrapper {
+        .title {
+          font-size: 30px;
+          font-weight: 300;
+        }
+        .restoreText {
+          p {
+            margin: 0;
+            color: #647386;
+          }
+        }
+      }
+      .links {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .link {
+          cursor: pointer;
+          &:first-child {
+            color: #8d96a5;
+          }
+          &:last-child {
+            color: #5b677a;
+          }
+          span {
+            color: #236cb7;
+            font-weight: bold;
+          }
+        }
+      }
+      input {
+        color: #236cb7;
+        border: 1px solid #3d4f6e;
+        height: 2.5rem;
+        padding: 0 0 0 10px;
+        &:focus {
+          border: 1px solid #236cb7 !important;
+          -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+        }
+        &:focus + label {
+          color: #ffffff !important;
+        }
+        &::placeholder {
+          color: #236cb7;
+        }
+      }
+      label {
+        font-size: 25px;
+        top: -16px;
+      }
+    }
+  }
+}

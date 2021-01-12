@@ -2,8 +2,8 @@ import {Strategy as LocalStrategy} from "passport-local";
 import User from "../models/User";
 
 const strategy = new LocalStrategy({
-    usernameField: 'user[email]',
-    passwordField: 'user[password]',
+    usernameField: 'email',
+    passwordField: 'password',
 }, (email: string, password: string, done: any) => {
     User.findOne({where: {email}})
         .then((user: any) => {

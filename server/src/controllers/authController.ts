@@ -39,7 +39,6 @@ class AuthController {
                 return next(err);
             }
 
-            console.log(">>>>>", passportUser)
             if(passportUser) {
                 const user = passportUser;
                 user.token = passportUser.generateJWT();
@@ -57,6 +56,18 @@ class AuthController {
 
     public async changePassword(req: Request, res: Response) {
 
+    }
+
+    public check(req: Request, res: Response): {} {
+        const email = req.body.email;
+        return User.findOne({where: {email: email}})
+            .then((user) => {
+                if(!user) {
+                    return res.sendStatus(400);
+                }
+
+                return res.json({ user: user.toAuthJSON() });
+            });
     }
 }
 
