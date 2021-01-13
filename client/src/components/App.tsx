@@ -1,22 +1,20 @@
 import React, {useEffect} from 'react';
+import {connect} from "react-redux";
+import {tokenValidationAction} from "../actions/userAuth";
 import styles from './App.module.scss';
 import Authentication from "./Authentication/Authentication";
 import Dashboard from "./Dashboard/Dashboard";
-import axios from "axios";
 
-const App: React.FC = props =>  {
+interface Props {
+  tokenValidationAction: Function;
+}
+
+const App: React.FC<Props> = props =>  {
+  const { tokenValidationAction } = props;
+
   useEffect(() => {
     const token = localStorage.getItem('token');
-    const API = 'http://localhost:4000/';
-    if (token) {
-      axios.post(`${API}check`, {
-        token: token
-      }).then((data) => {
-        console.log(data)
-      }).catch(() => {
-        window.localStorage.clear();
-      });
-    }
+    tokenValidationAction(token);
   }, [])
   return (
     <div className={styles.App}>
@@ -30,4 +28,8 @@ const App: React.FC = props =>  {
   );
 };
 
-export default App;
+const mapDispatchToProps = dispatch => ({
+  tokenValidationAction: token => dispatch(tokenValidationAction(token)),
+})
+
+export default connect(null, mapDispatchToProps)(App);

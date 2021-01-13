@@ -44,18 +44,23 @@
     background: #242e42;
     color: #ffffff;
     .header {
-      margin-top: 8rem;
+      margin-top: 10rem;
     }
     .form {
       display: flex;
       flex-direction: column;
       align-items: center;
       height: 100%;
+      .title {
+        font-size: 32px;
+        font-weight: 300;
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
       .wrapper {
-        .title {
-          font-size: 30px;
-          font-weight: 300;
-        }
         .restoreText {
           p {
             margin: 0;
@@ -67,6 +72,8 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        //position: absolute;
+        //bottom: 3rem;
         .link {
           cursor: pointer;
           &:first-child {
@@ -74,6 +81,7 @@
           }
           &:last-child {
             color: #5b677a;
+            margin-top: 300px;
           }
           span {
             color: #236cb7;
@@ -86,6 +94,8 @@
         border: 1px solid #3d4f6e;
         height: 2.5rem;
         padding: 0 0 0 10px;
+        margin-bottom: 30px;
+        border-radius: 4px;
         &:focus {
           border: 1px solid #236cb7 !important;
           -webkit-box-shadow: none !important;
@@ -100,7 +110,12 @@
       }
       label {
         font-size: 25px;
-        top: -16px;
+        top: -18px;
+        color: #ffffff;
+        font-weight: 300;
+      }
+      button {
+        border-radius: 4px;
       }
     }
   }

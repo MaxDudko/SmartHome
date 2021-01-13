@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import cors from "cors";
 import passport from "passport";
 import strategy from "./config/passport";
 import router from './router';
@@ -19,6 +20,7 @@ class Server {
     private config() {
         this.app.use(bodyParser.urlencoded({ extended: true }));
         this.app.use(bodyParser.json({ limit: '1mb' }));
+        this.app.use(cors())
     }
 
     private dbConnect() {
