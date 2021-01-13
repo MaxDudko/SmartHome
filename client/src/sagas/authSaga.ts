@@ -1,0 +1,41 @@
+import {call, put, takeLatest} from "redux-saga/effects";
+import {loginUserService, registerUserService} from "../services/auth";
+
+function* tokenValidationSaga(payload) {
+    try {
+        const response = yield call(loginUserService, payload);
+        yield [
+            put({ type: 'VALIDATE_TOKEN_SUCCESS', response })
+        ];
+    } catch(error) {
+        yield put({ type: 'VALIDATE_TOKEN_ERROR', error })
+    }
+}
+
+function* loginSaga(payload) {
+    try {
+        const response = yield call(loginUserService, payload);
+        yield [
+            put({ type: 'LOGIN_USER_SUCCESS', response })
+        ];
+    } catch(error) {
+        yield put({ type: 'LOGIN_USER_ERROR', error })
+    }
+}
+
+function* registerSaga(payload) {
+    try {
+        const response = yield call(registerUserService, payload);
+        yield [
+            put({ type: 'REGISTER_USER_SUCCESS', response })
+        ];
+    } catch(error) {
+        yield put({ type: 'REGISTER_USER_ERROR', error });
+    }
+}
+
+export default function* watchUserAuthentication() {
+    yield takeLatest('VALIDATE_TOKEN', tokenValidationSaga);
+    yield takeLatest('LOGIN_USER', loginSaga);
+    yield takeLatest('REGISTER_USER', registerSaga);
+}
