@@ -1,0 +1,27 @@
+.Sidebar {
+  color: #98a7b9;
+  .head {
+    margin-top: 30px;
+    .name, .address {
+      margin: 0;
+    }
+    .name {
+      font-size: 20px;
+    }
+  }
+  .item {
+    display: flex;
+    padding: 14px 20px;
+    cursor: pointer;
+    .title {
+      margin-left: 10px;
+    }
+
+  }
+  .active {
+    background: #20293c;
+    color: #1f8efa;
+    border-left: 8px solid #1f8efa;
+    padding-left: 12px;
+  }
+}

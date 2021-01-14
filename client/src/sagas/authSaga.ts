@@ -1,9 +1,9 @@
 import {call, put, takeLatest} from "redux-saga/effects";
-import {loginUserService, registerUserService} from "../services/auth";
+import {loginUserService, registerUserService, tokenValidationService} from "../services/auth";
 
 function* tokenValidationSaga(payload) {
     try {
-        const response = yield call(loginUserService, payload);
+        const response = yield call(tokenValidationService, payload);
         yield [
             put({ type: 'VALIDATE_TOKEN_SUCCESS', response })
         ];

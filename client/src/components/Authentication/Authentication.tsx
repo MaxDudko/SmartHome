@@ -146,7 +146,7 @@ const Authentication: React.FC<Props> = props =>  {
                 </button>
             </div>
             <div className={styles.links}>
-                <span className={styles.link}>
+                <span className={styles.link + " col s8"} style={{ marginLeft: 'auto', marginRight: 'auto'}}>
                     By clicking Join now, you agree to the LinkedIn User Agreement, Privacy Policy. and Cookie Policy.
                 </span>
                 <span

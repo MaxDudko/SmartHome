@@ -1,5 +1,9 @@
 import React from 'react';
 import styles from './Dashboard.module.scss';
+import Navbar from "../Navbar/Navbar";
+import Sidebar from "../Sidebar/Sidebar";
+import DevicesSidebar from "../DevicesSidebar/DevicesSidebar";
+import {Container} from "react-materialize";
 
 interface Props {
 
@@ -7,12 +11,11 @@ interface Props {
 const Dashboard: React.FC = props =>  {
     return (
         <div className={styles.Dashboard}>
-            SmartHome Dashboard
-
-            <button onClick={() => {
-                localStorage.clear();
-                window.location.reload();
-            }}>LOGOUT(test)</button>
+            <Navbar />
+            <div className="row">
+                <Sidebar />
+            </div>
+            <DevicesSidebar />
         </div>
     );
 }

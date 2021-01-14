@@ -1,0 +1,13 @@
+.Navbar {
+  background: #242e42;
+  .logo {
+    left: 20px;
+  }
+  .progress {
+    display: flex;
+    align-items: center;
+    .box {
+      width: 10rem;
+    }
+  }
+}

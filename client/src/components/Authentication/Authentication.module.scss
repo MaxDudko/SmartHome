@@ -1,5 +1,7 @@
 .Authentication {
-  height: 100%;
+  height: 100vh;
+  background: #242e42;
+  overflow: hidden;
   .welcomeScreen {
     height: 100%;
     background: #37435a;
@@ -40,9 +42,10 @@
     }
   }
   .authForm {
-    height: 100%;
+    //height: 100%;
     background: #242e42;
     color: #ffffff;
+    overflow-y: auto;
     .header {
       margin-top: 10rem;
     }
@@ -61,19 +64,17 @@
         align-items: flex-start;
       }
       .wrapper {
-        .restoreText {
-          p {
-            margin: 0;
-            color: #647386;
-          }
-        }
+        //.restoreText {
+        //  p {
+        //    margin: 0;
+        //    color: #647386;
+        //  }
+        //}
       }
       .links {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        //position: absolute;
-        //bottom: 3rem;
         .link {
           cursor: pointer;
           &:first-child {
@@ -81,7 +82,7 @@
           }
           &:last-child {
             color: #5b677a;
-            margin-top: 300px;
+            margin-top: 4rem;
           }
           span {
             color: #236cb7;
@@ -116,6 +117,14 @@
       }
       button {
         border-radius: 4px;
+      }
+
+      .restoreText {
+        p {
+          margin: 0;
+          color: #647386;
+        }
+        margin-bottom: 100px;
       }
     }
   }
