@@ -4,7 +4,7 @@
   "description": "SmartHome application server",
   "main": "index.js",
   "scripts": {
-    "start": "set NODE_ENV && cp .env ./dist/src/.env && tsc && nodemon dist/src/index.js",
+    "start": "set NODE_ENV && tsc && nodemon dist/src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
@@ -28,7 +28,6 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "pg": "^8.5.1",
     "sequelize": "^6.3.5"
