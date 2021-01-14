@@ -2,7 +2,7 @@ import { Sequelize } from "sequelize";
 import dbConfig from "../config/db.config";
 import User from "./User";
 
-const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
+const sequelize = new Sequelize(<string>process.env.DB, <string>process.env.USER, <string>process.env.PASSWORD, {
     host: dbConfig.HOST,
     dialect: "postgres",
     pool: {
