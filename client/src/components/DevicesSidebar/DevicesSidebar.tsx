@@ -8,9 +8,9 @@ const DevicesSidebar: React.FC = props =>  {
 
     // Test Data
     const devices = [
-        {icon: 'lock', name: 'Lock', since: 'January 20, 2021', status: true},
-        {icon: 'wifi', name: 'WiFi', since: 'January 14, 2021', status: true},
-        {icon: 'camera', name: 'Camera', since: 'January 18, 2021', status: false}
+        {icon: 'lock', name: 'Lock', since: 'January 18, 2021', disabled: false},
+        {icon: 'wifi', name: 'WiFi', since: 'January 18, 2021', disabled: false},
+        {icon: 'camera', name: 'Camera', since: 'January 15, 2021', disabled: true}
     ];
 
     return (
@@ -31,7 +31,18 @@ const DevicesSidebar: React.FC = props =>  {
                                 <p>{device.since}</p>
                             </div>
                             <div className={styles.controller}>
-                                <input type="radio" defaultChecked={device.status}/>
+                                {/*<Switch*/}
+                                {/*    id="Switch-11"*/}
+                                {/*    offLabel="Off"*/}
+                                {/*    onChange={function noRefCheck(){}}*/}
+                                {/*    onLabel="On"*/}
+                                {/*/>*/}
+                                <div className="switch">
+                                    <label>
+                                        <input disabled={device.disabled} type="checkbox" />
+                                        <span className="lever"></span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     ))

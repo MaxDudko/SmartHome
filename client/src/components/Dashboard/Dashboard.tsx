@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Dashboard.module.scss';
-import Navbar from "../Navbar/Navbar";
+import Navbar from "../TopNavbar/TopNavbar";
 import Sidebar from "../Sidebar/Sidebar";
 import DevicesSidebar from "../DevicesSidebar/DevicesSidebar";
 import {Container} from "react-materialize";

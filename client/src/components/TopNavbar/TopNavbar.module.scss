@@ -1,0 +1,18 @@
+.TopNavbar {
+  background: #242e42;
+  .logo {
+  }
+  .box {
+    display: flex;
+    width: 10rem;
+    height: 6px;
+    position: relative;
+    top: 28px;
+  }
+}
+
+@media (min-width: 992px) {
+  .logo {
+    left: 10px;
+  }
+}

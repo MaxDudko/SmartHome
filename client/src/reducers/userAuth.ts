@@ -14,6 +14,10 @@ const authReducer = (state = [], action) => {
             return { ...state, response };
         case 'LOGIN_USER_ERROR':
             return { ...state, response };
+        case 'LOGOUT_USER':
+            localStorage.removeItem('token');
+            window.location.reload();
+            return {};
         default:
             return state;
     }

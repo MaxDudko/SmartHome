@@ -4,6 +4,7 @@ import {loginUserAction, registerUserAction} from "../../actions/userAuth";
 import styles from './Authentication.module.scss';
 import smartHomeLogo from '../../images/smart-home-logo.png';
 import logo from '../../images/logo.png';
+import {TextInput, Button} from "react-materialize";
 
 interface Props {
     registerUserAction: Function;
@@ -36,39 +37,36 @@ const Authentication: React.FC<Props> = props =>  {
     }
 
     const LoginForm = (
-        <form className={styles.form + " row"} onSubmit={handleSubmit}>
+        <form className={styles.form + " col s10 m8"} style={{marginLeft: 0}} onSubmit={handleSubmit}>
             <p className={styles.title}>Sign in</p>
-            <div className={styles.field + " col s8"} style={{marginLeft: 0}}>
-                <label htmlFor="email">Email</label>
-                <input
-                    type="text"
-                    id="email"
-                    onChange={handleChange}
-                    className="validate"
-                    required
-                    placeholder=""
-                />
-            </div>
-            <div className={styles.field + " col s8"} style={{marginLeft: 0}}>
-                <label htmlFor="password">Password</label>
-                <input
-                    type="password"
-                    id="password"
-                    onChange={handleChange}
-                    className="validate"
-                    required
-                    placeholder=""
-                />
-            </div>
-            <div className="input-field col s8" style={{marginLeft: 0, padding: '0 0 0 10px'}}>
-                <button
-                    type="submit"
-                    className="waves-effect btn col s12"
-                    style={{backgroundColor: '#1f8efa'}}
-                >
-                    SIGN IN
-                </button>
-            </div>
+            <TextInput
+                email
+                id="email"
+                onChange={handleChange}
+                s={12}
+                inputClassName="validate"
+                required
+                label="Email"
+                placeholder=""
+            />
+            <TextInput
+                password
+                id="password"
+                onChange={handleChange}
+                s={12}
+                inputClassName="validate"
+                required
+                label="Password"
+                placeholder=""
+            />
+            <Button
+                node="button"
+                type="submit"
+                className="waves-effect btn col s12"
+                style={{backgroundColor: '#1f8efa', marginLeft: '20px'}}
+            >
+                SIGN IN
+            </Button>
             <div className={styles.links}>
                 <span
                     className={styles.link}
@@ -88,65 +86,60 @@ const Authentication: React.FC<Props> = props =>  {
     );
 
     const RegisterForm = (
-        <form className={styles.form + " row"} onSubmit={handleSubmit}>
+        <form className={styles.form +" col s10 m8"} style={{marginLeft: 0}} onSubmit={handleSubmit}>
             <p className={styles.title}>Sign up</p>
-            <div className={styles.field + " col s8"} style={{marginLeft: 0}}>
-                <label htmlFor="email">Email</label>
-                <input
-                    type="text"
-                    id="email"
-                    onChange={handleChange}
-                    className="validate"
-                    required
-                    placeholder=""
-                />
-            </div>
-            <div className={styles.field + " col s8"} style={{marginLeft: 0}}>
-                <label htmlFor="password">Password</label>
-                <input
-                    type="password"
-                    id="password"
-                    onChange={handleChange}
-                    className="validate"
-                    required
-                    placeholder=""
-                />
-            </div>
+            <TextInput
+                email
+                id="email"
+                onChange={handleChange}
+                s={12}
+                inputClassName="validate"
+                required
+                label="Email"
+                placeholder=""
+            />
+            <TextInput
+                password
+                id="password"
+                onChange={handleChange}
+                s={12}
+                inputClassName="validate"
+                required
+                label="Password"
+                placeholder=""
+            />
             {
                 !passwordValid && <span className="red">Passwords are not identical</span>
             }
-            <div className={styles.field + " col s8"} style={{marginLeft: 0}}>
-                <label htmlFor="confirmPassword">Confirm Password</label>
-                <input
-                    type="password"
-                    id="confirmPassword"
-                    onChange={handleChange}
-                    className="validate"
-                    required
-                    placeholder=""
-                />
-            </div>
-            <div className={styles.field + " col s8"} style={{marginLeft: 0}}>
-                <label htmlFor="fullName">Full Name</label>
-                <input type="text"
-                       id="fullName"
-                       onChange={handleChange}
-                       className="validate"
-                       required
-                       placeholder=""
-                />
-            </div>
-            <div className="input-field col s8" style={{marginLeft: 0, padding: '0 0 0 10px'}}>
-                <button
-                    type="submit"
-                    className="waves-effect btn col s12"
-                    style={{backgroundColor: '#1f8efa'}}
-                >
-                    SIGN UP
-                </button>
-            </div>
+            <TextInput
+                password
+                id="confirmPassword"
+                onChange={handleChange}
+                s={12}
+                inputClassName="validate"
+                required
+                label="Confirm Password"
+                placeholder=""
+            />
+            <TextInput
+                id="fullName"
+                onChange={handleChange}
+                s={12}
+                inputClassName="validate"
+                required
+                label="Full Name"
+                placeholder=""
+            />
+            <Button
+                node="button"
+                type="submit"
+                className="waves-effect btn col s12"
+                style={{backgroundColor: '#1f8efa', marginLeft: '20px'}}
+            >
+                SIGN UP
+            </Button>
             <div className={styles.links}>
-                <span className={styles.link + " col s8"} style={{ marginLeft: 'auto', marginRight: 'auto'}}>
+                <span className={styles.link + " col s12"} style={{ marginLeft: 'auto', marginRight: 'auto'}}>
                     By clicking Join now, you agree to the LinkedIn User Agreement, Privacy Policy. and Cookie Policy.
                 </span>
                 <span
@@ -161,33 +154,31 @@ const Authentication: React.FC<Props> = props =>  {
     );
 
     const RestoreForm = (
-        <form className={styles.form + " row"} onSubmit={handleSubmit}>
+        <form className={styles.form + " col s10 m8"} style={{marginLeft: 0}} onSubmit={handleSubmit}>
             <p className={styles.title}>Forgot Password</p>
             <div className={styles.restoreText}>
                 <p>Place your email in the field below.</p>
                 <p>We will send you a link with the</p>
                 <p>instructions to follow.</p>
             </div>
-            <div className="input-field col s8" style={{marginLeft: 0}}>
-                <label htmlFor="email">Email</label>
-                <input
-                    type="text"
-                    id="email"
-                    onChange={handleChange}
-                    className="validate"
-                    required
-                    placeholder=""
-                />
-            </div>
-            <div className="input-field col s8" style={{marginLeft: 0, padding: '0 0 0 10px'}}>
-                <button
-                    type="submit"
-                    className="waves-effect btn col s12"
-                    style={{backgroundColor: '#1f8efa'}}
-                >
-                    RECOVER PASSWORD
-                </button>
-            </div>
+            <TextInput
+                email
+                id="email"
+                onChange={handleChange}
+                s={12}
+                inputClassName="validate"
+                required
+                label="Email"
+                placeholder=""
+            />
+            <Button
+                node="button"
+                type="submit"
+                className="waves-effect btn col s12"
+                style={{backgroundColor: '#1f8efa', marginLeft: '20px'}}
+            >
+                RECOVER PASSWORD
+            </Button>
         </form>
     );
 
@@ -202,8 +193,10 @@ const Authentication: React.FC<Props> = props =>  {
                     <p>Connect your life</p>
                 </div>
                 <div className={styles.footer}>
-                    <i className={styles.icon + " material-icons"}>play_circle_filled</i>
-                    <span>See how it works</span>
+                    <a href="#">
+                        <i className={styles.icon + " material-icons"}>play_circle_filled</i>
+                    </a>
+                    <a href="#">See how it works</a>
                 </div>
             </div>
             <div className={styles.authForm + " col s12 m5"}>

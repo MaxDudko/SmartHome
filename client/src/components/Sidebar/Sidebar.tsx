@@ -29,7 +29,7 @@ const Sidebar: React.FC = props =>  {
             title: 'Gallery'
         },
         {
-            icon: 'image',
+            icon: 'history',
             title: 'History'
         },
         {
@@ -39,11 +39,13 @@ const Sidebar: React.FC = props =>  {
     ];
 
     return (
-        <div className={styles.Sidebar + " col s2"}>
+        <div className={styles.Sidebar + " col s12 l2"}>
             <div className={styles.head}>
                 <img src={home} alt="Home"/>
-                <p className={styles.name}>My Home</p>
-                <p className={styles.address}>9898 Trent Bypass Suite 541</p>
+                <div>
+                    <p className={styles.name}>My Home</p>
+                    <p className={styles.address}>9898 Trent Bypass Suite 541</p>
+                </div>
             </div>
             <ul className={styles.menu}>
                 {

@@ -12,10 +12,9 @@ export const loginUserAction = (data) => {
     }
 };
 
-export const logoutUserAction = (data) => {
+export const logoutUserAction = () => {
     return {
-        type: 'LOGOUT_USER',
-        data
+        type: 'LOGOUT_USER'
     }
 };
 

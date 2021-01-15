@@ -36,24 +36,25 @@
       .icon {
         font-size: 50px !important;
       }
-      span {
+      a {
         margin-left: 20px;
       }
     }
   }
   .authForm {
-    //height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
     background: #242e42;
     color: #ffffff;
     overflow-y: auto;
-    .header {
-      margin-top: 10rem;
-    }
+    .header {}
     .form {
       display: flex;
       flex-direction: column;
       align-items: center;
-      height: 100%;
       .title {
         font-size: 32px;
         font-weight: 300;
@@ -78,6 +79,7 @@
         .link {
           cursor: pointer;
           &:first-child {
+            margin-top: 2rem;
             color: #8d96a5;
           }
           &:last-child {
@@ -87,8 +89,14 @@
           span {
             color: #236cb7;
             font-weight: bold;
+            margin-left: 5px;
           }
         }
+      }
+      .input-field {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
       }
       input {
         color: #236cb7;
