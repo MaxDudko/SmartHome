@@ -4,9 +4,11 @@ import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './sagas/rootSaga';
 import authReducer from "./reducers/userAuth";
+import interfaceReducer from "./reducers/appInterface";
 
 const reducers = combineReducers({
-    authReducer
+    authReducer,
+    interfaceReducer
 });
 
 const sagaMiddleware = createSagaMiddleware();

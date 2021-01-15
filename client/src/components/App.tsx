@@ -20,6 +20,7 @@ const App: React.FC<Props> = props =>  {
     <div className={styles.App}>
       {
         window.localStorage.getItem('token') ?
+            // @ts-ignore
             <Dashboard />
             :
             <Authentication/>

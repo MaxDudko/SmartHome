@@ -1,0 +1,52 @@
+.Devices {
+  text-align: left;
+  position: relative;
+  padding: 10px 50px 0 0;
+  .add {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    //background: #ffffff;
+    border-radius: 100px;
+    color: #1f8efa;
+    font-size: 50px;
+  }
+  .wrapper {
+    background: #2f3b52;
+    padding: 0 20px;
+  }
+  table {
+    background: #2f3b52;
+    font-size: 20px;
+    thead {
+      th {
+        font-weight: 300;
+      }
+    }
+    tbody {
+      color: #44556b;
+      font-weight: 400;
+      .device {
+        font-size: 70px;
+      }
+      .battery {
+        border-radius: 100px;
+        background: #20293C;
+      }
+      .controller {
+        height: 100%;
+        span {
+          &:after {
+            background-color: #1f8efa;
+          }
+        }
+      }
+    }
+  }
+}
+.switch label input[type=checkbox]:checked+.lever {
+  background-color: transparent !important;
+}
+.switch label input[type=checkbox]:checked+.lever:after {
+  background-color: #1f8efa !important;
+}

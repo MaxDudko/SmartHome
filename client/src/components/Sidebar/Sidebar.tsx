@@ -1,12 +1,17 @@
 import React, {useState} from 'react';
 import styles from './Sidebar.module.scss';
 import home from '../../images/home.png';
+import {tokenValidationAction} from "../../actions/userAuth";
+import {connect} from "react-redux";
+import {switchPageAction} from "../../actions/appInterface";
 
 interface Props {
-
+    currentPage: string;
+    switchPageAction: Function;
 }
-const Sidebar: React.FC = props =>  {
-    const [activeItem, setActiveItem] = useState('Overview');
+const Sidebar: React.FC<Props> = props =>  {
+    const { currentPage, switchPageAction } = props;
+    const [activeItem, setActiveItem] = useState(currentPage || 'Overview');
     const items = [
         {
             icon: 'home',
@@ -51,9 +56,9 @@ const Sidebar: React.FC = props =>  {
                 {
                     items.map((item, i) => (
                         <li
-                            className={styles.item + ` ${item.title === activeItem && styles.active}` }
+                            className={styles.item + ` ${item.title === currentPage && styles.active}` }
                             key={i}
-                            onClick={() => setActiveItem(item.title)}
+                            onClick={() => switchPageAction(item.title.toLowerCase())}
                         >
                             <i className="material-icons">{item.icon}</i>
                             <span className={styles.title}>{item.title}</span>
@@ -65,4 +70,11 @@ const Sidebar: React.FC = props =>  {
     );
 }
 
-export default Sidebar;
+const mapStateToProps = state => ({
+    currentPage: state.interfaceReducer.currentPage,
+})
+const mapDispatchToProps = dispatch => ({
+    switchPageAction: page => dispatch(switchPageAction(page)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

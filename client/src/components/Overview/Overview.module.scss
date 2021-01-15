@@ -1,0 +1,9 @@
+.Overview {
+  display:flex;
+  flex-direction:column;
+  text-align: left;
+  .block {
+    background: #2f3b52;
+    margin: 10px;
+  }
+}
