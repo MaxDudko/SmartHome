@@ -1,8 +1,8 @@
 const dbConfig = {
-    HOST: "127.0.0.1",
-    USER: "admin",
-    PASSWORD: "root",
-    DB: "smarthome",
+    HOST: process.env.DB_HOST,
+    USER: process.env.DB_USER,
+    PASSWORD: process.env.DB_PASSWORD,
+    DB: process.env.DB_NAME,
     pool: {
         max: 5,
         min: 0,
