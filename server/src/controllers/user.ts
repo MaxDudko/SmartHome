@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import User from "../models/User";
 import passport from "passport";
 
-class AuthController {
+class UserController {
 
     public register(req: Request, res: Response) {
         const user = req.body;
@@ -69,4 +69,4 @@ class AuthController {
     }
 }
 
-export default AuthController;
+export default UserController;

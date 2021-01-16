@@ -46,9 +46,9 @@ const Sidebar: React.FC<Props> = props =>  {
     return (
         <div className={styles.Sidebar + " col s12 l2"}>
             <div className={styles.head}>
-                <img src={home} alt="Home"/>
+                <img src={home} alt="HomeController"/>
                 <div>
-                    <p className={styles.name}>My Home</p>
+                    <p className={styles.name}>My HomeController</p>
                     <p className={styles.address}>9898 Trent Bypass Suite 541</p>
                 </div>
             </div>

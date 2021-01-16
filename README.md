@@ -1,4 +1,4 @@
-## Smart Home
+## Smart HomeController
 
 ### Список технологий:
 

@@ -1,6 +1,8 @@
 import { Sequelize } from "sequelize";
 import dbConfig from "../config/db.config";
 import User from "./User";
+import Home from "./Home";
+import Resident from "./Resident";
 
 const sequelize = new Sequelize(<string>dbConfig.DB, <string>dbConfig.USER, <string>dbConfig.PASSWORD, {
     host: dbConfig.HOST,
@@ -16,7 +18,9 @@ const sequelize = new Sequelize(<string>dbConfig.DB, <string>dbConfig.USER, <str
 const DB = {
     Sequelize: Sequelize,
     sequelize: sequelize,
-    user: User.sync()
+    user: User.sync(),
+    home: Home.sync(),
+    resident: Resident.sync()
 };
 
 export default DB;

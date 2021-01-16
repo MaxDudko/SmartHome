@@ -42,7 +42,7 @@ export const loginUserService = (request) => {
 
 export const changePasswordService = (request) => {
     console.log(request.data)
-    const LOGIN_API_ENDPOINT = 'http://localhost:4000/changePassword';
+    const LOGIN_API_ENDPOINT = 'http://localhost:4000/change-password';
     const data = request.data;
 
     return axios.post(LOGIN_API_ENDPOINT, {...data})

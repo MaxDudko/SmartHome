@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 const sequelize = new Sequelize("postgres://admin:root@127.0.0.1:5432/smarthome");
 
 interface UserAttributes {
+    id?: any,
     email: string;
     salt: string;
     hash: string;
@@ -12,6 +13,7 @@ interface UserAttributes {
 
 class User extends Model<UserAttributes>
     implements UserAttributes {
+    public id!: string;
     public email!: string;
     public salt!: string;
     public hash!: string;
@@ -19,6 +21,7 @@ class User extends Model<UserAttributes>
 
     public getAttributes() {
         return {
+            id: this.id,
             email: this.email,
             salt: this.salt,
             hash: this.hash,
@@ -50,6 +53,7 @@ class User extends Model<UserAttributes>
 
     public toAuthJSON(): {[key: string]: string | number} {
         return {
+            id: this.id,
             email: this.email,
             token: this.generateJWT(),
             fullName: this.fullName
@@ -58,6 +62,7 @@ class User extends Model<UserAttributes>
 }
 
 User.init({
+
     email: {
         type: DataTypes.STRING,
         unique: true,

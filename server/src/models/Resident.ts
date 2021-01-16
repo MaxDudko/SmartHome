@@ -5,7 +5,6 @@ interface ResidentAttributes {
     userId: string;
     homeId: string;
     role: string;
-    key: string;
 }
 
 class Resident extends Model<ResidentAttributes>
@@ -13,14 +12,12 @@ class Resident extends Model<ResidentAttributes>
     public userId!: string;
     public homeId!: string;
     public role!: string;
-    public key!: string;
 }
 
 Resident.init({
     userId: DataTypes.STRING,
     homeId: DataTypes.STRING,
     role: DataTypes.STRING,
-    key: DataTypes.STRING,
 }, { sequelize })
 
 export default Resident;
