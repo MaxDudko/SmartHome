@@ -1,19 +1,18 @@
 import { Router } from 'express';
-import UserController from './controllers/user';
-import HomeController from './controllers/home';
 import auth from "./middlewares/auth";
+import UserController from './controllers/userController';
+import HomeController from './controllers/homeController';
 
 const router = Router();
 
 const userController = new UserController();
-router.post('/register', auth.optional, userController.register);
-router.post('/login', auth.optional, userController.login);
-router.post('/change-password', auth.optional, userController.changePassword);
-router.post('/profile', auth.optional, userController.profile);
+router.post('/register', auth.optional, userController.createUser);
+router.post('/login', auth.optional, userController.authenticateUser);
+router.post('/profile', auth.optional, userController.checkToken);
 
 const homeController = new HomeController();
-router.post('/get-home', homeController.get);
-router.post('/create-home', homeController.create);
-router.post('/add-user', homeController.add);
+router.post('/find-home', homeController.findHomeList);
+router.post('/create-home', homeController.createHome);
+router.post('/join-home', homeController.addResident);
 
 export default router;

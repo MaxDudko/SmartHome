@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 import dbConfig from "../config/db.config";
-import User from "./User";
+import UserModel from "./User";
 import Home from "./Home";
 import Resident from "./Resident";
 
@@ -18,7 +18,7 @@ const sequelize = new Sequelize(<string>dbConfig.DB, <string>dbConfig.USER, <str
 const DB = {
     Sequelize: Sequelize,
     sequelize: sequelize,
-    user: User.sync(),
+    user: UserModel.sync(),
     home: Home.sync(),
     resident: Resident.sync()
 };

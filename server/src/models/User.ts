@@ -6,8 +6,8 @@ const sequelize = new Sequelize("postgres://admin:root@127.0.0.1:5432/smarthome"
 interface UserAttributes {
     id?: any,
     email: string;
-    salt: string;
-    hash: string;
+    salt?: string;
+    hash?: string;
     fullName: string;
 }
 

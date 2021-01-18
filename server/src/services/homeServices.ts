@@ -1,0 +1,71 @@
+import User from "../models/User";
+import Home from "../models/Home";
+import Resident from "../models/Resident";
+
+class HomeServices {
+    public async findHomeList(userId: string) {
+        const residents = await Resident.findAll({where: {userId}})
+
+        return await Promise.all(
+            residents.map(async doc => {
+                const home = await Home.findOne({where: {id: doc.getDataValue('homeId')}})
+                return home?.getAttributes()
+            })
+        );
+    }
+
+    public async createHome(userId: string, homeName: string, homeAddress: string, role: string, pass: string) {
+        const user = await User.findOne({where: {id: userId}})
+
+        if (user) {
+            const newHome = new Home({
+                name: homeName,
+                address: homeAddress,
+            });
+
+            newHome.setPassword(pass);
+
+            const home = await Home.create(newHome.get());
+
+            const resident = await Resident.create({
+                userId: userId,
+                homeId: home.id,
+                role: role || 'admin',
+            })
+
+            return {
+                home: home,
+                resident: resident
+            };
+        }
+    }
+
+    public async addResident(userId: string, homeId: string, role: string, pass: string) {
+        const alreadyResident = await Resident.findOne({where: {userId: userId, homeId: homeId}});
+        if (alreadyResident) throw Error('user already resident in this home')
+
+        const user = await User.findOne({where: {id: userId}});
+        const home = await Home.findOne({where: {id: homeId}});
+
+        if (user && home) {
+            const passValid = home.validatePassword(pass);
+            if (passValid) {
+                const resident = await Resident.create(
+                    {
+                        userId: userId,
+                        homeId: home.id,
+                        role: role || 'user',
+                    }
+                );
+                return {
+                    home: home,
+                    resident: resident
+                };
+            } else {
+                throw Error('wrong pass')
+            }
+        }
+    }
+}
+
+export default HomeServices;
