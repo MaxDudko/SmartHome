@@ -21,11 +21,11 @@ class HomeController {
     }
 
     public async createHome(req: Request, res: Response) {
-        const {userId, homeName, homeAddress, role, pass} = req.body;
+        const {userId, homeName, homeAddress, role, key} = req.body;
 
-        if (userId && homeName && homeAddress && role && pass) {
+        if (userId && homeName && homeAddress && role && key) {
             try {
-                const resData = await services.createHome(userId, homeName, homeAddress, role, pass);
+                const resData = await services.createHome(userId, homeName, homeAddress, role, key);
                 return res.status(200).json({data: resData})
             } catch (e) {
                 return res.status(400).json({error: e.message})
@@ -39,11 +39,11 @@ class HomeController {
     }
 
     public async addResident(req: Request, res: Response) {
-        const {userId, homeId, role, pass} = req.body;
+        const {userId, homeId, role, key} = req.body;
 
-        if (userId && homeId && role && pass) {
+        if (userId && homeId && role && key) {
             try {
-                const resData = await services.addResident(userId, homeId, role, pass);
+                const resData = await services.addResident(userId, homeId, role, key);
                 return res.status(200).json({data: resData})
             } catch (e) {
                 return res.status(400).json({error: e.message})

@@ -7,12 +7,7 @@ import Resident from "./Resident";
 const sequelize = new Sequelize(<string>dbConfig.DB, <string>dbConfig.USER, <string>dbConfig.PASSWORD, {
     host: dbConfig.HOST,
     dialect: "postgres",
-    pool: {
-        max: dbConfig.pool.max,
-        min: dbConfig.pool.min,
-        acquire: dbConfig.pool.acquire,
-        idle: dbConfig.pool.idle
-    }
+    pool: dbConfig.pool
 });
 
 const DB = {
