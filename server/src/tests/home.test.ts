@@ -2,151 +2,168 @@ import HomeServices from "../services/homeServices";
 import User from "../models/User";
 import Home from "../models/Home";
 import Resident from "../models/Resident";
-import DB from "../models";
+
 const services = new HomeServices();
+
+const syncAll = async () => {
+    await User.sync({force: true})
+    await Home.sync({force: true})
+    await Resident.sync({force: true})
+};
+const dropAll = async () => {
+    await User.drop()
+    await Home.drop()
+    await Resident.drop()
+};
+
+const createUser = async (email: string, fullName: string, pass: string) => {
+    const user = new User({email: email, fullName: fullName});
+    user.setPassword(pass);
+    return User.create(user.getAttributes())
+};
+const createHome = async (name: string, address: string, key: string) => {
+    const home = new Home({name: name, address: address});
+    home.setPassword(key);
+    return Home.create(home.get());
+};
+const createResident = async (userId: string, homeId: string, role: string) => {
+    return Resident.create({userId: userId, homeId: homeId, role: role})
+};
 
 describe('HomeServices behavior:', () => {
     describe("findHomeList():", () => {
-        beforeAll(async () => {
-            DB.sequelize.sync({force: true})
-                .then(() => console.log('DB: Connection has been established successfully.'))
-                .catch(err => console.log('DB: Unable to connect to the database:', err));
+        beforeEach(async () => {
+            await syncAll();
         });
 
-        afterAll(async () => {
-            DB.sequelize.drop()
-                .then(() => console.log('All collections dropped'))
-                .catch(err => console.log(err))
+        afterEach(async () => {
+            await dropAll();
         });
 
         it('Should return user\'s home-list:', async () => {
-            const user = new User({email: 'test123@email.com', fullName: 'User Test'});
-            user.setPassword('test123');
-            const newUser = await User.create(user.getAttributes())
-
-            const home1 = new Home({name: 'TEST HOME', address: 'Test, 1'});
-            home1.setPassword('test1234');
-            const newHome1 = await Home.create(home1.get());
-
-            const home2 = new Home({name: 'HOME TEST', address: 'Test, 2'});
-            home2.setPassword('test1234');
-            const newHome2 = await Home.create(home2.get());
-
-            await Resident.create({userId: newUser.id, homeId: newHome1.id, role: 'admin'})
-            await Resident.create({userId: newUser.id, homeId: newHome2.id, role: 'user'})
+            const user = await createUser( 'test123@email.com', 'User Test', 'test123');
+            const home1 = await createHome('TEST HOME', 'Test, 1', 'test1234');
+            const home2 = await createHome('HOME TEST',  'Test, 2', 'test1234');
+            await createResident(user.id, home1.id, 'admin');
+            await createResident(user.id, home2.id, 'user');
 
             const result = [
-                {id: newHome1.id, name: newHome1.name, address: newHome1.address},
-                {id: newHome2.id, name: newHome2.name, address: newHome2.address}
+                {id: home1.id, name: home1.name, address: home1.address},
+                {id: home2.id, name: home2.name, address: home2.address}
             ];
 
-            const homeList = await services.findHomeList(newUser.id.toString());
+            const homeList = await services.findHomeList(user.id.toString());
 
             expect(homeList).toEqual(result);
         });
 
         it('Should return empty array, because user hasn\'t not one home:', async () => {
-            const user = new User({email: 'test123@email.com', fullName: 'User Test'});
-            user.setPassword('test123');
-            const newUser = await User.create(user.getAttributes())
+            const user = await createUser( 'test123@email.com', 'User Test', 'test123');
 
             const result: any[] = [];
 
-            const homeList = await services.findHomeList(newUser.id.toString());
+            const homeList = await services.findHomeList(user.id.toString());
 
             expect(homeList).toEqual(result);
         });
     });
 
     describe("createHome():", () => {
+        beforeEach(async () => {
+            await syncAll();
+        });
+
+        afterEach(async () => {
+            await dropAll();
+        });
+
         it('Should create new Home and return home data:', async () => {
-            const user = new User({email: 'test123@email.com', fullName: 'User Test'});
-            user.setPassword('test123');
-            const newUser = await User.create(user.getAttributes())
+            const user = await createUser( 'test123@email.com', 'User Test', 'test123');
 
             const result = {
-            //
+                    home: { id: 1, name: 'TEST HOME', address: 'TestTest, 1' },
+                    resident: { id: '1', name: '1', address: 'admin' }
             };
 
-            const homeList = await services.createHome(newUser.id.toString(), "TEST HOME", "TestTest, 1", "admin", "qwerty123");
+            const homeData = await services.createHome(user.id.toString(), "TEST HOME", "TestTest, 1", "admin", "qwerty123");
+            expect(homeData).toEqual(result);
+        });
 
-            expect(homeList).toEqual(result);
+        it('Should return error message, User not found:', async () => {
+            const result = 'User not found';
+
+            expect.assertions(1);
+            try {
+                await services.createHome('111', "TEST HOME", "TestTest, 1", "admin", "qwerty123");
+            } catch (e) {
+                expect(e.message).toMatch(result);
+            }
         });
     });
 
     describe("addResident():", () => {
-        it('Should add user at home and return home data:', async () => {
-            const user = new User({email: 'test123@email.com', fullName: 'User Test'});
-            user.setPassword('test123');
-            const newUser = await User.create(user.getAttributes())
+        beforeEach(async () => {
+            await syncAll();
+        });
 
-            const home = new Home({name: 'TEST HOME', address: 'Test, 1'});
-            home.setPassword('test1234');
-            const newHome = await Home.create(home.get());
+        afterEach(async () => {
+            await dropAll();
+        });
+
+        it('Should add user at home and return home data:', async () => {
+            const user = await createUser( 'test123@email.com', 'User Test', 'test123');
+            const home = await createHome('TEST HOME', 'Test, 1', 'test1234');
 
             const result = {
-                //
+                home: { id: 1, name: 'TEST HOME', address: 'Test, 1' },
+                resident: { id: '1', name: '1', address: 'user' }
             };
 
-            const homeList = await services.addResident(newUser.id.toString(), newHome.id.toString(), 'user', 'test1234');
-
-            expect(homeList).toEqual(result);
+            const homeData = await services.addResident(user.id.toString(), home.id.toString(), 'user', 'test1234');
+            expect(homeData).toEqual(result);
         });
 
         it('Should return error message, User already resident in this home:', async () => {
-            const user = new User({email: 'test123@email.com', fullName: 'User Test'});
-            user.setPassword('test123');
-            const newUser = await User.create(user.getAttributes())
+            const user = await createUser( 'test123@email.com', 'User Test', 'test123');
+            const home = await createHome('TEST HOME', 'Test, 1', 'test1234');
+            await Resident.create({userId: user.id, homeId: home.id, role: 'admin'})
 
-            const home = new Home({name: 'TEST HOME', address: 'Test, 1'});
-            home.setPassword('test1234');
-            const newHome = await Home.create(home.get());
+            const result = 'User already resident in this home';
 
-            await Resident.create({userId: newUser.id, homeId: newHome.id, role: 'admin'})
-
-            const result = {
-                //
-            };
-
-            const homeList = await services.addResident(newUser.id.toString(), newHome.id.toString(), 'user', 'test1234');
-
-            expect(homeList).toEqual(result);
+            expect.assertions(1);
+            try {
+                await services.addResident(user.id.toString(), home.id.toString(), 'user', 'test1234');
+            } catch (e) {
+                expect(e.message).toMatch(result);
+            }
         });
 
         it('Should return error, User or Home not found:', async () => {
-            const user = new User({email: 'test123@email.com', fullName: 'User Test'});
-            user.setPassword('test123');
-            const newUser = await User.create(user.getAttributes())
+            const user = await createUser( 'test123@email.com', 'User Test', 'test123');
+            await createHome('TEST HOME', 'Test, 1', 'test1234');
 
-            const home = new Home({name: 'TEST HOME', address: 'Test, 1'});
-            home.setPassword('test1234');
-            const newHome = await Home.create(home.get());
+            const result = 'User or Home not found';
 
-            const result = {
-                //
-            };
-
-            const homeList = await services.addResident(newUser.id.toString(), 'wrongHomeID', 'user', 'test1234');
-
-            expect(homeList).toEqual(result);
+            expect.assertions(1);
+            try {
+                await services.addResident(user.id.toString(), '111', 'admin', 'test1234')
+            } catch (e) {
+                expect(e.message).toMatch(result);
+            }
         });
 
         it('Should return error, because security Key is wrong:', async () => {
-            const user = new User({email: 'test123@email.com', fullName: 'User Test'});
-            user.setPassword('test123');
-            const newUser = await User.create(user.getAttributes())
+            const user = await createUser( 'test123@email.com', 'User Test', 'test123');
+            const home = await createHome('TEST HOME', 'Test, 1', 'test1234');
 
-            const home = new Home({name: 'TEST HOME', address: 'Test, 1'});
-            home.setPassword('test1234');
-            const newHome = await Home.create(home.get());
+            const result = 'Wrong Key';
 
-            const result = {
-                //
-            };
-
-            const homeList = await services.addResident(newUser.id.toString(), newHome.id.toString(), 'user', 'wrongKey');
-
-            expect(homeList).toEqual(result);
+            expect.assertions(1);
+            try {
+                await services.addResident(user.id.toString(), home.id.toString(), 'user', 'wrongKey');
+            } catch (e) {
+                expect(e.message).toMatch(result);
+            }
         });
     });
-})
+});

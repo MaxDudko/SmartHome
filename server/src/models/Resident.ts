@@ -18,6 +18,14 @@ class Resident extends Model<ResidentAttributes>
     public userId!: string;
     public homeId!: string;
     public role!: string;
+
+    public getAttributes() {
+        return {
+            id: this.userId,
+            name: this.homeId,
+            address: this.role,
+        }
+    }
 }
 
 Resident.init({

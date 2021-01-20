@@ -36,12 +36,11 @@ class HomeServices {
             })
 
             return {
-                home: home,
-                resident: resident
+                home: home.getAttributes(),
+                resident: resident.getAttributes()
             };
-        } else {
-            throw Error("User not found")
         }
+        throw Error("User not found")
     }
 
     public async addResident(userId: string, homeId: string, role: string, key: string) {
@@ -62,15 +61,13 @@ class HomeServices {
                     }
                 );
                 return {
-                    home: home,
-                    resident: resident
+                    home: home.getAttributes(),
+                    resident: resident.getAttributes()
                 };
-            } else {
-                throw Error('Wrong Key')
             }
-        } else {
-            throw Error('User or Home not found')
+            throw Error('Wrong Key')
         }
+        throw Error('User or Home not found')
     }
 }
 
