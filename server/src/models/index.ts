@@ -1,23 +1,28 @@
 import { Sequelize } from "sequelize";
-import dbConfig from "../config/db.config";
-import UserModel from "./User";
+import User from "./User";
 import Home from "./Home";
 import Resident from "./Resident";
 import * as dotenv from "dotenv";
 
-dotenv.config({path: __dirname+'/../../../.env'});
-const DB_NAME = process.env.NODE_ENV === 'test' ? <string>process.env.DB_TEST : <string>dbConfig.DB;
+const ENV_PATH = process.env.NODE_ENV === 'test' ? '/../../.env' : '/../../../.env';
+dotenv.config({path: __dirname+ENV_PATH});
 
-const sequelize = new Sequelize(DB_NAME, <string>dbConfig.USER, <string>dbConfig.PASSWORD, {
-    host: dbConfig.HOST,
+const DB_NAME = process.env.NODE_ENV === 'test' ? <string>process.env.DB_TEST : <string>process.env.DB_NAME;
+const sequelize = new Sequelize(DB_NAME, <string>process.env.DB_USER, <string>process.env.DB_PASSWORD, {
+    host: process.env.DB_HOST,
     dialect: "postgres",
-    pool: dbConfig.pool
+    pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
+    }
 });
 
 const DB = {
     Sequelize: Sequelize,
     sequelize: sequelize,
-    user: UserModel.sync(),
+    user: User.sync(),
     home: Home.sync(),
     resident: Resident.sync()
 };
