@@ -1,5 +1,8 @@
 import { Sequelize, Model, DataTypes } from "sequelize";
-const sequelize = new Sequelize("postgres://admin:root@127.0.0.1:5432/smarthome");
+import * as dotenv from "dotenv";
+dotenv.config({path: __dirname+'/../../../.env'});
+const DB_NAME = process.env.NODE_ENV === 'test' ? process.env.DB_TEST : process.env.DB_NAME;
+const sequelize = new Sequelize(`postgres://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:5432/${DB_NAME}`);
 
 interface ResidentAttributes {
     userId: string;

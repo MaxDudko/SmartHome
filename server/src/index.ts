@@ -1,4 +1,7 @@
+import * as dotenv from "dotenv";
 import Server from './server';
+
+dotenv.config({path: __dirname+'/../../.env'});
 
 const port = parseInt(process.env.PORT || '4000');
 
