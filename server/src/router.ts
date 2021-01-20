@@ -12,6 +12,7 @@ router.post('/profile', auth.optional, userController.checkToken);
 
 const homeController = new HomeController();
 router.post('/find-home', homeController.findHomeList);
+router.post('/select-home', homeController.selectHome)
 router.post('/create-home', homeController.createHome);
 router.post('/join-home', homeController.addResident);
 

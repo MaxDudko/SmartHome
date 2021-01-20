@@ -20,6 +20,21 @@ class HomeController {
         }
     }
 
+    public async selectHome(req: Request, res: Response) {
+        const {userId, homeId, key} = req.body;
+
+        if (userId && homeId && key) {
+            try {
+                const resData = await services.selectHome(userId, homeId, key);
+                return res.status(200).json({data: resData})
+            } catch (e) {
+                return res.status(400).json({error: e.message})
+            }
+        } else {
+            return res.status(400).send("All fields are Required")
+        }
+    }
+
     public async createHome(req: Request, res: Response) {
         const {userId, homeName, homeAddress, role, key} = req.body;
 

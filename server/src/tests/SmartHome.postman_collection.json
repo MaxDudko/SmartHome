@@ -179,6 +179,34 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "/select-home",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userId\": \"26\", \n    \"homeId\": \"7\", \n    \"key\": \"secretKey\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/select-home",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"select-home"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

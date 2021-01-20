@@ -68,6 +68,60 @@ describe('HomeServices behavior:', () => {
         });
     });
 
+    describe("selectHome():", () => {
+        beforeEach(async () => {
+            await syncAll();
+        });
+
+        afterEach(async () => {
+            await dropAll();
+        });
+
+        it('Should return home data:', async () =>  {
+            const user = await  createUser('test123@email.com', 'User Test', 'test123');
+            const home = await createHome('TEST HOME', 'Test, 1', 'test1234');
+            await createResident(user.id, home.id, 'admin');
+
+            const result = {
+                home: { id: 1, name: 'TEST HOME', address: 'Test, 1' },
+                resident: { id: '1', name: '1', address: 'admin' }
+            };
+
+            const homeData = await services.selectHome(user.id.toString(), home.id.toString(), 'test1234');
+
+            expect(homeData).toEqual(result);
+        });
+
+        it('Should return error, User not resident in this Home:', async () =>  {
+            const user = await  createUser('test123@email.com', 'User Test', 'test123');
+            const home = await createHome('TEST HOME', 'Test, 1', 'test1234');
+
+            const result = 'User not resident in this Home';
+
+            expect.assertions(1);
+            try {
+                await services.selectHome(user.id.toString(), home.id.toString(), 'test1234');
+            } catch (e) {
+                expect(e.message).toMatch(result);
+            }
+        });
+
+        it('Should return error, Wrong Key:', async () =>  {
+            const user = await  createUser('test123@email.com', 'User Test', 'test123');
+            const home = await createHome('TEST HOME', 'Test, 1', 'test1234');
+            await createResident(user.id, home.id, 'admin');
+
+            const result = 'Wrong Key';
+
+            expect.assertions(1);
+            try {
+                await services.selectHome(user.id.toString(), home.id.toString(), 'wrongKey');
+            } catch (e) {
+                expect(e.message).toMatch(result);
+            }
+        });
+    });
+
     describe("createHome():", () => {
         beforeEach(async () => {
             await syncAll();
