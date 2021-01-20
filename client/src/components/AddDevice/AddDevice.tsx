@@ -19,7 +19,7 @@ const AddDevice: React.FC<Props> = props =>  {
                 <Col s={5} className={styles.box}>
                     <img src={l} alt="."/>
                 </Col>
-                or
+                <span className={styles.or}>or</span>
                 <Col s={5} className={styles.box}>
                     <img src={r} alt="."/>
                 </Col>

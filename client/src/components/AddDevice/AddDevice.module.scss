@@ -12,6 +12,7 @@
   .modal {
     width: 50%;
     height: 40%;
+    border-radius: 10px;
     background: #2f3b52;
     position: relative;
     display: flex;
@@ -19,6 +20,7 @@
     justify-content: space-between;
     .header {
       .title {
+        font-size: 20px;
         padding: 5px 20px;
       }
       .cancel {
@@ -32,6 +34,12 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      .or {
+        font-size: 20px;
+        font-weight: 500;
+        color: #44556b;
+        margin: 0 10px;
+      }
       .box {
       }
     }
