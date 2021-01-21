@@ -48,8 +48,8 @@ describe('HomeServices behavior:', () => {
             await createResident(user.id, home2.id, 'user');
 
             const result = [
-                {id: home1.id, name: home1.name, address: home1.address},
-                {id: home2.id, name: home2.name, address: home2.address}
+                {id: home1.id, name: home1.name, address: home1.address, role: 'admin'},
+                {id: home2.id, name: home2.name, address: home2.address, role: 'user'}
             ];
 
             const homeList = await services.findHomeList(user.id.toString());

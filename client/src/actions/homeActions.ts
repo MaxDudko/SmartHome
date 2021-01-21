@@ -42,3 +42,13 @@ export const joinHomeAction = (userId, homeId, role, key) => {
         }
     }
 };
+
+export const saveHomeAction = (data) => {
+    return {
+        type: 'SAVE_HOME',
+        payload: {
+            home: data.home,
+            resident: data.resident,
+        }
+    }
+};

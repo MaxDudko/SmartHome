@@ -1,5 +1,5 @@
 import {call, put, takeLatest} from "redux-saga/effects";
-import {loginUserService, registerUserService, tokenValidationService} from "../services/auth";
+import {loginUserService, registerUserService, tokenValidationService} from "../services/userServices";
 
 function* tokenValidationSaga(payload) {
     try {

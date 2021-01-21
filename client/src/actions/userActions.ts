@@ -33,3 +33,12 @@ export const saveUserDataAction = (data: {}) => {
         }
     }
 };
+
+export const saveHomeListAction = (data: []) => {
+    return {
+        type: 'SAVE_HOME_LIST',
+        payload: {
+            homeList: data
+        }
+    }
+};

@@ -1,3 +1,37 @@
 .AddHome {
+  .title {
+    font-size: 22px;
+    text-align: left;
+  }
+  .error {
+    color: #1f8efa;
+    font-size: 20px;
+    font-weight: 200;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    input {
+      color: #1f8efa;
+    }
+  }
+  .menu {
+    padding: 20px;
+    background: #242e42;
+    .item {
+      display: flex;
+      padding: 14px 20px;
+      cursor: pointer;
+      .title {
+        margin-left: 10px;
+      }
 
+    }
+    .active {
+      background: #20293c;
+      color: #1f8efa;
+      border-left: 8px solid #1f8efa;
+      padding-left: 12px;
+    }
+  }
 }

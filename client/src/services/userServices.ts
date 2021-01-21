@@ -28,7 +28,6 @@ export const registerUserService = (request) => {
 };
 
 export const loginUserService = (request) => {
-    console.log(request.data)
     const LOGIN_API_ENDPOINT = 'http://localhost:4000/login';
     const data = request.data;
 
@@ -41,7 +40,6 @@ export const loginUserService = (request) => {
 };
 
 export const changePasswordService = (request) => {
-    console.log(request.data)
     const LOGIN_API_ENDPOINT = 'http://localhost:4000/change-password';
     const data = request.data;
 

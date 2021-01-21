@@ -7,10 +7,12 @@ import {switchPageAction} from "../../actions/appActions";
 
 interface Props {
     currentPage: string;
+    homeName: string;
+    homeAddress: string;
     switchPageAction: Function;
 }
 const Sidebar: React.FC<Props> = props =>  {
-    const { currentPage, switchPageAction } = props;
+    const { currentPage, switchPageAction, homeName, homeAddress } = props;
     const [activeItem, setActiveItem] = useState(currentPage || 'Overview');
     const items = [
         {
@@ -48,8 +50,8 @@ const Sidebar: React.FC<Props> = props =>  {
             <div className={styles.head}>
                 <img src={home} alt="HomeController"/>
                 <div>
-                    <p className={styles.name}>My HomeController</p>
-                    <p className={styles.address}>9898 Trent Bypass Suite 541</p>
+                    <p className={styles.name}>{homeName}</p>
+                    <p className={styles.address}>{homeAddress}</p>
                 </div>
             </div>
             <ul className={styles.menu}>
@@ -72,6 +74,8 @@ const Sidebar: React.FC<Props> = props =>  {
 
 const mapStateToProps = state => ({
     currentPage: state.app.currentPage,
+    homeName: state.home.name,
+    homeAddress: state.home.address,
 })
 const mapDispatchToProps = dispatch => ({
     switchPageAction: page => dispatch(switchPageAction(page)),

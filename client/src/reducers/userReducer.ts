@@ -5,6 +5,7 @@ export const initialState = {
     email: null,
     fullName: null,
     token: null,
+    homeList: [],
 }
 const user = (state = initialState, action: AnyAction) => {
 
@@ -18,6 +19,11 @@ const user = (state = initialState, action: AnyAction) => {
             localStorage.removeItem('token');
             window.location.reload();
             return {};
+        case 'SAVE_HOME_LIST':
+            return {
+                ...state,
+                ...action.payload
+            }
         default:
             return state;
     }
