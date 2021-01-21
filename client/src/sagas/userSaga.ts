@@ -4,9 +4,7 @@ import {loginUserService, registerUserService, tokenValidationService} from "../
 function* tokenValidationSaga(payload) {
     try {
         const response = yield call(tokenValidationService, payload);
-        yield [
-            put({ type: 'VALIDATE_TOKEN_SUCCESS', response })
-        ];
+        yield put({ type: 'SAVE_USER_DATA', payload: response.data.user });
     } catch(error) {
         yield put({ type: 'VALIDATE_TOKEN_ERROR', error })
     }
@@ -16,7 +14,7 @@ function* loginSaga(payload) {
     try {
         const response = yield call(loginUserService, payload);
         yield [
-            put({ type: 'LOGIN_USER_SUCCESS', response })
+            put({ type: 'SAVE_USER_DATA', response })
         ];
     } catch(error) {
         yield put({ type: 'LOGIN_USER_ERROR', error })
@@ -27,7 +25,7 @@ function* registerSaga(payload) {
     try {
         const response = yield call(registerUserService, payload);
         yield [
-            put({ type: 'REGISTER_USER_SUCCESS', response })
+            put({ type: 'SAVE_USER_DATA', response })
         ];
     } catch(error) {
         yield put({ type: 'REGISTER_USER_ERROR', error });

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {connect} from "react-redux";
-import {loginUserAction, registerUserAction} from "../../actions/userAuth";
+import {loginUserAction, registerUserAction} from "../../actions/userActions";
 import styles from './Authentication.module.scss';
 import smartHomeLogo from '../../images/smart-home-logo.png';
 import logo from '../../images/logo.png';

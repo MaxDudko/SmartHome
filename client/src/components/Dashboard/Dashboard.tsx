@@ -38,8 +38,8 @@ const Dashboard: React.FC<Props> = props =>  {
 }
 
 const mapStateToProps = state => ({
-    currentPage: state.interfaceReducer.currentPage,
-    addDeviceModalOpen: state.interfaceReducer.addDeviceModalOpen,
+    currentPage: state.app.currentPage,
+    addDeviceModalOpen: state.app.addDeviceModalOpen,
 })
 
 export default connect(mapStateToProps, null)(Dashboard);

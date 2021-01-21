@@ -5,7 +5,7 @@ export const initialState = {
     addDeviceModalOpen: false,
 }
 
-const interfaceReducer = (state = initialState, action: AnyAction) => {
+const app = (state = initialState, action: AnyAction) => {
 
     switch(action.type) {
         case 'SWITCH_PAGE':
@@ -19,4 +19,4 @@ const interfaceReducer = (state = initialState, action: AnyAction) => {
     }
 };
 
-export default interfaceReducer;
+export default app;

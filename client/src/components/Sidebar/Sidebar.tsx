@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import styles from './Sidebar.module.scss';
 import home from '../../images/home.png';
-import {tokenValidationAction} from "../../actions/userAuth";
+import {tokenValidationAction} from "../../actions/userActions";
 import {connect} from "react-redux";
-import {switchPageAction} from "../../actions/appInterface";
+import {switchPageAction} from "../../actions/appActions";
 
 interface Props {
     currentPage: string;
@@ -71,7 +71,7 @@ const Sidebar: React.FC<Props> = props =>  {
 }
 
 const mapStateToProps = state => ({
-    currentPage: state.interfaceReducer.currentPage,
+    currentPage: state.app.currentPage,
 })
 const mapDispatchToProps = dispatch => ({
     switchPageAction: page => dispatch(switchPageAction(page)),

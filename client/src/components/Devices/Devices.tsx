@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Devices.module.scss';
 import {Table, Icon, Switch} from "react-materialize";
-import {openAddDeviceModalAction, switchPageAction} from "../../actions/appInterface";
+import {openAddDeviceModalAction, switchPageAction} from "../../actions/appActions";
 import {connect} from "react-redux";
 
 interface Props {
@@ -28,13 +28,15 @@ const Devices: React.FC<Props> = props =>  {
             <div className={styles.wrapper}>
                 <Table>
                     <thead>
-                    <th>Device</th>
-                    <th>Name</th>
-                    <th>Location</th>
-                    <th>Status</th>
-                    <th>Battery</th>
-                    <th>Date</th>
-                    <th></th>
+                    <tr>
+                        <th>Device</th>
+                        <th>Name</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                        <th>Battery</th>
+                        <th>Date</th>
+                        <th></th>
+                    </tr>
                     </thead>
                     <tbody>
                     {

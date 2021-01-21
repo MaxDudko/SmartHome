@@ -3,7 +3,7 @@ import styles from './AddDevice.module.scss';
 import {Icon, Button, Col, TextInput} from "react-materialize";
 import l from '../../images/l.png';
 import r from '../../images/r.png';
-import {closeAddDeviceModalAction} from "../../actions/appInterface";
+import {closeAddDeviceModalAction} from "../../actions/appActions";
 import {connect} from "react-redux";
 
 interface Props {

@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './TopNavbar.module.scss';
 import smartHomeLogo from '../../images/smartHomeLogo.png';
 import {Navbar, NavItem, Dropdown, Icon, Divider} from "react-materialize";
-import {logoutUserAction} from "../../actions/userAuth";
+import {logoutUserAction} from "../../actions/userActions";
 import {connect} from "react-redux";
 
 interface Props {

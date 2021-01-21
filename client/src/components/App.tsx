@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {connect} from "react-redux";
-import {tokenValidationAction} from "../actions/userAuth";
+import {tokenValidationAction} from "../actions/userActions";
 import styles from './App.module.scss';
 import Authentication from "./Authentication/Authentication";
 import Dashboard from "./Dashboard/Dashboard";

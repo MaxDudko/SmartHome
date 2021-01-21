@@ -5,10 +5,10 @@ export const tokenValidationService = (request) => {
     const token = request.token;
 
     if (token) {
-        axios.post(API_ENDPOINT, {
+        return axios.post(API_ENDPOINT, {
             token: token
         }).then((data) => {
-            console.log(data)
+            return data;
         }).catch(() => {
             window.localStorage.clear();
         });
