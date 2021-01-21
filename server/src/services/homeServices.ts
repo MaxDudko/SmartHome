@@ -10,7 +10,10 @@ class HomeServices {
             return await Promise.all(
                 residents.map(async doc => {
                     const home = await Home.findOne({where: {id: doc.getDataValue('homeId')}})
-                    return home?.getAttributes()
+                    return {
+                        ...home?.getAttributes(),
+                        role: doc.getDataValue('role')
+                    }
                 })
             );
         }

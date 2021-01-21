@@ -26,7 +26,7 @@ class HomeController {
         if (userId && homeId && key) {
             try {
                 const resData = await services.selectHome(userId, homeId, key);
-                return res.status(200).json({data: resData})
+                return res.status(200).json({...resData})
             } catch (e) {
                 return res.status(400).json({error: e.message})
             }
@@ -41,7 +41,7 @@ class HomeController {
         if (userId && homeName && homeAddress && role && key) {
             try {
                 const resData = await services.createHome(userId, homeName, homeAddress, role, key);
-                return res.status(200).json({data: resData})
+                return res.status(200).json({...resData})
             } catch (e) {
                 return res.status(400).json({error: e.message})
             }
@@ -59,7 +59,7 @@ class HomeController {
         if (userId && homeId && role && key) {
             try {
                 const resData = await services.addResident(userId, homeId, role, key);
-                return res.status(200).json({data: resData})
+                return res.status(200).json({...resData})
             } catch (e) {
                 return res.status(400).json({error: e.message})
             }
