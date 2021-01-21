@@ -21,9 +21,9 @@ class Resident extends Model<ResidentAttributes>
 
     public getAttributes() {
         return {
-            id: this.userId,
-            name: this.homeId,
-            address: this.role,
+            userId: this.userId,
+            homeId: this.homeId,
+            role: this.role,
         }
     }
 }
