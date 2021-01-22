@@ -11,7 +11,6 @@
   text-align: left;
   .modal {
     width: 50%;
-    height: 40%;
     border-radius: 10px;
     background: #2f3b52;
     position: relative;
@@ -35,12 +34,35 @@
       justify-content: center;
       align-items: center;
       .or {
-        font-size: 20px;
+        font-size: 30px;
         font-weight: 500;
         color: #44556b;
         margin: 0 10px;
       }
       .box {
+        padding: 50px;
+        background: #20293C;
+        color: #687d91;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        cursor: pointer;
+        .icon {
+          font-size: 70px;
+        }
+      }
+      .active {
+        border: 2px solid #1f8efa;
+        color: #1f8efa;
+      }
+      label {
+        color: #ffffff;
+        font-size: 20px;
+      }
+      .form {
+        margin-left: 50px;
       }
     }
     .footer {
@@ -50,9 +72,13 @@
       padding: 30px 50px;
       .primary {
         background: #1f8efa;
+        margin: 0 5px;
       }
       .secondary {
         background: transparent;
+        border: none;
+        outline: none;
+        margin: 0 5px;
       }
     }
   }

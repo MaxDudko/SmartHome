@@ -33,6 +33,11 @@
       .battery {
         border-radius: 100px;
         background: #20293C;
+        padding: 10px;
+        i {
+          position: relative;
+          top: 4px;
+        }
       }
       .controller {
         height: 100%;

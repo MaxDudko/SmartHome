@@ -14,8 +14,10 @@ function* selectHomeSaga(payload) {
     try {
         const response = yield call(selectHomeService, payload);
 
+        console.log(11111111111111, response)
         yield put({ type: 'SAVE_HOME', payload: response.data });
     } catch(error) {
+        console.log(__filename, error)
         yield put({ type: 'RESPONSE_ERROR', error })
     }
 }
@@ -36,7 +38,6 @@ function* joinHomeSaga(payload) {
 
         yield put({ type: 'SAVE_HOME', payload: response.data });
     } catch(error) {
-        console.log(0, error.message)
         yield put({ type: 'RESPONSE_ERROR', error })
     }
 }

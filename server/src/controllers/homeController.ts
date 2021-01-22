@@ -21,11 +21,11 @@ class HomeController {
     }
 
     public async selectHome(req: Request, res: Response) {
-        const {userId, homeId, key} = req.body;
+        const {userId, homeId} = req.body;
 
-        if (userId && homeId && key) {
+        if (userId && homeId) {
             try {
-                const resData = await services.selectHome(userId, homeId, key);
+                const resData = await services.selectHome(userId, homeId);
                 return res.status(200).json({...resData})
             } catch (e) {
                 return res.status(400).json({error: e.message})

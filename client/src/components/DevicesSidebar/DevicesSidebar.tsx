@@ -31,15 +31,9 @@ const DevicesSidebar: React.FC = props =>  {
                                 <p>{device.since}</p>
                             </div>
                             <div className={styles.controller}>
-                                {/*<Switch*/}
-                                {/*    id="Switch-11"*/}
-                                {/*    offLabel="Off"*/}
-                                {/*    onChange={function noRefCheck(){}}*/}
-                                {/*    onLabel="On"*/}
-                                {/*/>*/}
                                 <div className="switch">
                                     <label>
-                                        <input disabled={device.disabled} type="checkbox" />
+                                        <input defaultChecked={!device.disabled} type="checkbox" />
                                         <span className="lever"></span>
                                     </label>
                                 </div>

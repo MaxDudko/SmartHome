@@ -84,10 +84,10 @@ describe('HomeServices behavior:', () => {
 
             const result = {
                 home: { id: 1, name: 'TEST HOME', address: 'Test, 1' },
-                resident: { id: '1', name: '1', address: 'admin' }
+                resident: { homeId: '1', userId: '1', role: 'admin' }
             };
 
-            const homeData = await services.selectHome(user.id.toString(), home.id.toString(), 'test1234');
+            const homeData = await services.selectHome(user.id.toString(), home.id.toString());
 
             expect(homeData).toEqual(result);
         });
@@ -100,22 +100,21 @@ describe('HomeServices behavior:', () => {
 
             expect.assertions(1);
             try {
-                await services.selectHome(user.id.toString(), home.id.toString(), 'test1234');
+                await services.selectHome(user.id.toString(), home.id.toString());
             } catch (e) {
                 expect(e.message).toMatch(result);
             }
         });
 
-        it('Should return error, Wrong Key:', async () =>  {
+        it('Should return error, Home not found:', async () =>  {
             const user = await  createUser('test123@email.com', 'User Test', 'test123');
             const home = await createHome('TEST HOME', 'Test, 1', 'test1234');
             await createResident(user.id, home.id, 'admin');
 
-            const result = 'Wrong Key';
+            const result = 'Home not found';
 
-            expect.assertions(1);
             try {
-                await services.selectHome(user.id.toString(), home.id.toString(), 'wrongKey');
+                await services.selectHome(user.id.toString(), home.id.toString());
             } catch (e) {
                 expect(e.message).toMatch(result);
             }
@@ -135,8 +134,8 @@ describe('HomeServices behavior:', () => {
             const user = await createUser( 'test123@email.com', 'User Test', 'test123');
 
             const result = {
-                    home: { id: 1, name: 'TEST HOME', address: 'TestTest, 1' },
-                    resident: { id: '1', name: '1', address: 'admin' }
+                home: { id: 1, name: 'TEST HOME', address: 'TestTest, 1' },
+                resident: { homeId: '1', userId: '1', role: 'admin' }
             };
 
             const homeData = await services.createHome(user.id.toString(), "TEST HOME", "TestTest, 1", "admin", "qwerty123");
@@ -170,7 +169,7 @@ describe('HomeServices behavior:', () => {
 
             const result = {
                 home: { id: 1, name: 'TEST HOME', address: 'Test, 1' },
-                resident: { id: '1', name: '1', address: 'user' }
+                resident: { homeId: '1', userId: '1', role: 'user' }
             };
 
             const homeData = await services.addResident(user.id.toString(), home.id.toString(), 'user', 'test1234');

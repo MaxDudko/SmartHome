@@ -7,14 +7,19 @@ export const getHomeListAction = (userId) => {
     }
 };
 
-export const selectHomeAction = (userId, homeId, key) => {
+export const selectHomeAction = (userId, homeId) => {
     return {
         type: 'SELECT_HOME',
         payload: {
             userId: userId,
             homeId: homeId,
-            key: key
         }
+    }
+};
+
+export const selectAnotherHomeAction = () => {
+    return {
+        type: 'SELECT_ANOTHER_HOME'
     }
 };
 

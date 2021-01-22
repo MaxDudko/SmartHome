@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import styles from './AddDevice.module.scss';
-import {Icon, Button, Col, TextInput} from "react-materialize";
-import l from '../../images/l.png';
-import r from '../../images/r.png';
+import {Icon, Button, Col, TextInput, Modal} from "react-materialize";
 import {closeAddDeviceModalAction} from "../../actions/appActions";
 import {connect} from "react-redux";
 
@@ -12,26 +10,37 @@ interface Props {
 const AddDevice: React.FC<Props> = props =>  {
     const {closeAddDeviceModalAction} = props;
     const [currentStep, setStep] = useState(1);
+    const [selectedMethod, setSelectedMethod] = useState('')
 
     const steps = {
         1: (
             <div className={styles.main}>
-                <Col s={5} className={styles.box}>
-                    <img src={l} alt="."/>
+                <Col
+                    s={5}
+                    className={`${styles.box} ${selectedMethod === 'discover' ? styles.active : ''}`}
+                    onClick={() => setSelectedMethod('discover')}
+                >
+                    <Icon className={styles.icon}>wifi_tethering</Icon>
+                    <p>Discover my device</p>
                 </Col>
                 <span className={styles.or}>or</span>
-                <Col s={5} className={styles.box}>
-                    <img src={r} alt="."/>
+                <Col
+                    s={5}
+                    className={`${styles.box} ${selectedMethod === 'enter' ? styles.active : ''}`}
+                    onClick={() => setSelectedMethod('enter')}
+                >
+                    <Icon className={styles.icon}>keyboard</Icon>
+                    <p>Enter MAC address</p>
                 </Col>
             </div>
         ),
         2: (
             <div className={styles.main}>
-                <Col s={5} className={styles.box}>
-                    <img src={l} alt="."/>
+                <Col s={6} className={styles.box}>
+                    <Icon className={styles.icon}>keyboard</Icon>
+                    <p>Device preview</p>
                 </Col>
-                or
-                <Col s={5} className={styles.box}>
+                <Col s={6} className={styles.form}>
                     <TextInput
                         id="MAC"
                         // onChange={handleChange}

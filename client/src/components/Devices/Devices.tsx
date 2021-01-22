@@ -48,24 +48,24 @@ const Devices: React.FC<Props> = props =>  {
                                 <td>{device.name}</td>
                                 <td>{device.location}</td>
                                 <td>
-                                    <Switch
-                                        className={styles.controller}
-                                        offLabel="Off"
-                                        onLabel="On"
-                                        onChange={() => null}
-                                        checked={device.active}
-                                    />
+
+                                    <div className="switch">
+                                        <label>
+                                            <input defaultChecked={device.active} type="checkbox" />
+                                            <span className="lever"></span>
+                                        </label>
+                                    </div>
                                 </td>
                                 <td>
-                                    <Icon>
+                                    <span className={styles.battery}>
                                         {
-                                            (device.battery > 50 && "battery_charging_full")
+                                            (device.battery > 50 && <Icon style={{color: "#05c985"}}>battery_charging_full</Icon>)
                                             ||
-                                            (device.battery && device.battery <= 50 && "battery_alert")
+                                            (device.battery && device.battery <= 50 && <Icon style={{color: "#ffab4f"}}>battery_alert</Icon>)
                                             ||
-                                            "battery_std"
+                                            <Icon style={{color: "#1f8efa"}}>battery_std</Icon>
                                         }
-                                    </Icon>
+                                    </span>
                                 </td>
                                 <td>{device.since}</td>
                                 <td>

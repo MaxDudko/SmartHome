@@ -19,20 +19,19 @@ class HomeServices {
         }
     }
 
-    public async selectHome(userId: string, homeId: string, key: string) {
+    public async selectHome(userId: string, homeId: string) {
         const resident = await Resident.findOne({where: {userId, homeId}})
 
         if (resident) {
             const home = await Home.findOne({where: {id: homeId}});
-            const passValid = home?.validatePassword(key);
 
-            if (home && passValid) {
+            if (home) {
                 return {
                     home: home.getAttributes(),
                     resident: resident.getAttributes()
                 }
             }
-            throw Error("Wrong Key")
+            throw Error("Home not found")
         }
         throw Error("User not resident in this Home")
     }

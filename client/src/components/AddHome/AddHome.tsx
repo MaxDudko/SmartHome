@@ -5,7 +5,6 @@ import {createHomeAction, getHomeListAction, joinHomeAction, selectHomeAction} f
 import {Table, Form, Button, TextInput, Select, Icon, Row, Col} from "react-materialize/";
 import homeImg from "../../images/home.png";
 
-
 interface Props {
     userId: string;
     homeList: any;
@@ -14,6 +13,7 @@ interface Props {
     createHomeAction: Function;
     joinHomeAction: Function;
 }
+
 const AddHome: React.FC<Props> = props =>  {
     const { userId, getHomeListAction, homeList, selectHomeAction, createHomeAction, joinHomeAction } = props;
     const items = ['Home List', 'Create Home', 'Join Home'];
@@ -28,13 +28,12 @@ const AddHome: React.FC<Props> = props =>  {
         event.preventDefault();
 
         if (currentForm === 'Home List') {
-            const {userId, homeId, key} = data;
-            return selectHomeAction(userId.toString(), homeId.toString(), key);
+            const {userId, homeId} = data;
+            return selectHomeAction(userId.toString(), homeId.toString());
         }
 
         if (currentForm === 'Create Home') {
             const {userId, homeName, homeAddress, role, key} = data;
-            console.log(111111111111111, userId)
             return createHomeAction(userId.toString(), homeName, homeAddress, role, key);
         }
 
@@ -60,7 +59,7 @@ const AddHome: React.FC<Props> = props =>  {
                             homeList.map((home, i) => (
                                 <tr key={i}>
                                     <td>
-                                        <img src={home.img || homeImg} alt="Home Image"/>
+                                        <Icon>home</Icon>
                                     </td>
                                     <td>{home.id}</td>
                                     <td>{home.name}</td>
@@ -68,20 +67,6 @@ const AddHome: React.FC<Props> = props =>  {
                                     <td>{home.role}</td>
                                     <td>
                                         <form onSubmit={handleSubmit}>
-                                            <TextInput
-                                                id="key"
-                                                type="password"
-                                                inputClassName="validate"
-                                                required
-                                                label="Security Key"
-                                                placeholder=""
-                                                onChange={(e) => {
-                                                    setData({
-                                                        ...data,
-                                                        key: e.target.value
-                                                    })
-                                                }}
-                                            />
                                             <Button
                                                 node="button"
                                                 type="submit"
@@ -303,7 +288,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     getHomeListAction: userId => dispatch(getHomeListAction(userId)),
-    selectHomeAction: (userId, homeId, key) => dispatch(selectHomeAction(userId, homeId, key)),
+    selectHomeAction: (userId, homeId) => dispatch(selectHomeAction(userId, homeId)),
     createHomeAction: (userId, homeName, homeAddress, role, key) => dispatch(createHomeAction(userId, homeName, homeAddress, role, key)),
     joinHomeAction: (userId, homeId, role, key) => dispatch(joinHomeAction(userId, homeId, role, key)),
 })
