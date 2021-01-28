@@ -2,6 +2,7 @@ import { Sequelize } from "sequelize";
 import User from "./User";
 import Home from "./Home";
 import Resident from "./Resident";
+import Lock from "./Lock";
 import * as dotenv from "dotenv";
 
 const ENV_PATH = process.env.NODE_ENV === 'test' ? '/../../.env' : '/../../../.env';
@@ -24,7 +25,8 @@ const DB = {
     sequelize: sequelize,
     user: User.sync(),
     home: Home.sync(),
-    resident: Resident.sync()
+    resident: Resident.sync(),
+    lock: Lock.sync()
 };
 
 export default DB;

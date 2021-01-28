@@ -2,6 +2,7 @@ import { Router } from 'express';
 import auth from "./middlewares/auth";
 import UserController from './controllers/userController';
 import HomeController from './controllers/homeController';
+import SmartAppController from "./controllers/smartAppController";
 
 const router = Router();
 
@@ -15,5 +16,8 @@ router.post('/find-home', homeController.findHomeList);
 router.post('/select-home', homeController.selectHome)
 router.post('/create-home', homeController.createHome);
 router.post('/join-home', homeController.addResident);
+
+const smartAppController = new SmartAppController();
+router.post('/smart/update-state', smartAppController.updateState);
 
 export default router;
