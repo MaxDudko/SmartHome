@@ -107,6 +107,5 @@ def lockToggle() {
     	lock.lock()
     }
 
-    log.debug lockData
     return lock.currentValue("lock")[0]
 }
