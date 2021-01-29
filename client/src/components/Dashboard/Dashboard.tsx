@@ -10,6 +10,7 @@ import Devices from "../Devices/Devices";
 import AddDevice from "../AddDevice/AddDevice";
 import AddHome from "../AddHome/AddHome";
 import {createHomeAction, getHomeListAction, joinHomeAction, selectHomeAction} from "../../actions/homeActions";
+import {getDevicesAction} from "../../actions/devicesActions";
 
 interface Props {
     currentPage: string;
@@ -17,16 +18,18 @@ interface Props {
     homeId: string;
     userId: string;
     selectHomeAction: Function;
+    getDevicesAction: Function;
 }
 const Dashboard: React.FC<Props> = props =>  {
-    const { currentPage, addDeviceModalOpen, homeId, userId, selectHomeAction } = props;
+    const { currentPage, addDeviceModalOpen, homeId, userId, selectHomeAction, getDevicesAction } = props;
 
     useEffect(() => {
-        const homeId = localStorage.getItem('homeId');
-        if (userId && homeId) {
-            selectHomeAction(userId, homeId);
+        const home_id = localStorage.getItem('homeId');
+        if (userId && home_id) {
+            selectHomeAction(userId.toString(), home_id);
+            getDevicesAction(home_id);
         }
-    }, [])
+    }, [userId])
     const router = {
         overview: <Overview/>,
         devices: <Devices/>
@@ -64,6 +67,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     selectHomeAction: (userId, homeId) => dispatch(selectHomeAction(userId, homeId)),
+    getDevicesAction: (homeId) => dispatch(getDevicesAction(homeId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

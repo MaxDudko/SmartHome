@@ -6,11 +6,13 @@ import rootSaga from './sagas/rootSaga';
 import app from "./reducers/appReducer";
 import user from "./reducers/userReducer";
 import home from "./reducers/homeReducer";
+import devices from "./reducers/devicesReducer";
 
 const reducers = combineReducers({
     app,
     user,
-    home
+    home,
+    devices
 });
 
 const sagaMiddleware = createSagaMiddleware();

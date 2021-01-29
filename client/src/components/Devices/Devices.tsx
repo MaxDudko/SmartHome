@@ -3,18 +3,22 @@ import styles from './Devices.module.scss';
 import {Table, Icon, Switch} from "react-materialize";
 import {openAddDeviceModalAction, switchPageAction} from "../../actions/appActions";
 import {connect} from "react-redux";
+import {lockToggleAction} from "../../actions/devicesActions";
 
 interface Props {
+    homeId: string;
+    devices: any;
     openAddDeviceModalAction: Function;
+    lockToggleAction: Function;
 }
 const Devices: React.FC<Props> = props =>  {
-    const {openAddDeviceModalAction} = props
+    const {homeId, openAddDeviceModalAction, devices, lockToggleAction} = props
     // Test Data
-    const devices = [
-        {icon: 'lock', name: 'Lock', location: 'Entrance', since: '18/01/2021', battery: 100, active: true},
-        {icon: 'wifi', name: 'WiFi', location: 'Hall', since: '18/01/2021', battery: 40, active: true},
-        {icon: 'camera', name: 'Camera', location: 'Living Room', since: '15/01/2021', battery: 0, active: false},
-    ];
+    // const devices = [
+    //     {icon: 'lock', name: 'Lock', location: 'Entrance', since: '18/01/2021', battery: 100, active: true},
+    //     {icon: 'wifi', name: 'WiFi', location: 'Hall', since: '18/01/2021', battery: 40, active: true},
+    //     {icon: 'camera', name: 'Camera', location: 'Living Room', since: '15/01/2021', battery: 0, active: false},
+    // ];
 
     return (
         <div className={styles.Devices + " col s12 l9"}>
@@ -40,23 +44,27 @@ const Devices: React.FC<Props> = props =>  {
                     </thead>
                     <tbody>
                     {
-                        devices.map((device, i) => (
-                            <tr key={i}>
-                                <td>
-                                    <Icon className={styles.device}>{device.icon}</Icon>
-                                </td>
-                                <td>{device.name}</td>
-                                <td>{device.location}</td>
-                                <td>
+                        Object.entries(devices).map((deviceType: any, i) => (
+                            deviceType[1].map((device: any,  i) => (
+                                <tr key={i}>
+                                    <td>
+                                        <Icon className={styles.device}>{device.type}</Icon>
+                                    </td>
+                                    <td>{device.type.charAt(0).toUpperCase() + device.type.slice(1)}</td>
+                                    <td>{device.location}</td>
+                                    <td>
 
-                                    <div className="switch">
-                                        <label>
-                                            <input defaultChecked={device.active} type="checkbox" />
-                                            <span className="lever"></span>
-                                        </label>
-                                    </div>
-                                </td>
-                                <td>
+                                        <div className="switch">
+                                            <label>
+                                                <input type="checkbox"
+                                                       defaultChecked={device.value}
+                                                       onChange={() => lockToggleAction(homeId.toString())}
+                                                />
+                                                <span className="lever"></span>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
                                     <span className={styles.battery}>
                                         {
                                             (device.battery > 50 && <Icon style={{color: "#05c985"}}>battery_charging_full</Icon>)
@@ -66,12 +74,13 @@ const Devices: React.FC<Props> = props =>  {
                                             <Icon style={{color: "#1f8efa"}}>battery_std</Icon>
                                         }
                                     </span>
-                                </td>
-                                <td>{device.since}</td>
-                                <td>
-                                    <Icon>more_vert</Icon>
-                                </td>
-                            </tr>
+                                    </td>
+                                    <td>{device.updatedAt.toLocaleString()}</td>
+                                    <td>
+                                        <Icon>more_vert</Icon>
+                                    </td>
+                                </tr>
+                            ))
                         ))
                     }
                     </tbody>
@@ -82,9 +91,12 @@ const Devices: React.FC<Props> = props =>  {
 }
 
 const mapStateToProps = state => ({
+    homeId: state.home.id,
+    devices: state.devices,
 })
 const mapDispatchToProps = dispatch => ({
     openAddDeviceModalAction: () => dispatch(openAddDeviceModalAction()),
+    lockToggleAction: (homeId) => dispatch(lockToggleAction(homeId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Devices);

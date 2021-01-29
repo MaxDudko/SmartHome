@@ -14,7 +14,6 @@ function* selectHomeSaga(payload) {
     try {
         const response = yield call(selectHomeService, payload);
 
-        console.log(11111111111111, response)
         yield put({ type: 'SAVE_HOME', payload: response.data });
     } catch(error) {
         console.log(__filename, error)
