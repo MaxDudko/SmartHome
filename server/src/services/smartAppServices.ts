@@ -1,13 +1,46 @@
 import Lock from "../models/Lock";
+import Resident from "../models/Resident";
+import Home from "../models/Home";
+import {Response} from "express";
+import * as http from "http";
+import axios from "axios";
 
 class SmartAppServices {
+    public async getDevices(homeId: string) {
+        if (homeId) {
+            const locks = await Lock.findAll({where: {home_id: homeId}})
+                .then(list => list.map(lock => lock.getAttributes()))
+
+            return {
+                locks: locks,
+            }
+        }
+    }
+
     public async updateState(state: any) {
-        console.log(state)
         const {type, value, device_id} = state[0];
 
         if (type === 'lock') {
-            await Lock.update({value: value}, {where: {device_id: device_id}})
+            const lock = await Lock.update({value: value}, {where: {device_id: device_id}, returning: true});
+
+            return lock[1][0].getAttributes();
+            // const homeId = lock[1][0].getDataValue('home_id');
+            // return this.getDevices(homeId);
         }
+    }
+
+    public async lockToggle() {
+        const requestToSmartThings = await axios({
+            method: 'post',
+            url: 'https://graph.api.smartthings.com/api/smartapps/installations/3fd57648-2aa5-4cd3-b4ff-d8b1fc786a27/lock-toggle',
+            headers: {
+                'Authorization': 'Bearer 05e0191a-7eab-4acc-bfce-6c1135144166',
+                'Cookie': '_ga=GA1.2.474585111.1611675801; _hp2_id.2894297474=%7B%22userId%22%3A%228574982205792633%22%2C%22pageviewId%22%3A%225522415491106740%22%2C%22sessionId%22%3A%2215753995686416%22%2C%22identity%22%3Anull%2C%22trackerVersion%22%3A%224.0%22%7D; JSESSIONID=8381FFB273193735C32E6ED0381004C3-n2'
+            },
+            data : null
+        })
+
+        return requestToSmartThings.data;
     }
 }
 

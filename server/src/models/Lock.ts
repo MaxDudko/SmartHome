@@ -14,7 +14,7 @@ interface ResidentAttributes {
     label: string;
     value: string;
     battery: number;
-
+    updatedAt: any;
 }
 
 class Lock extends Model<ResidentAttributes>
@@ -25,6 +25,7 @@ class Lock extends Model<ResidentAttributes>
     label!: string;
     value!: string;
     battery!: number;
+    updatedAt!: any;
 
     public getAttributes() {
         return {
@@ -32,8 +33,9 @@ class Lock extends Model<ResidentAttributes>
             device_id: this.device_id,
             type: this.type,
             label: this.label,
-            value: this.value,
+            value: this.value === 'locked',
             battery: this.battery,
+            updatedAt: this.updatedAt,
         }
     }
 }
@@ -44,7 +46,8 @@ Lock.init({
     type: DataTypes.STRING,
     label: DataTypes.STRING,
     value: DataTypes.STRING,
-    battery: DataTypes.INTEGER
+    battery: DataTypes.INTEGER,
+    updatedAt: DataTypes.DATE
 }, { sequelize })
 
 export default Lock;

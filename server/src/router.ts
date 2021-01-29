@@ -18,6 +18,8 @@ router.post('/create-home', homeController.createHome);
 router.post('/join-home', homeController.addResident);
 
 const smartAppController = new SmartAppController();
-router.post('/smart/update-state', smartAppController.updateState);
+router.post('/smart-api/get-devices', smartAppController.getDevices);
+router.post('/smart-api/update-state', smartAppController.updateState);
+router.post('/smart-api/lock-toggle', smartAppController.lockToggle);
 
 export default router;
