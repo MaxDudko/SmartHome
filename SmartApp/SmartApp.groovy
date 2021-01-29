@@ -68,7 +68,7 @@ def lockListener(evt) {
 
     def params = [
         // Server URL (if server run on localhost, use ngrok)
-    	uri: "https://da61e5819162.ngrok.io",
+    	uri: SERVER_URL,
     	path: "/smart/update-state",
         body: locks.collect{
             [
