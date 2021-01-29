@@ -54,12 +54,12 @@ def initialize() {
 mappings {
   path("/get-devices") {
     action: [
-      GET: "getDevices"
+      POST: "getDevices"
     ]
   }
   path("/lock-toggle") {
     action: [
-      GET: "lockToggle"
+      POST: "lockToggle"
     ]
   }
 }
