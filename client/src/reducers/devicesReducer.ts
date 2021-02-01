@@ -8,6 +8,7 @@ const devices = (state = initialState, action: AnyAction) => {
 
     switch(action.type) {
         case 'SAVE_DEVICES_ACTION':
+            console.log(action.payload)
             return {
                 ...state,
                 ...action.payload

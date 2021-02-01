@@ -22,4 +22,8 @@ router.post('/smart-api/get-devices', smartAppController.getDevices);
 router.post('/smart-api/update-state', smartAppController.updateState);
 router.post('/smart-api/lock-toggle', smartAppController.lockToggle);
 
+const SSE = require('express-sse');
+export const sse = new SSE();
+router.get('/stream', sse.init);
+
 export default router;

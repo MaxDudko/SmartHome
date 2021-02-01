@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './Devices.module.scss';
 import {Table, Icon, Switch} from "react-materialize";
 import {openAddDeviceModalAction, switchPageAction} from "../../actions/appActions";
@@ -12,13 +12,19 @@ interface Props {
     lockToggleAction: Function;
 }
 const Devices: React.FC<Props> = props =>  {
-    const {homeId, openAddDeviceModalAction, devices, lockToggleAction} = props
-    // Test Data
-    // const devices = [
-    //     {icon: 'lock', name: 'Lock', location: 'Entrance', since: '18/01/2021', battery: 100, active: true},
-    //     {icon: 'wifi', name: 'WiFi', location: 'Hall', since: '18/01/2021', battery: 40, active: true},
-    //     {icon: 'camera', name: 'Camera', location: 'Living Room', since: '15/01/2021', battery: 0, active: false},
-    // ];
+    const {homeId, openAddDeviceModalAction, devices, lockToggleAction} = props;
+    const [list, setList] = useState<any>([]);
+
+    useEffect(() => {
+        const list: any = [];
+        Object.entries(devices).map((deviceType: any, i) => {
+            deviceType[1].map((device,  i) => {
+                console.log(device)
+                list.push(device)
+            })
+        })
+        setList(list);
+    }, [devices])
 
     return (
         <div className={styles.Devices + " col s12 l9"}>
@@ -44,27 +50,26 @@ const Devices: React.FC<Props> = props =>  {
                     </thead>
                     <tbody>
                     {
-                        Object.entries(devices).map((deviceType: any, i) => (
-                            deviceType[1].map((device: any,  i) => (
-                                <tr key={i}>
-                                    <td>
-                                        <Icon className={styles.device}>{device.type}</Icon>
-                                    </td>
-                                    <td>{device.type.charAt(0).toUpperCase() + device.type.slice(1)}</td>
-                                    <td>{device.location}</td>
-                                    <td>
+                        list.map((device, i) => (
+                            <tr key={i}>
+                                <td>
+                                    <Icon className={styles.device}>{device.type}</Icon>
+                                </td>
+                                <td>{device.type.charAt(0).toUpperCase() + device.type.slice(1)}</td>
+                                <td>{device.location}</td>
+                                <td>
 
-                                        <div className="switch">
-                                            <label>
-                                                <input type="checkbox"
-                                                       defaultChecked={device.value}
-                                                       onChange={() => lockToggleAction(homeId.toString())}
-                                                />
-                                                <span className="lever"></span>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td>
+                                    <div className="switch">
+                                        <label>
+                                            <input type="checkbox"
+                                                   defaultChecked={device.value}
+                                                   onChange={() => lockToggleAction(homeId.toString())}
+                                            />
+                                            <span className="lever"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>
                                     <span className={styles.battery}>
                                         {
                                             (device.battery > 50 && <Icon style={{color: "#05c985"}}>battery_charging_full</Icon>)
@@ -74,13 +79,12 @@ const Devices: React.FC<Props> = props =>  {
                                             <Icon style={{color: "#1f8efa"}}>battery_std</Icon>
                                         }
                                     </span>
-                                    </td>
-                                    <td>{device.updatedAt.toLocaleString()}</td>
-                                    <td>
-                                        <Icon>more_vert</Icon>
-                                    </td>
-                                </tr>
-                            ))
+                                </td>
+                                <td>{device.updatedAt.toLocaleString()}</td>
+                                <td>
+                                    <Icon>more_vert</Icon>
+                                </td>
+                            </tr>
                         ))
                     }
                     </tbody>

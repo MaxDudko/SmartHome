@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
 import SmartAppServices from "../services/smartAppServices";
-
+import {sse} from "../router"
 const services = new SmartAppServices();
 
 class SmartAppController {
@@ -21,6 +21,8 @@ class SmartAppController {
         if (state) {
             try {
                 const resp = await services.updateState(state);
+                const devices = resp && await services.getDevices(resp.home_id);
+                resp && devices && sse.send(devices);
                 res.status(200).send(resp);
             } catch (e) {
                 return res.status(400).json({error: e.message})

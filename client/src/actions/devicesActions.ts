@@ -16,11 +16,11 @@ export const lockToggleAction = (homeId) => {
     }
 };
 
-export const saveDevicesAction = (homeId) => {
+export const saveDevicesAction = (data) => {
     return {
         type: 'SAVE_DEVICES_ACTION',
         payload: {
-            homeId: homeId
+            ...data
         }
     }
 };
