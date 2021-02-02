@@ -50,7 +50,8 @@ const Devices: React.FC<Props> = props =>  {
                     </thead>
                     <tbody>
                     {
-                        list.map((device, i) => (
+                        Object.entries(devices).map((deviceType: any, i) => (
+                            deviceType[1].map((device: any,  i) => (
                             <tr key={i}>
                                 <td>
                                     <Icon className={styles.device}>{device.type}</Icon>
@@ -62,7 +63,7 @@ const Devices: React.FC<Props> = props =>  {
                                     <div className="switch">
                                         <label>
                                             <input type="checkbox"
-                                                   defaultChecked={device.value}
+                                                   checked={device.value}
                                                    onChange={() => lockToggleAction(homeId.toString())}
                                             />
                                             <span className="lever"></span>
@@ -85,7 +86,7 @@ const Devices: React.FC<Props> = props =>  {
                                     <Icon>more_vert</Icon>
                                 </td>
                             </tr>
-                        ))
+                        ))))
                     }
                     </tbody>
                 </Table>

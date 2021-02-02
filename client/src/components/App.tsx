@@ -18,13 +18,13 @@ const App: React.FC<Props> = props =>  {
   useEffect(() => {
     if (!homeId) return;
     let eventSource = new EventSource(`http://localhost:4000/stream?homeId=${homeId}`)
-    eventSource.onopen = function() {
+    eventSource.onopen = () => {
       console.log('connection to stream has been opened');
     };
-    eventSource.onerror = function (error) {
+    eventSource.onerror = (error) => {
       console.log('An error has occurred while receiving stream', error);
     };
-    eventSource.onmessage = function (stream) {
+    eventSource.onmessage = (stream) => {
       console.log('received stream', JSON.parse(stream.data));
       saveDevicesAction(JSON.parse(stream.data));
     };

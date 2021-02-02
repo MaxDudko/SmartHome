@@ -12,12 +12,6 @@ interface Props {
 }
 const DevicesSidebar: React.FC<Props> = props =>  {
     const {homeId, devices, openAddDeviceModalAction, lockToggleAction} = props;
-    // Test Data
-    // const devices = [
-    //     {icon: 'lock', name: 'Lock', since: 'January 18, 2021', disabled: false},
-    //     {icon: 'wifi', name: 'WiFi', since: 'January 18, 2021', disabled: false},
-    //     {icon: 'camera', name: 'Camera', since: 'January 15, 2021', disabled: true}
-    // ];
 
     return (
         <div className={styles.DevicesSidebar}>
@@ -45,7 +39,7 @@ const DevicesSidebar: React.FC<Props> = props =>  {
                                     <div className="switch">
                                         <label>
                                             <input type="checkbox"
-                                                   defaultChecked={device.value}
+                                                   checked={device.value}
                                                    onChange={() => lockToggleAction(homeId.toString())}
                                             />
                                             <span className="lever"></span>
