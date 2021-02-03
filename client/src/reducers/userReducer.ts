@@ -17,6 +17,7 @@ const user = (state = initialState, action: AnyAction) => {
             };
         case 'LOGOUT_USER':
             localStorage.removeItem('token');
+            localStorage.removeItem('homeId');
             window.location.reload();
             return {};
         case 'SAVE_HOME_LIST':

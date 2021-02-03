@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import styles from './AddDevice.module.scss';
-import {Icon, Button, Col, TextInput, Modal} from "react-materialize";
+import {Icon, Button, Col, TextInput, Modal, Select} from "react-materialize";
 import {closeAddDeviceModalAction} from "../../actions/appActions";
 import {connect} from "react-redux";
 
@@ -50,6 +50,29 @@ const AddDevice: React.FC<Props> = props =>  {
                         label="MAC Address"
                         placeholder=""
                     />
+                    <Select
+                        id="type"
+                        // label="Device Type"
+                        required
+                        multiple={false}
+                        onChange={(e) => {
+                            // setData({
+                            //     ...data,
+                            //     role: e.target.value
+                            // })
+                        }}
+                        value=""
+                    >
+                        <option
+                            disabled
+                            value=""
+                        >
+                            Choose device type
+                        </option>
+                        <option value="lock">
+                            lock
+                        </option>
+                    </Select>
                     <TextInput
                         id="location"
                         // onChange={handleChange}
@@ -75,7 +98,7 @@ const AddDevice: React.FC<Props> = props =>  {
 
     return (
         <div className={styles.AddDevice}>
-            <div className={styles.modal}>
+            <Col className={styles.modal}>
                 <div className={styles.header}>
                     <p className={styles.title}>Add a new device</p>
                     <Icon
@@ -113,7 +136,7 @@ const AddDevice: React.FC<Props> = props =>  {
                         )
                     }
                 </div>
-            </div>
+            </Col>
         </div>
     );
 }

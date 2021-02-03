@@ -15,8 +15,8 @@ function* selectHomeSaga(payload) {
         const response = yield call(selectHomeService, payload);
 
         yield put({ type: 'SAVE_HOME', payload: response.data });
+        yield put({ type: 'GET_DEVICES_ACTION', payload: { homeId: response.data.home.id.toString() } });
     } catch(error) {
-        console.log(__filename, error)
         yield put({ type: 'RESPONSE_ERROR', error })
     }
 }

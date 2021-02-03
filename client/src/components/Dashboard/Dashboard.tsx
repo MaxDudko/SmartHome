@@ -27,7 +27,7 @@ const Dashboard: React.FC<Props> = props =>  {
         const home_id = localStorage.getItem('homeId');
         if (userId && home_id) {
             selectHomeAction(userId.toString(), home_id);
-            getDevicesAction(home_id);
+            // getDevicesAction(home_id);
         }
     }, [userId])
     const router = {

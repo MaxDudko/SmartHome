@@ -10,7 +10,9 @@ export const tokenValidationService = (request) => {
         }).then((data) => {
             return data;
         }).catch(() => {
-            window.localStorage.clear();
+            localStorage.removeItem('token');
+            localStorage.removeItem('homeId');
+            window.location.reload();
         });
     }
 };

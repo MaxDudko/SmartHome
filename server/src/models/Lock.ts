@@ -14,6 +14,7 @@ interface LockAttributes {
     label: string;
     value: string;
     battery: number;
+    location?: string;
     updatedAt?: any;
 }
 
@@ -25,6 +26,7 @@ class Lock extends Model<LockAttributes>
     label!: string;
     value!: string;
     battery!: number;
+    location!: string;
     updatedAt!: any;
 
     public getAttributesAndCreate() {
@@ -47,6 +49,7 @@ class Lock extends Model<LockAttributes>
             label: this.label,
             value: this.value === 'locked',
             battery: this.battery,
+            location: this.location,
             updatedAt: this.updatedAt,
         }
     }
@@ -59,6 +62,7 @@ Lock.init({
     label: DataTypes.STRING,
     value: DataTypes.STRING,
     battery: DataTypes.INTEGER,
+    location: DataTypes.STRING,
     updatedAt: DataTypes.DATE
 }, { sequelize })
 
