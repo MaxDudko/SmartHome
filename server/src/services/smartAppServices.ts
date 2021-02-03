@@ -23,8 +23,6 @@ class SmartAppServices {
             const lock = await Lock.update({value: value}, {where: {device_id: device_id}, returning: true});
 
             return lock[1][0].getAttributes();
-            // const homeId = lock[1][0].getDataValue('home_id');
-            // return this.getDevices(homeId);
         }
     }
 

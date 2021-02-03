@@ -43,7 +43,6 @@ const AddDevice: React.FC<Props> = props =>  {
                 <Col s={6} className={styles.form}>
                     <TextInput
                         id="MAC"
-                        // onChange={handleChange}
                         s={12}
                         inputClassName="validate"
                         required
@@ -52,16 +51,8 @@ const AddDevice: React.FC<Props> = props =>  {
                     />
                     <Select
                         id="type"
-                        // label="Device Type"
                         required
                         multiple={false}
-                        onChange={(e) => {
-                            // setData({
-                            //     ...data,
-                            //     role: e.target.value
-                            // })
-                        }}
-                        value=""
                     >
                         <option
                             disabled
@@ -75,7 +66,6 @@ const AddDevice: React.FC<Props> = props =>  {
                     </Select>
                     <TextInput
                         id="location"
-                        // onChange={handleChange}
                         s={12}
                         inputClassName="validate"
                         required
@@ -84,7 +74,6 @@ const AddDevice: React.FC<Props> = props =>  {
                     />
                     <TextInput
                         id="name"
-                        // onChange={handleChange}
                         s={12}
                         inputClassName="validate"
                         required

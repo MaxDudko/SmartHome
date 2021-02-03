@@ -17,9 +17,6 @@ const reducers = combineReducers({
 
 const sagaMiddleware = createSagaMiddleware();
 
-// const reduxDevTools = (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__();
-// const devTools = process.env.NODE_ENV === 'development' ? (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ && (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__() : null;
-
 const middlewares = composeWithDevTools(
     applyMiddleware(sagaMiddleware),
 );
