@@ -1,25 +1,46 @@
-## Smart HomeController
+# Smart Home
+#### The smart-home automation system for control the smart devices of your entire home. <br>It's helping the users to achieve the best and comfortable atmosphere for their home.
 
-### Список технологий:
+![alt text](https://gitlab.com/wemyit.trainee/dudko-maksym/uploads/ebbde8f53b4727911238cc2a992d1e04/0.0-Signin-min.png)
 
+### Technology stack:
 * **BackEnd:** Node.js, Express
 * **FrontEnd:** Materialize, React, Redux
 * **DataBase:** Postgresql, Sequelize
-* **Интеграция с устройствами:** Samsung SmartThings (https://graph.api.smartthings.com/)
+* **Integration with devices:** Samsung SmartThings (https://graph.api.smartthings.com/)
 
-### Требования:
+### Installation
+1. Clone this repository: <br>
+   ```git clone git@gitlab.com:wemyit.trainee/dudko-maksym.git ```
+2. Go to server folder and install deps: <br>
+   ```cd server/ && npm install```
+3. Setup environment variables in root_folder/server/.env: <br>
+```
+PORT=/*port where server run*/
+DB_HOST=/*Database host name, for locale use 127.0.0.1*/ 
+DB_USER=/*username for access to database*/
+DB_PASSWORD=/*password for access to database*/
+DB_NAME=/*database name*/
+DB_NAME_TEST=/*database name for unit-tests*/
+JWT_SECRET=/*secret word for JWT-token authentication*/
+CLIENT_ID=/*client ID for SmartThings*/
+CLIENT_SECRET=/*secret code for SmartThings*/
+```
+3. Run server: <br>
+   ```npm start```
+4. Go back to root folder:
+   ```cd ../```
+5. Go to client folder and install deps: <br>
+   ```cd client/ && npm install && npm start```
+6. Run client: <br>
+   ```npm start```
+7. Now you can test this awesome smart app.
 
-* обеспечить адаптивную вёрстку. На мокапах присутствует только desktop версия. Мобильной версия должна быть похожа на desktop, и перед выполнением её нужно согласовать.
-* Авторизация пользователей
-* В одном доме может жить несколько пользователей, у каждого должны быть уникальные коды для замков
-* Один пользователь может быть добавлен в несколько домов
-* Обработка событий от устройств
-* Добавление/регистрация нового дома
-* Авторизация хаба
-* Синхронизация состояния подключенных устройств
-* Получение событий от устройств
-* Отображение состояния устройств в реальном времени
-* Возможность управлять замками/лампами/термостатами
-* Аудит событий устройств
-* Графики аналитики состояния устройств
-* Основная логика должна быть покрыта тестами
+### How to use:
+Step 0. Open application in your browser. <br>
+Step 1. Register or login in application. <br>
+Step 2. Select your home or create new home, also you can join in the existing home if you can remember home ID and security Key. <br>
+Step 3. Add your smart devices from this application or from Samsung SmartThings App. <br>
+Step 4. Now you can see your devices in devices list, also you can control your devices and view statistic graph for devices exploitation.<br>
+
+![alt text](https://gitlab.com/wemyit.trainee/dudko-maksym/uploads/427d7f43616ed8220d2b76b2b9987c36/1.0-Overview-min.png)
