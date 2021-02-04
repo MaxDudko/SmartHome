@@ -9,5 +9,8 @@ module.exports = {
         "/node_modules/",
         "/dist/"
     ],
-    verbose: true
+    verbose: true,
+    setupFiles: [
+        'dotenv/config'
+    ]
 }

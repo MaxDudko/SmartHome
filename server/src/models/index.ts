@@ -3,13 +3,9 @@ import User from "./User";
 import Home from "./Home";
 import Resident from "./Resident";
 import Lock from "./Lock";
-import * as dotenv from "dotenv";
 
-const ENV_PATH = process.env.NODE_ENV === 'test' ? '/../../.env' : '/../../../.env';
-dotenv.config({path: __dirname+ENV_PATH});
-
-const DB_NAME = process.env.NODE_ENV === 'test' ? <string>process.env.DB_TEST : <string>process.env.DB_NAME;
-const sequelize = new Sequelize(DB_NAME, <string>process.env.DB_USER, <string>process.env.DB_PASSWORD, {
+const DB_NAME = process.env.NODE_ENV === 'test' ? <string>process.env.DB_NAME_TEST : <string>process.env.DB_NAME;
+export const sequelize = new Sequelize(DB_NAME, <string>process.env.DB_USER, <string>process.env.DB_PASSWORD, {
     host: process.env.DB_HOST,
     dialect: "postgres",
     pool: {
