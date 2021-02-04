@@ -71,12 +71,6 @@ const TopNavbar: React.FC<Props> = props =>  {
                 }}
                 trigger={<a href="#">Username{' '}<Icon right>arrow_drop_down</Icon></a>}
             >
-                <a href="#">
-                    Account
-                </a>
-                <a href="#">
-                    Settings
-                </a>
                 <a href="#" onClick={() => selectAnotherHomeAction()}>
                     Switch Home
                 </a>
