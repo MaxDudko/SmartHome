@@ -35,12 +35,12 @@ const Authentication: React.FC<Props> = props =>  {
     const validateData = data => {
         const {email, password, confirmPassword} = data;
 
-        if (!email.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+        if (!email.match(/^([a-zA-Z0-9._-]+@[a-zA-Z]+.[a-zA-Z]{2,4})$/) || !(email.length > 5 && email.length < 64)) {
             throwErrors([...errors, 'Email is not valid']);
             return false;
         }
 
-        if (!password.match(/^(?=.*[A-Za-z0-9])(?=.*\d)[A-Za-z0-9\d]{8,}$/)) {
+        if (!password.match(/^(?=.*[A-Za-z0-9])(?=.*\d)[A-Za-z0-9\d]{8,64}$/)) {
             throwErrors([...errors, 'Password is not valid']);
             return false;
         }
