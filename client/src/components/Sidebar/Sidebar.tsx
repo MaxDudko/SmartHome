@@ -46,7 +46,7 @@ const Sidebar: React.FC<Props> = props =>  {
     ];
 
     return (
-        <div className={styles.Sidebar + " col s12 l2"}>
+        <div className={styles.Sidebar + " col l2"}>
             <div className={styles.head}>
                 <img src={home} alt="HomeController"/>
                 <div>

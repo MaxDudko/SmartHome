@@ -40,7 +40,9 @@ const Dashboard: React.FC<Props> = props =>  {
                 localStorage.getItem('homeId') ?
                     <>
                         <div className="row">
-                            <Sidebar />
+                            <div className="hide-on-med-and-down">
+                                <Sidebar />
+                            </div>
                             {
                                 router[currentPage] || <div>{currentPage}</div>
                             }

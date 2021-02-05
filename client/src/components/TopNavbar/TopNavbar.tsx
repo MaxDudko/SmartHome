@@ -5,6 +5,7 @@ import {Navbar, NavItem, Dropdown, Icon, Divider} from "react-materialize";
 import {logoutUserAction} from "../../actions/userActions";
 import {connect} from "react-redux";
 import {selectAnotherHomeAction} from "../../actions/homeActions";
+import Sidebar from "../Sidebar/Sidebar";
 
 interface Props {
     logoutUserAction: Function;
@@ -80,6 +81,9 @@ const TopNavbar: React.FC<Props> = props =>  {
                     <Icon right>exit_to_app</Icon>
                 </a>
             </Dropdown>
+            <NavItem className="hide-on-med-and-up">
+                <Sidebar/>
+            </NavItem>
         </Navbar>
     );
 }
