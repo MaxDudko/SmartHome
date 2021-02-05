@@ -11,12 +11,19 @@ interface Props {
     loginUserAction: Function;
 }
 
+interface formData {
+    email: string;
+    password: string;
+    confirmPassword?: string;
+    fullName?: string;
+}
+
 const Authentication: React.FC<Props> = props =>  {
     const { registerUserAction, loginUserAction } = props;
 
     const [form, setForm] = useState('login');
-    const [data, setData] = useState({});
-    const [passwordValid, validatePassword] = useState(true);
+    const [data, setData] = useState<any>({});
+    const [errors, throwErrors] = useState<string[]>([]);
 
     const handleChange = event => {
         setData({
@@ -25,15 +32,33 @@ const Authentication: React.FC<Props> = props =>  {
         })
     }
 
-    const handleSubmit = event => {
-        event.preventDefault()
+    const validateData = data => {
+        const {email, password, confirmPassword} = data;
 
-        if (form === 'login') loginUserAction(data);
-        if (form === 'register') {
-            // @ts-ignore
-            if (data.password !== data.confirmPassword) return validatePassword(false);
-            registerUserAction(data)
+        if (!email.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+            throwErrors([...errors, 'Email is not valid']);
+            return false;
         }
+
+        if (!password.match(/^(?=.*[A-Za-z0-9])(?=.*\d)[A-Za-z0-9\d]{8,}$/)) {
+            throwErrors([...errors, 'Password is not valid']);
+            return false;
+        }
+
+        if (form === "register" && password !== confirmPassword) {
+            throwErrors([...errors, 'Passwords are not identical']);
+            return false;
+        }
+
+       return true;
+    }
+
+    const handleSubmit = event => {
+        event.preventDefault();
+        let isValid = validateData(data);
+
+        if (isValid && form === 'login') return loginUserAction(data);
+        if (isValid && form === 'register') return registerUserAction(data);
     }
 
     const LoginForm = (
@@ -59,6 +84,9 @@ const Authentication: React.FC<Props> = props =>  {
                 label="Password"
                 placeholder=""
             />
+            {errors.length > 0 && errors.map((e, i) => (
+                <span style={{color: "red", fontSize: '12px'}} key={i}>{e}</span>
+            ))}
             <Button
                 node="button"
                 type="submit"
@@ -108,9 +136,6 @@ const Authentication: React.FC<Props> = props =>  {
                 label="Password"
                 placeholder=""
             />
-            {
-                !passwordValid && <span className="red">Passwords are not identical</span>
-            }
             <TextInput
                 password
                 id="confirmPassword"
@@ -130,6 +155,9 @@ const Authentication: React.FC<Props> = props =>  {
                 label="Full Name"
                 placeholder=""
             />
+            {errors.length > 0 && errors.map((e, i) => (
+                <span style={{color: "red", fontSize: '12px'}} key={i}>{e}</span>
+            ))}
             <Button
                 node="button"
                 type="submit"

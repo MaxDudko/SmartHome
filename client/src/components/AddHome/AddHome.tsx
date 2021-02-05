@@ -29,7 +29,6 @@ const AddHome: React.FC<Props> = props =>  {
 
         if (currentForm === 'Home List') {
             const {userId, homeId} = data;
-            console.log(data)
             return selectHomeAction(userId.toString(), homeId.toString());
         }
 
