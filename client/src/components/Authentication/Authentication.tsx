@@ -155,7 +155,7 @@ const Authentication: React.FC<Props> = props =>  {
                 label="Full Name"
                 placeholder=""
             />
-            {errors.length > 0 && errors.map((e, i) => (
+            {errors.map((e, i) => (
                 <span style={{color: "red", fontSize: '12px'}} key={i}>{e}</span>
             ))}
             <Button
