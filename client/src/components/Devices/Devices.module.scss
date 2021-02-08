@@ -57,3 +57,42 @@
 .switch label input[type=checkbox]:checked+.lever:after {
   background-color: #1f8efa !important;
 }
+
+@media (max-width: 992px) {
+  .Devices {
+    .wrapper {
+      padding: 0;
+    }
+    table {
+      thead th {
+        text-align: center;
+        font-size: 12px !important;
+      }
+      td {
+        text-align: center;
+        font-size: 14px !important;
+      }
+      tbody .device {
+        font-size: 40px;
+      }
+      tbody .battery {
+        border-radius: 100px;
+        background: #20293C;
+        padding: 10px;
+        font-size: 20px;
+        i {
+          position: relative;
+          top: 4px;
+        }
+      }
+      .controller {
+        height: 100%;
+        span {
+          &:after {
+            background-color: #1f8efa;
+          }
+        }
+      }
+    }
+  }
+}

@@ -7,13 +7,25 @@
     width: 10rem;
     height: 6px;
     position: relative;
-    top: 28px;
+    top: -35px;
+    left: 35px;
   }
 }
 
 @media (min-width: 992px) {
   .logo {
     left: 10px;
+  }
+  .icons {
+    display: flex;
+    justify-content: space-around;
+    width: 100%
+  }
+  .box {
+    margin: 0;
+  }
+  .items {
+    margin-bottom: 10px;
   }
 }
 .sidenav {

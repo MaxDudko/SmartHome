@@ -11,3 +11,30 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.sidenav-overlay {
+  opacity: 0 !important;
+}
+@media (max-width: 992px) {
+  #mobile-nav {
+    background: #242e42;
+    color: #ffffff;
+    top: 57px;
+    width: auto;
+    //display: flex;
+    //flex-wrap: wrap;
+    overflow-y: auto;
+    li {
+      line-height: normal;
+    }
+    .navItems {
+      display: flex;
+      flex-wrap: wrap;
+      position: relative;
+      bottom: 0;
+      a {
+        //min-width: 50%;
+        color: #98a7b9;
+      }
+    }
+  }
+}
