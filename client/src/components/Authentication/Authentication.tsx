@@ -40,6 +40,11 @@ const Authentication: React.FC<Props> = props =>  {
             return false;
         }
 
+        if (password.length < 8) {
+            throwErrors([...errors, 'Password must be at least 8 characters']);
+            return false;
+        }
+
         if (!password.match(/^(?=.*[A-Za-z0-9])(?=.*\d)[A-Za-z0-9\d]{8,64}$/)) {
             throwErrors([...errors, 'Password is not valid']);
             return false;
