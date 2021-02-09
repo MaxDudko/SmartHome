@@ -12,6 +12,7 @@ interface Props {
     openAddDeviceModalAction: Function;
     lockToggleAction: Function;
 }
+
 const Devices: React.FC<Props> = props =>  {
     const {homeId, openAddDeviceModalAction, devices, lockToggleAction} = props;
 
@@ -25,7 +26,7 @@ const Devices: React.FC<Props> = props =>  {
             <h4>Devices</h4>
             <Icon
                 className={styles.add}
-                onClick={() => openAddDeviceModalAction()}
+                onClick={openAddDeviceModalAction}
             >
                 add_circle
             </Icon>

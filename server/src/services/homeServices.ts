@@ -36,7 +36,7 @@ class HomeServices {
         throw Error("User not resident in this Home")
     }
 
-    public async createHome(userId: string, homeName: string, homeAddress: string, role: string, key: string) {
+    public async createHome(userId: string, homeName: string, homeAddress: string, key: string) {
         const user = await User.findOne({where: {id: userId}})
 
         if (user) {
@@ -52,7 +52,7 @@ class HomeServices {
             const resident = await Resident.create({
                 userId: userId,
                 homeId: home.id,
-                role: role || 'admin',
+                role: 'admin',
             })
 
             return {
@@ -63,7 +63,7 @@ class HomeServices {
         throw Error("User not found")
     }
 
-    public async addResident(userId: string, homeId: string, role: string, key: string) {
+    public async addResident(userId: string, homeId: string, key: string) {
         const alreadyResident = await Resident.findOne({where: {userId: userId, homeId: homeId}});
         if (alreadyResident) throw Error('User already resident in this home')
 
@@ -77,7 +77,7 @@ class HomeServices {
                     {
                         userId: userId,
                         homeId: home.id,
-                        role: role || 'user',
+                        role: 'user',
                     }
                 );
                 return {

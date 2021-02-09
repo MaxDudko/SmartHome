@@ -138,7 +138,7 @@ describe('HomeServices behavior:', () => {
                 resident: { homeId: '1', userId: '1', role: 'admin' }
             };
 
-            const homeData = await services.createHome(user.id.toString(), "TEST HOME", "TestTest, 1", "admin", "qwerty123");
+            const homeData = await services.createHome(user.id.toString(), "TEST HOME", "TestTest, 1", "qwerty123");
             expect(homeData).toEqual(result);
         });
 
@@ -147,7 +147,7 @@ describe('HomeServices behavior:', () => {
 
             expect.assertions(1);
             try {
-                await services.createHome('111', "TEST HOME", "TestTest, 1", "admin", "qwerty123");
+                await services.createHome('111', "TEST HOME", "TestTest, 1", "qwerty123");
             } catch (e) {
                 expect(e.message).toMatch(result);
             }
@@ -172,7 +172,7 @@ describe('HomeServices behavior:', () => {
                 resident: { homeId: '1', userId: '1', role: 'user' }
             };
 
-            const homeData = await services.addResident(user.id.toString(), home.id.toString(), 'user', 'test1234');
+            const homeData = await services.addResident(user.id.toString(), home.id.toString(), 'test1234');
             expect(homeData).toEqual(result);
         });
 
@@ -185,7 +185,7 @@ describe('HomeServices behavior:', () => {
 
             expect.assertions(1);
             try {
-                await services.addResident(user.id.toString(), home.id.toString(), 'user', 'test1234');
+                await services.addResident(user.id.toString(), home.id.toString(), 'test1234');
             } catch (e) {
                 expect(e.message).toMatch(result);
             }
@@ -199,7 +199,7 @@ describe('HomeServices behavior:', () => {
 
             expect.assertions(1);
             try {
-                await services.addResident(user.id.toString(), '111', 'admin', 'test1234')
+                await services.addResident(user.id.toString(), '111', 'test1234')
             } catch (e) {
                 expect(e.message).toMatch(result);
             }
@@ -213,7 +213,7 @@ describe('HomeServices behavior:', () => {
 
             expect.assertions(1);
             try {
-                await services.addResident(user.id.toString(), home.id.toString(), 'user', 'wrongKey');
+                await services.addResident(user.id.toString(), home.id.toString(), 'wrongKey');
             } catch (e) {
                 expect(e.message).toMatch(result);
             }

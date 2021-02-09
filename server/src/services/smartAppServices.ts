@@ -1,7 +1,4 @@
 import Lock from "../models/Lock";
-import Resident from "../models/Resident";
-import Home from "../models/Home";
-import {Response} from "express";
 import axios from "axios";
 
 class SmartAppServices {

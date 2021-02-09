@@ -1,10 +1,10 @@
-import { fork } from 'redux-saga/effects';
-import watchUserAuthentication from "./userSaga";
-import watchHomeAuthentication from "./homeSaga";
-import watchDevicesSaga from "./devicesSaga";
+import { fork } from 'redux-saga/effects'
+import watchDevicesSaga from './devicesSaga'
+import watchHomeAuthentication from './homeSaga'
+import watchUserAuthentication from './userSaga'
 
 export default function* rootSaga() {
-    yield fork(watchUserAuthentication);
-    yield fork(watchHomeAuthentication);
-    yield fork(watchDevicesSaga);
+  yield fork(watchUserAuthentication)
+  yield fork(watchHomeAuthentication)
+  yield fork(watchDevicesSaga)
 }

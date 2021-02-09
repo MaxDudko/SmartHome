@@ -83,3 +83,24 @@
     }
   }
 }
+
+@media (max-width: 992px) {
+  .AddDevice {
+    .modal {
+      width: 90%;
+      .main {
+        padding: 30px;
+        .box {
+          padding: 10px;
+          p {
+            margin: 0;
+            text-align: center;
+          }
+        }
+      }
+      .footer {
+        padding: 30px 20px;
+      }
+    }
+  }
+}

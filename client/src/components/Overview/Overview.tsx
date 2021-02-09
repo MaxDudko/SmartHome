@@ -2,10 +2,9 @@ import React from 'react';
 import styles from './Overview.module.scss';
 import {Row, Col} from "react-materialize";
 
-interface Props {
+interface Props {}
 
-}
-const Overview: React.FC = props =>  {
+const Overview: React.FC<Props> = props =>  {
 
     return (
         <div className={styles.Overview + " col s12 l10"}>

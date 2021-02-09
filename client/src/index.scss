@@ -14,27 +14,34 @@ code {
 .sidenav-overlay {
   opacity: 0 !important;
 }
+.navItems {
+  display: flex;
+}
 @media (max-width: 992px) {
   #mobile-nav {
     background: #242e42;
     color: #ffffff;
     top: 57px;
     width: auto;
-    //display: flex;
-    //flex-wrap: wrap;
+    height: calc(100vh - 56px);
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     li {
       line-height: normal;
     }
+    #Dropdown_6 {
+      margin-top: 15px;
+    }
     .navItems {
       display: flex;
+      justify-content: space-around;
       flex-wrap: wrap;
-      position: relative;
-      bottom: 0;
-      a {
-        //min-width: 50%;
-        color: #98a7b9;
-      }
+      margin-top: 50px;
+    }
+    a {
+      color: #98a7b9;
     }
   }
 }
