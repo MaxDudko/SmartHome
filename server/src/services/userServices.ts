@@ -3,7 +3,7 @@ import passport from "passport";
 
 class UserServices {
     private static validateEmail(email: string) {
-        return email.match(/^([a-zA-Z0-9._-]+@[a-zA-Z]+.[a-zA-Z]{2,4})$/) || !(email.length > 5 && email.length < 64);
+        return email.match(/^([a-zA-Z0-9._-]+@[a-zA-Z]+.[a-zA-Z]{2,4})$/) && email.length > 5 && email.length < 64;
     }
 
     private static validatePassword(password: string) {
@@ -22,8 +22,8 @@ class UserServices {
     }
 
     public authenticateUser(email: string, password: string) {
-        if (UserServices.validateEmail(email) && UserServices.validatePassword(password)) {
-            return passport.authenticate('local', { session: false }, (err, passportUser) => {
+        if (email && password) {
+            return passport.authenticate('local', (err, passportUser) => {
                 if (err) throw Error(err);
 
                 if (passportUser) {
@@ -39,12 +39,10 @@ class UserServices {
     }
 
     public async checkToken(email: string) {
-        return User.findOne({where: {email}})
-            .then((user) => {
-                if(!user) throw Error('user not found');
+        const user = await User.findOne({where: {email}})
+        if (!user) throw Error('user not found');
 
-                return user.toAuthJSON();
-            });
+        return user.toAuthJSON();
     }
 }
 
