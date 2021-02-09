@@ -4,6 +4,7 @@ import {Table, Icon, Switch} from "react-materialize";
 import {openAddDeviceModalAction, switchPageAction} from "../../actions/appActions";
 import {connect} from "react-redux";
 import {lockToggleAction} from "../../actions/devicesActions";
+import {DateTime} from "luxon";
 
 interface Props {
     homeId: string;
@@ -15,8 +16,8 @@ const Devices: React.FC<Props> = props =>  {
     const {homeId, openAddDeviceModalAction, devices, lockToggleAction} = props;
 
     const formatDate = (date: string) => {
-        const newDate = new Date(date);
-        return ((newDate.getMonth() > 8) ? (newDate.getMonth() + 1) : ('0' + (newDate.getMonth() + 1))) + '/' + ((newDate.getDate() > 9) ? newDate.getDate() : ('0' + newDate.getDate())) + '/' + newDate.getFullYear()
+        const newDate = DateTime.fromISO(date);
+        return newDate.setLocale('en-gb').toLocaleString();
     };
 
     return (
