@@ -8,7 +8,7 @@ export const getDevicesService = (request) => {
 }
 
 export const lockToggleService = async (request) => {
-  const API_ENDPOINT = `${process.env.REACT_APP_API_URL}/smart-api/get-devices`
+  const API_ENDPOINT = `${process.env.REACT_APP_API_URL}/smart-api/lock-toggle`
   const data = request.payload
 
   await axios.post(API_ENDPOINT, data)
