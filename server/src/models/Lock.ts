@@ -5,9 +5,9 @@ const sequelize = new Sequelize(
   `postgres://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:5432/${DB_NAME}`
 )
 
-interface LockAttributes {
-  home_id: string
-  device_id: string
+export interface LockAttributes {
+  homeId: string
+  deviceId: string
   type: string
   label: string
   value: string
@@ -17,8 +17,8 @@ interface LockAttributes {
 }
 
 class Lock extends Model<LockAttributes> implements LockAttributes {
-  public home_id!: string
-  public device_id!: string
+  public homeId!: string
+  public deviceId!: string
   public type!: string
   public label!: string
   public value!: string
@@ -28,12 +28,12 @@ class Lock extends Model<LockAttributes> implements LockAttributes {
 
   public getAttributesAndCreate() {
     return {
-      home_id: this.home_id,
-      device_id: this.device_id,
+      homeId: this.homeId,
+      deviceId: this.deviceId,
       type: this.type,
       label: this.label,
       value: this.value,
-      location: this.location ? this.location : '',
+      location: this.location,
       battery: this.battery,
       updatedAt: this.updatedAt,
     }
@@ -41,8 +41,8 @@ class Lock extends Model<LockAttributes> implements LockAttributes {
 
   public getAttributes() {
     return {
-      home_id: this.home_id,
-      device_id: this.device_id,
+      homeId: this.homeId,
+      device_id: this.deviceId,
       type: this.type,
       label: this.label,
       value: this.value === 'locked',
@@ -55,8 +55,8 @@ class Lock extends Model<LockAttributes> implements LockAttributes {
 
 Lock.init(
   {
-    home_id: DataTypes.STRING,
-    device_id: DataTypes.STRING,
+    homeId: DataTypes.STRING,
+    deviceId: DataTypes.STRING,
     type: DataTypes.STRING,
     label: DataTypes.STRING,
     value: DataTypes.STRING,

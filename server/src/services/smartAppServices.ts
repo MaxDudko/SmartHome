@@ -4,9 +4,7 @@ import Lock from '../models/Lock'
 class SmartAppServices {
   public async getDevices(homeId: string) {
     if (homeId) {
-      const locks = await Lock.findAll({ where: { home_id: homeId } }).then((list) =>
-        list.map((lock) => lock.getAttributes())
-      )
+      const locks = await Lock.findAll({ where: { homeId } })
 
       return {
         locks,
@@ -15,10 +13,10 @@ class SmartAppServices {
   }
 
   public async updateState(state: any) {
-    const { type, value, device_id } = state[0]
+    const { type, value, deviceId } = state[0]
 
     if (type === 'lock') {
-      const lock = await Lock.update({ value }, { where: { device_id }, returning: true })
+      const lock = await Lock.update({ value }, { where: { deviceId }, returning: true })
 
       return lock[1][0].getAttributes()
     }

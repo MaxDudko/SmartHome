@@ -21,8 +21,10 @@ class SmartAppController {
     if (state) {
       try {
         const resp = await services.updateState(state)
-        const devices = resp && (await services.getDevices(resp.home_id))
-        resp && devices && sse.send(devices)
+        const devices = resp && (await services.getDevices(resp.homeId))
+        if (resp && devices) {
+          sse.send(devices)
+        }
         res.status(200).send(resp)
       } catch (e) {
         return res.status(400).json({ error: e.message })

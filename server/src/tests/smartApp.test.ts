@@ -14,15 +14,15 @@ const dropAll = async () => {
 }
 
 const createLock = async (
-  home_id: string,
-  device_id: string,
+  homeId: string,
+  deviceId: string,
   type: string,
   label: string,
   location: string,
   value: string,
   battery: number
 ) => {
-  const lock = new Lock({ home_id, device_id, type, label, location, value, battery })
+  const lock = new Lock({ homeId, deviceId, type, label, location, value, battery })
   return Lock.create(lock.getAttributesAndCreate())
 }
 const createHome = async (name: string, address: string, key: string) => {
