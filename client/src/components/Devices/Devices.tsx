@@ -47,7 +47,7 @@ const Devices: React.FC<Props> = (props) => {
                   <td>
                     <Icon className={styles.device}>{device.type}</Icon>
                   </td>
-                  <td>{device.type.charAt(0).toUpperCase() + device.type.slice(1)}</td>
+                  <td>{device.type}</td>
                   <td>{device.location}</td>
                   <td>
                     <div className="switch">

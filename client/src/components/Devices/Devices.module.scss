@@ -28,6 +28,9 @@
     tbody {
       color: #44556b;
       font-weight: 400;
+      td {
+        text-transform: capitalize;
+      }
       .device {
         font-size: 70px;
       }
