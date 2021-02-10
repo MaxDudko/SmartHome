@@ -1,17 +1,7 @@
 import { Request } from 'express'
 import jwt from 'express-jwt'
 
-const getToken = (req: Request): string | null => {
-  const {
-    body: { token },
-  } = req
-
-  if (token) {
-    return token
-  }
-
-  return null
-}
+const getToken = (req: Request): string | undefined => req.body.token
 
 const auth = {
   required: jwt({
