@@ -10,7 +10,7 @@ const strategy = new LocalStrategy({
             if(!user || !user.validatePassword(password)) {
                 return done(null, false, {
                     errors: {
-                        'login or password': 'is valide'
+                        'login or password': 'not valid'
                     }
                 });
             }

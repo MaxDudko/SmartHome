@@ -23,7 +23,7 @@ const Authentication: React.FC<Props> = (props) => {
 
   const [form, setForm] = useState('login')
   const [data, setData] = useState<any>({})
-  const [errors, throwErrors] = useState<string[]>([])
+  const [errors, throwErrors] = useState<string>("")
 
   const handleChange = (event) => {
     setData({
@@ -39,22 +39,22 @@ const Authentication: React.FC<Props> = (props) => {
       !email.match(/^([a-zA-Z0-9._-]+@[a-zA-Z]+.[a-zA-Z]{2,4})$/) ||
       !(email.length > 5 && email.length < 64)
     ) {
-      throwErrors([...errors, 'Email is not valid'])
+      throwErrors('Email is not valid')
       return false
     }
 
     if (password.length < 8) {
-      throwErrors([...errors, 'Password must be at least 8 characters'])
+      throwErrors('Password must be at least 8 characters')
       return false
     }
 
     if (!password.match(/^(?=.*[A-Za-z0-9])(?=.*\d)[A-Za-z0-9\d]{8,64}$/)) {
-      throwErrors([...errors, 'Password is not valid'])
+      throwErrors('Password is not valid')
       return false
     }
 
     if (form === 'register' && password !== confirmPassword) {
-      throwErrors([...errors, 'Passwords are not identical'])
+      throwErrors('Passwords are not identical')
       return false
     }
 
@@ -63,13 +63,16 @@ const Authentication: React.FC<Props> = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    const isValid = validateData(data)
 
-    if (isValid && form === 'login') {
+    if (form === 'login') {
       return loginUserAction(data)
     }
-    if (isValid && form === 'register') {
-      return registerUserAction(data)
+
+    if (form === 'register') {
+      const isValid = validateData(data)
+      if (isValid) {
+        return registerUserAction(data)
+      }
     }
   }
 
@@ -96,12 +99,6 @@ const Authentication: React.FC<Props> = (props) => {
         label="Password"
         placeholder=""
       />
-      {errors.length > 0 &&
-        errors.map((e, i) => (
-          <span style={{ color: 'red', fontSize: '12px' }} key={i}>
-            {e}
-          </span>
-        ))}
       <Button
         node="button"
         type="submit"
@@ -164,15 +161,11 @@ const Authentication: React.FC<Props> = (props) => {
         label="Full Name"
         placeholder=""
       />
-      {errors.map((e, i) => (
-        <span style={{ color: 'red', fontSize: '12px' }} key={i}>
-          {e}
-        </span>
-      ))}
+      <span style={{ color: 'red', fontSize: '12px' }}>{errors}</span>
       <Button
         node="button"
         type="submit"
-        className="waves-effect btn col s12"
+        className={'waves-effect btn col s12'}
         style={{ backgroundColor: '#1f8efa', marginLeft: '20px' }}
       >
         SIGN UP

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { switchPageAction } from '../../actions/appActions'
-import { tokenValidationAction } from '../../actions/userActions'
 import home from '../../images/home.png'
 import styles from './Sidebar.module.scss'
 

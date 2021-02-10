@@ -17,7 +17,11 @@ class UserController {
             }
 
         } else {
-            return res.status(400).send("All fields are Required")
+            res.status(422).json({
+                errors: {
+                    message: 'All fields are Required',
+                },
+            });
         }
     }
 
@@ -39,12 +43,16 @@ class UserController {
 
                 return res.status(400).json({
                     errors: {
-                        password: 'is Required',
+                        message: 'Wrong login or password',
                     },
                 });
             })(req, res, next);
         } else {
-            res.status(422).send("All fields are Required")
+            res.status(422).json({
+                errors: {
+                    message: 'All fields are Required',
+                },
+            });
         }
     }
 

@@ -8,12 +8,13 @@ import Sidebar from '../Sidebar/Sidebar'
 import styles from './TopNavbar.module.scss'
 
 interface Props {
+  fullName: string
   logoutUserAction: Function
   selectAnotherHomeAction: Function
 }
 
 const TopNavbar: React.FC<Props> = (props) => {
-  const { logoutUserAction, selectAnotherHomeAction } = props
+  const { logoutUserAction, selectAnotherHomeAction, fullName } = props
   return (
     <Navbar
       className={styles.TopNavbar}
@@ -86,7 +87,7 @@ const TopNavbar: React.FC<Props> = (props) => {
                 width: '100%',
               }}
             >
-              <span>Username</span>
+              <span>{fullName}</span>
               <Icon right={true}>arrow_drop_down</Icon>
             </a>
           }
@@ -105,9 +106,13 @@ const TopNavbar: React.FC<Props> = (props) => {
   )
 }
 
+const mapStateToProps = (state) => ({
+  fullName: state.user.fullName,
+})
+
 const mapDispatchToProps = (dispatch) => ({
   logoutUserAction: () => dispatch(logoutUserAction()),
   selectAnotherHomeAction: () => dispatch(selectAnotherHomeAction()),
 })
 
-export default connect(null, mapDispatchToProps)(TopNavbar)
+export default connect(mapStateToProps, mapDispatchToProps)(TopNavbar)

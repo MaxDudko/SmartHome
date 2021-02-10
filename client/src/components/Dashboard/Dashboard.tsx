@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Container } from 'react-materialize'
 import { connect } from 'react-redux'
-import { getDevicesAction } from '../../actions/devicesActions'
-import {
-  createHomeAction,
-  getHomeListAction,
-  joinHomeAction,
-  selectHomeAction,
-} from '../../actions/homeActions'
+import { selectHomeAction } from '../../actions/homeActions'
 import AddDevice from '../AddDevice/AddDevice'
 import AddHome from '../AddHome/AddHome'
 import Devices from '../Devices/Devices'
@@ -25,12 +19,7 @@ interface Props {
   selectHomeAction: Function
 }
 const Dashboard: React.FC<Props> = (props) => {
-  const {
-    currentPage,
-    addDeviceModalOpen,
-    userId,
-    selectHomeAction,
-  } = props
+  const { currentPage, addDeviceModalOpen, userId, selectHomeAction } = props
 
   useEffect(() => {
     const home_id = localStorage.getItem('homeId')
@@ -51,7 +40,9 @@ const Dashboard: React.FC<Props> = (props) => {
             <div className="hide-on-med-and-down">
               <Sidebar />
             </div>
-            {router[currentPage] || <div>{currentPage}</div>}
+            {router[currentPage] || (
+              <h4 style={{ textAlign: 'left' }}>{currentPage.toUpperCase()}</h4>
+            )}
           </div>
           <DevicesSidebar />
           {addDeviceModalOpen && <AddDevice />}
