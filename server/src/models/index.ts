@@ -1,28 +1,36 @@
-import { Sequelize } from "sequelize";
-import User from "./User";
-import Home from "./Home";
-import Resident from "./Resident";
-import Lock from "./Lock";
+import { Sequelize } from 'sequelize'
+import Home from './Home'
+import Lock from './Lock'
+import Resident from './Resident'
+import User from './User'
 
-const DB_NAME = process.env.NODE_ENV === 'test' ? <string>process.env.DB_NAME_TEST : <string>process.env.DB_NAME;
-export const sequelize = new Sequelize(DB_NAME, <string>process.env.DB_USER, <string>process.env.DB_PASSWORD, {
+const DB_NAME =
+  process.env.NODE_ENV === 'test'
+    ? (process.env.DB_NAME_TEST as string)
+    : (process.env.DB_NAME as string)
+export const sequelize = new Sequelize(
+  DB_NAME,
+  process.env.DB_USER as string,
+  process.env.DB_PASSWORD as string,
+  {
     host: process.env.DB_HOST,
-    dialect: "postgres",
+    dialect: 'postgres',
     pool: {
-        max: 5,
-        min: 0,
-        acquire: 30000,
-        idle: 10000
-    }
-});
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000,
+    },
+  }
+)
 
 const DB = {
-    Sequelize: Sequelize,
-    sequelize: sequelize,
-    user: User.sync(),
-    home: Home.sync(),
-    resident: Resident.sync(),
-    lock: Lock.sync()
-};
+  Sequelize,
+  sequelize,
+  user: User.sync(),
+  home: Home.sync(),
+  resident: Resident.sync(),
+  lock: Lock.sync(),
+}
 
-export default DB;
+export default DB

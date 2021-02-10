@@ -17,7 +17,7 @@ function* tokenValidationSaga(payload) {
 function* loginSaga(payload) {
   try {
     const response = yield call(loginUserService, payload)
-    yield [put({ type: 'SAVE_USER_DATA', response })]
+    yield put({ type: 'SAVE_USER_DATA', response })
   } catch (error) {
     yield put({ type: 'LOGIN_USER_ERROR', error })
   }
@@ -26,7 +26,7 @@ function* loginSaga(payload) {
 function* registerSaga(payload) {
   try {
     const response = yield call(registerUserService, payload)
-    yield [put({ type: 'SAVE_USER_DATA', response })]
+    yield put({ type: 'SAVE_USER_DATA', response })
   } catch (error) {
     yield put({ type: 'REGISTER_USER_ERROR', error })
   }

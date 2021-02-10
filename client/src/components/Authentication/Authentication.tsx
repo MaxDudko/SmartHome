@@ -23,7 +23,7 @@ const Authentication: React.FC<Props> = (props) => {
 
   const [form, setForm] = useState('login')
   const [data, setData] = useState<any>({})
-  const [errors, throwErrors] = useState<string>("")
+  const [errors, throwErrors] = useState<string>('')
 
   const handleChange = (event) => {
     setData({

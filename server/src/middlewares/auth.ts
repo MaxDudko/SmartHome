@@ -1,28 +1,32 @@
-import jwt from "express-jwt";
-import { Request } from "express";
+import { Request } from 'express'
+import jwt from 'express-jwt'
 
 const getToken = (req: Request): string | null => {
-    const { body: {token} } = req;
+  const {
+    body: { token },
+  } = req
 
-    if (token) return token;
+  if (token) {
+    return token
+  }
 
-    return null;
-};
+  return null
+}
 
 const auth = {
-    required: jwt({
-        algorithms: ['HS256'],
-        secret: <string>process.env.JWT_SECRET,
-        userProperty: 'payload',
-        getToken: getToken
-    }),
-    optional: jwt({
-        algorithms: ['HS256'],
-        secret: <string>process.env.JWT_SECRET,
-        userProperty: 'payload',
-        getToken: getToken,
-        credentialsRequired: false
-    }),
-};
+  required: jwt({
+    algorithms: ['HS256'],
+    secret: process.env.JWT_SECRET as string,
+    userProperty: 'payload',
+    getToken,
+  }),
+  optional: jwt({
+    algorithms: ['HS256'],
+    secret: process.env.JWT_SECRET as string,
+    userProperty: 'payload',
+    getToken,
+    credentialsRequired: false,
+  }),
+}
 
-export default auth;
+export default auth
