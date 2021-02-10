@@ -46,9 +46,19 @@ function* joinHomeSaga(payload) {
   }
 }
 
+function* selectAnotherHomeSaga(payload) {
+  try {
+    localStorage.removeItem('homeId')
+    window.location.reload()
+  } catch (error) {
+    yield put({ type: 'SELECT_ANOTHER_HOME_ERROR', error })
+  }
+}
+
 export default function* watchHomeAuthentication() {
   yield takeLatest('GET_HOME_LIST', getHomeListSaga)
   yield takeLatest('SELECT_HOME', selectHomeSaga)
   yield takeLatest('CREATE_HOME', createHomeSaga)
   yield takeLatest('JOIN_HOME', joinHomeSaga)
+  yield takeLatest('SELECT_ANOTHER_HOME', selectAnotherHomeSaga)
 }

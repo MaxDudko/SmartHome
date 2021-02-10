@@ -14,8 +14,6 @@ const user = (state = initialState, action: AnyAction) => {
         ...state,
         ...action.payload,
       }
-    case 'LOGOUT_USER':
-      return {}
     case 'SAVE_HOME_LIST':
       return {
         ...state,

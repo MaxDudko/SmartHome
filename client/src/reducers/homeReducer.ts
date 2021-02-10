@@ -16,12 +16,7 @@ const home = (state = initialState, action: AnyAction) => {
         ...action.payload.home,
         role: action.payload.resident.role,
       }
-    case 'SELECT_ANOTHER_HOME':
-      localStorage.removeItem('homeId')
-      window.location.reload()
-      return {}
     case 'RESPONSE_ERROR':
-      console.log(action.error)
       return state
     default:
       return state
