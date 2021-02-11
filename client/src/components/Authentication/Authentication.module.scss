@@ -69,21 +69,19 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        margin-top: 20px;
+        span {
+          color: #5b677a;
+          margin: 20px 5px;
+        }
         .link {
           cursor: pointer;
-          &:first-child {
-            margin-top: 2rem;
-            color: #8d96a5;
-          }
-          &:last-child {
-            color: #5b677a;
-            margin-top: 4rem;
-          }
-          span {
-            color: #236cb7;
-            font-weight: bold;
-            margin-left: 5px;
-          }
+          color: #236cb7;
+          font-weight: bold;
+        }
+        .linkRestore {
+          color: #8d96a5;
+          margin-top: 20px;
         }
       }
       .input-field {

@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { Container } from 'react-materialize'
 import { connect } from 'react-redux'
+import { Route, Switch } from 'react-router'
 import { selectHomeAction } from '../../actions/homeActions'
 import AddDevice from '../AddDevice/AddDevice'
 import AddHome from '../AddHome/AddHome'
+import Analytics from '../Analytics/Analytics'
 import Devices from '../Devices/Devices'
 import DevicesSidebar from '../DevicesSidebar/DevicesSidebar'
+import Gallery from '../Gallery/Gallery'
+import History from '../History/History'
 import Overview from '../Overview/Overview'
+import Rules from '../Rules/Rules'
+import Settings from '../Settings/Settings'
 import Sidebar from '../Sidebar/Sidebar'
 import Navbar from '../TopNavbar/TopNavbar'
 import styles from './Dashboard.module.scss'
@@ -22,15 +28,12 @@ const Dashboard: React.FC<Props> = (props) => {
   const { currentPage, addDeviceModalOpen, userId, selectHomeAction } = props
 
   useEffect(() => {
-    const home_id = localStorage.getItem('homeId')
-    if (userId && home_id) {
-      selectHomeAction(userId.toString(), home_id)
+    const homeId = localStorage.getItem('homeId')
+    if (userId && homeId) {
+      selectHomeAction(userId.toString(), homeId)
     }
   }, [userId])
-  const router = {
-    devices: <Devices />,
-    overview: <Overview />,
-  }
+
   return (
     <div className={styles.Dashboard}>
       <Navbar />
@@ -40,9 +43,15 @@ const Dashboard: React.FC<Props> = (props) => {
             <div className="hide-on-med-and-down">
               <Sidebar />
             </div>
-            {router[currentPage] || (
-              <h4 style={{ textAlign: 'left' }}>{currentPage.toUpperCase()}</h4>
-            )}
+            <Switch>
+              <Route path="/overview" component={Overview} />
+              <Route path="/devices" component={Devices} />
+              <Route path="/analytics" component={Analytics} />
+              <Route path="/rules" component={Rules} />
+              <Route path="/gallery" component={Gallery} />
+              <Route path="/history" component={History} />
+              <Route path="/settings" component={Settings} />
+            </Switch>
           </div>
           <DevicesSidebar />
           {addDeviceModalOpen && <AddDevice />}

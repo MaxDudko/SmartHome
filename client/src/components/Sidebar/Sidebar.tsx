@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { switchPageAction } from '../../actions/appActions'
+import { Link } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import home from '../../images/home.png'
 import styles from './Sidebar.module.scss'
 
@@ -8,41 +9,10 @@ interface Props {
   currentPage: string
   homeName: string
   homeAddress: string
-  switchPageAction: Function
 }
 const Sidebar: React.FC<Props> = (props) => {
-  const { currentPage, switchPageAction, homeName, homeAddress } = props
-  const [activeItem, setActiveItem] = useState(currentPage || 'Overview')
-  const items = [
-    {
-      icon: 'home',
-      title: 'overview',
-    },
-    {
-      icon: 'devices',
-      title: 'devices',
-    },
-    {
-      icon: 'show_chart',
-      title: 'analytics',
-    },
-    {
-      icon: 'list',
-      title: 'rules',
-    },
-    {
-      icon: 'image',
-      title: 'gallery',
-    },
-    {
-      icon: 'history',
-      title: 'history',
-    },
-    {
-      icon: 'settings',
-      title: 'settings',
-    },
-  ]
+  const { homeName, homeAddress } = props
+  const location = useLocation()
 
   return (
     <div className={styles.Sidebar + ' col l2'}>
@@ -54,19 +24,48 @@ const Sidebar: React.FC<Props> = (props) => {
         </div>
       </div>
       <ul className={styles.menu}>
-        {items.map((item, i) => (
-          <li
-            className={styles.item + ` ${item.title === activeItem && styles.active}`}
-            key={i}
-            onClick={() => {
-              switchPageAction(item.title.toLowerCase())
-              setActiveItem(item.title)
-            }}
-          >
-            <i className="material-icons">{item.icon}</i>
-            <span className={styles.title}>{item.title}</span>
-          </li>
-        ))}
+        <li className={styles.item + ` ${location.pathname === '/overview' && styles.active}`}>
+          <Link to="/overview">
+            <i className="material-icons">home</i>
+            <span className={styles.title}>overview</span>
+          </Link>
+        </li>
+        <li className={styles.item + ` ${location.pathname === '/devices' && styles.active}`}>
+          <Link to="/devices">
+            <i className="material-icons">devices</i>
+            <span className={styles.title}>devices</span>
+          </Link>
+        </li>
+        <li className={styles.item + ` ${location.pathname === '/analytics' && styles.active}`}>
+          <Link to="/analytics">
+            <i className="material-icons">show_chart</i>
+            <span className={styles.title}>analytics</span>
+          </Link>
+        </li>
+        <li className={styles.item + ` ${location.pathname === '/rules' && styles.active}`}>
+          <Link to="/rules">
+            <i className="material-icons">list</i>
+            <span className={styles.title}>rules</span>
+          </Link>
+        </li>
+        <li className={styles.item + ` ${location.pathname === '/gallery' && styles.active}`}>
+          <Link to="/gallery">
+            <i className="material-icons">image</i>
+            <span className={styles.title}>gallery</span>
+          </Link>
+        </li>
+        <li className={styles.item + ` ${location.pathname === '/history' && styles.active}`}>
+          <Link to="/history">
+            <i className="material-icons">history</i>
+            <span className={styles.title}>history</span>
+          </Link>
+        </li>
+        <li className={styles.item + ` ${location.pathname === '/settings' && styles.active}`}>
+          <Link to="/settings">
+            <i className="material-icons">settings</i>
+            <span className={styles.title}>settings</span>
+          </Link>
+        </li>
       </ul>
     </div>
   )
@@ -78,7 +77,6 @@ const mapStateToProps = (state) => ({
   homeAddress: state.home.address,
 })
 const mapDispatchToProps = (dispatch) => ({
-  switchPageAction: (page) => dispatch(switchPageAction(page)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar)

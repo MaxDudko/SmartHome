@@ -12,8 +12,14 @@
   .item {
     display: flex;
     align-items: center;
-    padding: 14px 20px;
     cursor: pointer;
+    a {
+      display: flex;
+      padding: 14px 20px;
+      width: 100%;
+      height: 100%;
+      text-align: left;
+    }
     .title {
       margin-left: 10px;
       text-transform: capitalize;
@@ -25,6 +31,9 @@
     color: #1f8efa;
     border-left: 8px solid #1f8efa;
     padding-left: 12px;
+    a {
+      padding: 14px 0;
+    }
   }
 }
 
