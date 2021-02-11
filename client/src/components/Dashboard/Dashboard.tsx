@@ -35,6 +35,7 @@ const Dashboard: React.FC<Props> = (props) => {
     const homeId = localStorage.getItem('homeId')
     if (userId && homeId) {
       selectHomeAction(userId.toString(), homeId)
+      history.push('/dashboard/overview')
     }
   }, [userId])
 

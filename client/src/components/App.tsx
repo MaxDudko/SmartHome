@@ -42,7 +42,7 @@ const App: React.FC<Props> = (props) => {
 
   useEffect(() => {
     if (userId) {
-      history.push('/dashboard/overview')
+      history.push('/dashboard')
     } else {
       history.push('/auth/login')
     }
