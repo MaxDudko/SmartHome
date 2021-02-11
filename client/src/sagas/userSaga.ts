@@ -36,7 +36,6 @@ function* logoutSaga(payload) {
   try {
     localStorage.removeItem('token')
     localStorage.removeItem('homeId')
-    window.location.reload()
   } catch (error) {
     yield put({ type: 'LOGOUT_USER_ERROR', error })
   }

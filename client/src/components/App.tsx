@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
+import { Redirect, Route, Switch, useHistory } from 'react-router'
 import { saveDevicesAction } from '../actions/devicesActions'
 import { tokenValidationAction } from '../actions/userActions'
 import styles from './App.module.scss'
@@ -8,12 +9,14 @@ import Dashboard from './Dashboard/Dashboard'
 
 interface Props {
   homeId: string
+  userId: string
   tokenValidationAction: Function
   saveDevicesAction: Function
 }
 
 const App: React.FC<Props> = (props) => {
-  const { tokenValidationAction, homeId, saveDevicesAction } = props
+  const { tokenValidationAction, homeId, userId, saveDevicesAction } = props
+  const history = useHistory()
 
   useEffect(() => {
     if (!homeId) {
@@ -37,20 +40,25 @@ const App: React.FC<Props> = (props) => {
     tokenValidationAction(token)
   }, [])
 
+  useEffect(() => {
+    if (userId) {
+      history.push('/dashboard/overview')
+    } else {
+      history.push('/auth/login')
+    }
+  }, [userId])
+
   return (
     <div className={styles.App}>
-      {window.localStorage.getItem('token') ? (
-        // @ts-ignore
-        <Dashboard />
-      ) : (
-        <Authentication />
-      )}
+      <Route path="/auth" component={Authentication} />
+      <Route path="/dashboard" component={Dashboard} />
     </div>
   )
 }
 
 const mapStateToProps = (state) => ({
   homeId: state.home.id,
+  userId: state.user.id,
 })
 
 const mapDispatchToProps = (dispatch) => ({

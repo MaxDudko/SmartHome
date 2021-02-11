@@ -2,7 +2,6 @@ import React from 'react'
 import { Button, TextInput } from 'react-materialize'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import logo from '../../images/logo.png'
 import styles from './Authentication.module.scss'
 
 interface Props {
@@ -71,7 +70,7 @@ const Gallery: React.FC<Props> = (props) => {
         </span>
         <span>
           Already have an account?
-          <Link to="/login">
+          <Link to="/auth/login">
             <span className={styles.link}>Login</span>
           </Link>
         </span>

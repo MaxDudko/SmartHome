@@ -49,7 +49,7 @@ function* joinHomeSaga(payload) {
 function* selectAnotherHomeSaga(payload) {
   try {
     localStorage.removeItem('homeId')
-    window.location.reload()
+    yield put({ type: 'REMOVE_HOME_DATA' })
   } catch (error) {
     yield put({ type: 'SELECT_ANOTHER_HOME_ERROR', error })
   }

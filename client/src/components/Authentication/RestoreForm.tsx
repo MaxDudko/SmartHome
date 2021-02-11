@@ -1,8 +1,6 @@
 import React from 'react'
 import { Button, TextInput } from 'react-materialize'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-import logo from '../../images/logo.png'
 import styles from './Authentication.module.scss'
 
 interface Props {

@@ -16,6 +16,8 @@ const home = (state = initialState, action: AnyAction) => {
         ...action.payload.home,
         role: action.payload.resident.role,
       }
+    case 'REMOVE_HOME_DATA':
+      return initialState
     case 'RESPONSE_ERROR':
       return state
     default:

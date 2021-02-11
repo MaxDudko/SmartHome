@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
+import { Switch } from 'react-router'
 import { BrowserRouter } from 'react-router-dom'
 import App from './components/App'
 import './index.scss'
@@ -11,7 +12,9 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <App />
+        <Switch>
+          <App />
+        </Switch>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,

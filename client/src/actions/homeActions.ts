@@ -22,6 +22,11 @@ export const selectAnotherHomeAction = () => {
     type: 'SELECT_ANOTHER_HOME',
   }
 }
+export const removeHomeData = () => {
+  return {
+    type: 'REMOVE_HOME_DATA',
+  }
+}
 
 export const createHomeAction = (userId, homeName, homeAddress, key) => {
   return {

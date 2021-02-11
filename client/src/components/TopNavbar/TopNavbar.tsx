@@ -1,6 +1,8 @@
 import React from 'react'
 import { Divider, Dropdown, Icon, Navbar, NavItem } from 'react-materialize'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router'
+import { useHistory } from 'react-router-dom'
 import { selectAnotherHomeAction } from '../../actions/homeActions'
 import { logoutUserAction } from '../../actions/userActions'
 import smartHomeLogo from '../../images/smartHomeLogo.png'
@@ -15,6 +17,16 @@ interface Props {
 
 const TopNavbar: React.FC<Props> = (props) => {
   const { logoutUserAction, selectAnotherHomeAction, fullName } = props
+  const history = useHistory()
+
+  const switchHome = () => {
+    selectAnotherHomeAction()
+    return history.push('dashboard/home/select-home')
+  }
+  const logout = () => {
+    logoutUserAction()
+    return history.push('/auth/login')
+  }
   return (
     <Navbar
       className={styles.TopNavbar}
@@ -92,11 +104,11 @@ const TopNavbar: React.FC<Props> = (props) => {
             </a>
           }
         >
-          <a href="#" onClick={() => selectAnotherHomeAction()}>
+          <a href="#" onClick={switchHome}>
             Switch Home
           </a>
           <Divider />
-          <a href="#" onClick={() => logoutUserAction()}>
+          <a href="#" onClick={logout}>
             Logout
             <Icon right={true}>exit_to_app</Icon>
           </a>

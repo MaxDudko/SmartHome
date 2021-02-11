@@ -2,7 +2,6 @@ import React from 'react'
 import { Button, TextInput } from 'react-materialize'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import logo from '../../images/logo.png'
 import styles from './Authentication.module.scss'
 
 interface Props {
@@ -19,7 +18,7 @@ const LoginForm: React.FC<Props> = (props) => {
       <TextInput
         email={true}
         id="email"
-        onChange={handleChange}
+        onChange={(e) => handleChange(e)}
         s={12}
         inputClassName="validate"
         required={true}
@@ -45,12 +44,12 @@ const LoginForm: React.FC<Props> = (props) => {
         SIGN IN
       </Button>
       <div className={styles.links}>
-        <Link to="/restore">
+        <Link to="/auth/restore">
           <span className={styles.linkRestore}>Forgot your password?</span>
         </Link>
         <span>
           Don't have an account?
-          <Link to="/register">
+          <Link to="/auth/register">
             <span className={styles.link}>Sign up</span>
           </Link>
         </span>

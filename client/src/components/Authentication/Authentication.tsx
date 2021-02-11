@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { Button, TextInput } from 'react-materialize'
 import { connect } from 'react-redux'
-import { Route, Switch } from 'react-router'
+import { Redirect, Route, Switch } from 'react-router'
+import { useLocation } from 'react-router-dom'
 import { loginUserAction, registerUserAction } from '../../actions/userActions'
 import logo from '../../images/logo.png'
 import smartHomeLogo from '../../images/smart-home-logo.png'
@@ -15,17 +15,9 @@ interface Props {
   loginUserAction: Function
 }
 
-interface formData {
-  email: string
-  password: string
-  confirmPassword?: string
-  fullName?: string
-}
-
 const Authentication: React.FC<Props> = (props) => {
   const { registerUserAction, loginUserAction } = props
-
-  const [form, setForm] = useState('login')
+  const location = useLocation()
   const [data, setData] = useState<any>({})
   const [errors, throwErrors] = useState<string>('')
 
@@ -57,7 +49,7 @@ const Authentication: React.FC<Props> = (props) => {
       return false
     }
 
-    if (form === 'register' && password !== confirmPassword) {
+    if (location.pathname === '/auth/register' && password !== confirmPassword) {
       throwErrors('Passwords are not identical')
       return false
     }
@@ -68,14 +60,16 @@ const Authentication: React.FC<Props> = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    if (form === 'login') {
-      return loginUserAction(data)
+    if (location.pathname === '/auth/login') {
+      loginUserAction(data)
+      return <Redirect to="/dashboard/overview" />
     }
 
-    if (form === 'register') {
+    if (location.pathname === '/auth/register') {
       const isValid = validateData(data)
       if (isValid) {
-        return registerUserAction(data)
+        registerUserAction(data)
+        return <Redirect to="/dashboard/overview" />
       }
     }
   }
@@ -101,28 +95,20 @@ const Authentication: React.FC<Props> = (props) => {
         <div className={styles.header}>
           <img src={logo} alt="SmartHome" />
         </div>
-        <Switch>
-          <Route
-            path="/register"
-            component={() => (
-              <RegisterForm
-                handleSubmit={handleSubmit}
-                handleChange={handleChange}
-                errors={errors}
-              />
-            )}
-          />
-          <Route
-            path="/login"
-            component={() => <LoginForm handleSubmit={handleSubmit} handleChange={handleChange} />}
-          />
-          <Route
-            path="/restore"
-            component={() => (
-              <RestoreForm handleSubmit={handleSubmit} handleChange={handleChange} />
-            )}
-          />
-        </Switch>
+        <Route
+          path="/auth/register"
+          render={() => (
+            <RegisterForm handleSubmit={handleSubmit} handleChange={handleChange} errors={errors} />
+          )}
+        />
+        <Route
+          path="/auth/login"
+          render={() => <LoginForm handleSubmit={handleSubmit} handleChange={handleChange} />}
+        />
+        <Route
+          path="/auth/restore"
+          render={() => <RestoreForm handleSubmit={handleSubmit} handleChange={handleChange} />}
+        />
       </div>
     </div>
   )

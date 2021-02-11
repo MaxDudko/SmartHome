@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Col, Form, Icon, Row, Select, Table, TextInput } from 'react-materialize/'
 import { connect } from 'react-redux'
+import { Redirect, Route, Switch } from 'react-router'
+import { Link, useLocation } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
+
 import {
   createHomeAction,
   getHomeListAction,
@@ -8,6 +12,9 @@ import {
   selectHomeAction,
 } from '../../actions/homeActions'
 import styles from './AddHome.module.scss'
+import CreateHome from './CreateHome'
+import JoinHome from './JoinHome'
+import SelectHome from './SelectHome'
 
 interface Props {
   userId: string
@@ -27,9 +34,9 @@ const AddHome: React.FC<Props> = (props) => {
     createHomeAction,
     joinHomeAction,
   } = props
-  const items = ['Home List', 'Create Home', 'Join Home']
-  const [currentForm, setForm] = useState('Home List')
   const [data, setData] = useState<any>({})
+  const location = useLocation()
+  const history = useHistory()
 
   useEffect(() => {
     userId && getHomeListAction(userId.toString())
@@ -38,205 +45,79 @@ const AddHome: React.FC<Props> = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    if (currentForm === 'Home List') {
-      const { userId, homeId } = data
-      return selectHomeAction(userId.toString(), homeId.toString())
+    const { userId, homeId, homeName, homeAddress, key } = data
+
+    if (location.pathname === '/dashboard/home/select-home') {
+      selectHomeAction(userId.toString(), homeId.toString())
     }
 
-    if (currentForm === 'Create Home') {
-      const { userId, homeName, homeAddress, key } = data
-      return createHomeAction(userId.toString(), homeName, homeAddress, key)
+    if (location.pathname === '/dashboard/home/create-home') {
+      createHomeAction(userId.toString(), homeName, homeAddress, key)
     }
 
-    if (currentForm === 'Join Home') {
-      const { userId, homeId, key } = data
-      return joinHomeAction(userId.toString(), homeId.toString(), key)
+    if (location.pathname === '/dashboard/home/join-home') {
+      joinHomeAction(userId.toString(), homeId.toString(), key)
     }
+
+    return history.push('dashboard/overview')
   }
-
-  const homeTable = (
-    <div>
-      <p className={styles.title}>Select Home</p>
-      {homeList.length ? (
-        <Table>
-          <thead>
-            <tr>
-              <td />
-              <td>ID</td>
-              <td>Name</td>
-              <td>Address</td>
-              <td>Role</td>
-              <td />
-            </tr>
-          </thead>
-          <tbody>
-            {homeList.map((home, i) => (
-              <tr key={i}>
-                <td>
-                  <Icon>home</Icon>
-                </td>
-                <td>{home.id}</td>
-                <td>{home.name}</td>
-                <td>{home.address}</td>
-                <td>{home.role}</td>
-                <td>
-                  <form onSubmit={handleSubmit}>
-                    <Button
-                      node="button"
-                      type="submit"
-                      onClick={() => {
-                        setData({
-                          ...data,
-                          userId,
-                          homeId: home.id,
-                        })
-                      }}
-                    >
-                      Select
-                    </Button>
-                  </form>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-      ) : (
-        <p className={styles.error}>
-          No one Home not found, please create new Home or join to existing
-        </p>
-      )}
-    </div>
-  )
-
-  const createHome = (
-    <Col s={12} l={6}>
-      <p className={styles.title}>Create Home</p>
-      <form onSubmit={handleSubmit}>
-        <TextInput
-          id="name"
-          type="text"
-          inputClassName="validate"
-          required={true}
-          label="Home Name"
-          placeholder=""
-          onChange={(e) => {
-            setData({
-              ...data,
-              homeName: e.target.value,
-            })
-          }}
-        />
-        <TextInput
-          id="address"
-          type="text"
-          inputClassName="validate"
-          required={true}
-          label="Home Address"
-          placeholder=""
-          onChange={(e) => {
-            setData({
-              ...data,
-              homeAddress: e.target.value,
-            })
-          }}
-        />
-        <TextInput
-          id="key"
-          type="password"
-          inputClassName="validate"
-          required={true}
-          label="Security Key"
-          placeholder=""
-          onChange={(e) => {
-            setData({
-              ...data,
-              key: e.target.value,
-            })
-          }}
-        />
-        <Button
-          node="button"
-          type="submit"
-          onClick={() => {
-            setData({
-              ...data,
-              userId,
-            })
-          }}
-        >
-          Create
-        </Button>
-      </form>
-    </Col>
-  )
-
-  const joinHome = (
-    <Col s={12} l={6}>
-      <p className={styles.title}>Join Home</p>
-      <form onSubmit={handleSubmit}>
-        <TextInput
-          id="homeId"
-          type="text"
-          inputClassName="validate"
-          required={true}
-          label="Home ID"
-          placeholder=""
-          onChange={(e) => {
-            setData({
-              ...data,
-              homeId: e.target.value,
-            })
-          }}
-        />
-        <TextInput
-          id="key"
-          type="password"
-          inputClassName="validate"
-          required={true}
-          label="Security Key"
-          placeholder=""
-          onChange={(e) => {
-            setData({
-              ...data,
-              key: e.target.value,
-            })
-          }}
-        />
-        <Button
-          node="button"
-          type="submit"
-          onClick={() => {
-            setData({
-              ...data,
-              userId,
-            })
-          }}
-        >
-          Join
-        </Button>
-      </form>
-    </Col>
-  )
 
   return (
     <Row className={styles.AddHome}>
       <Col s={12} l={2}>
         <ul className={styles.menu}>
-          {items.map((item, i) => (
-            <li
-              className={styles.item + ` ${item === currentForm && styles.active}`}
-              key={i}
-              onClick={() => setForm(item)}
-            >
-              <span className={styles.title}>{item}</span>
-            </li>
-          ))}
+          <li
+            className={
+              styles.item + ` ${location.pathname === '/dashboard/home/select-home' && styles.active}`
+            }
+          >
+            <Link to="/dashboard/home/select-home">
+              <span className={styles.title}>Select Home</span>
+            </Link>
+          </li>
+          <li
+            className={
+              styles.item + ` ${location.pathname === '/dashboard/home/create-home' && styles.active}`
+            }
+          >
+            <Link to="/dashboard/home/create-home">
+              <span className={styles.title}>Create Home</span>
+            </Link>
+          </li>
+          <li
+            className={styles.item + ` ${location.pathname === '/dashboard/home/join-home' && styles.active}`}
+          >
+            <Link to="/dashboard/home/join-home">
+              <span className={styles.title}>Join Home</span>
+            </Link>
+          </li>
         </ul>
       </Col>
       <Col s={12} l={10}>
-        {(currentForm === 'Home List' && homeTable) ||
-          (currentForm === 'Create Home' && createHome) ||
-          (currentForm === 'Join Home' && joinHome)}
+        <Route
+          path="/dashboard/home/select-home"
+          render={() => (
+            <SelectHome
+              homeList={homeList}
+              handleSubmit={handleSubmit}
+              setData={setData}
+              data={data}
+              userId={userId}
+            />
+          )}
+        />
+        <Route
+          path="/dashboard/home/create-home"
+          render={() => (
+            <CreateHome handleSubmit={handleSubmit} setData={setData} data={data} userId={userId} />
+          )}
+        />
+        <Route
+          path="/dashboard/home/join-home"
+          render={() => (
+            <JoinHome handleSubmit={handleSubmit} setData={setData} data={data} userId={userId} />
+          )}
+        />
       </Col>
     </Row>
   )
