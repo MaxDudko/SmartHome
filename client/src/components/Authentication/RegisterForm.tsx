@@ -70,7 +70,7 @@ const Gallery: React.FC<Props> = (props) => {
         </span>
         <span>
           Already have an account?
-          <Link to="/auth/login">
+          <Link to="/login">
             <span className={styles.link}>Login</span>
           </Link>
         </span>

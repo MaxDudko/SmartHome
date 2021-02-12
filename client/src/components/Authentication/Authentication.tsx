@@ -49,7 +49,7 @@ const Authentication: React.FC<Props> = (props) => {
       return false
     }
 
-    if (location.pathname === '/auth/register' && password !== confirmPassword) {
+    if (location.pathname === '/register' && password !== confirmPassword) {
       throwErrors('Passwords are not identical')
       return false
     }
@@ -60,16 +60,14 @@ const Authentication: React.FC<Props> = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    if (location.pathname === '/auth/login') {
+    if (location.pathname === '/login') {
       loginUserAction(data)
-      return <Redirect to="/dashboard/overview" />
     }
 
-    if (location.pathname === '/auth/register') {
+    if (location.pathname === '/register') {
       const isValid = validateData(data)
       if (isValid) {
         registerUserAction(data)
-        return <Redirect to="/dashboard/overview" />
       }
     }
   }
@@ -96,17 +94,17 @@ const Authentication: React.FC<Props> = (props) => {
           <img src={logo} alt="SmartHome" />
         </div>
         <Route
-          path="/auth/register"
+          path="/register"
           render={() => (
             <RegisterForm handleSubmit={handleSubmit} handleChange={handleChange} errors={errors} />
           )}
         />
         <Route
-          path="/auth/login"
+          path="/login"
           render={() => <LoginForm handleSubmit={handleSubmit} handleChange={handleChange} />}
         />
         <Route
-          path="/auth/restore"
+          path="/restore"
           render={() => <RestoreForm handleSubmit={handleSubmit} handleChange={handleChange} />}
         />
       </div>

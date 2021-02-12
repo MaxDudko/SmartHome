@@ -21,11 +21,11 @@ const TopNavbar: React.FC<Props> = (props) => {
 
   const switchHome = () => {
     selectAnotherHomeAction()
-    return history.push('dashboard/home/select-home')
+    // return history.push('dashboard/home/select-home')
   }
   const logout = () => {
     logoutUserAction()
-    return history.push('/auth/login')
+    // return history.push('/auth/login')
   }
   return (
     <Navbar

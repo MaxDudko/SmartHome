@@ -47,19 +47,17 @@ const AddHome: React.FC<Props> = (props) => {
 
     const { userId, homeId, homeName, homeAddress, key } = data
 
-    if (location.pathname === '/dashboard/home/select-home') {
+    if (location.pathname === '/select-home') {
       selectHomeAction(userId.toString(), homeId.toString())
     }
 
-    if (location.pathname === '/dashboard/home/create-home') {
+    if (location.pathname === '/create-home') {
       createHomeAction(userId.toString(), homeName, homeAddress, key)
     }
 
-    if (location.pathname === '/dashboard/home/join-home') {
+    if (location.pathname === '/join-home') {
       joinHomeAction(userId.toString(), homeId.toString(), key)
     }
-
-    return history.push('dashboard/overview')
   }
 
   return (
@@ -68,26 +66,30 @@ const AddHome: React.FC<Props> = (props) => {
         <ul className={styles.menu}>
           <li
             className={
-              styles.item + ` ${location.pathname === '/dashboard/home/select-home' && styles.active}`
+              styles.item +
+              ` ${location.pathname === '/select-home' && styles.active}`
             }
           >
-            <Link to="/dashboard/home/select-home">
+            <Link to="/select-home">
               <span className={styles.title}>Select Home</span>
             </Link>
           </li>
           <li
             className={
-              styles.item + ` ${location.pathname === '/dashboard/home/create-home' && styles.active}`
+              styles.item +
+              ` ${location.pathname === '/create-home' && styles.active}`
             }
           >
-            <Link to="/dashboard/home/create-home">
+            <Link to="/create-home">
               <span className={styles.title}>Create Home</span>
             </Link>
           </li>
           <li
-            className={styles.item + ` ${location.pathname === '/dashboard/home/join-home' && styles.active}`}
+            className={
+              styles.item + ` ${location.pathname === '/join-home' && styles.active}`
+            }
           >
-            <Link to="/dashboard/home/join-home">
+            <Link to="/join-home">
               <span className={styles.title}>Join Home</span>
             </Link>
           </li>
@@ -95,7 +97,7 @@ const AddHome: React.FC<Props> = (props) => {
       </Col>
       <Col s={12} l={10}>
         <Route
-          path="/dashboard/home/select-home"
+          path="/select-home"
           render={() => (
             <SelectHome
               homeList={homeList}
@@ -107,13 +109,13 @@ const AddHome: React.FC<Props> = (props) => {
           )}
         />
         <Route
-          path="/dashboard/home/create-home"
+          path="/create-home"
           render={() => (
             <CreateHome handleSubmit={handleSubmit} setData={setData} data={data} userId={userId} />
           )}
         />
         <Route
-          path="/dashboard/home/join-home"
+          path="/join-home"
           render={() => (
             <JoinHome handleSubmit={handleSubmit} setData={setData} data={data} userId={userId} />
           )}

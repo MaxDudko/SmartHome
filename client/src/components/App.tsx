@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { Redirect, Route, Switch, useHistory } from 'react-router'
 import { saveDevicesAction } from '../actions/devicesActions'
@@ -38,20 +38,19 @@ const App: React.FC<Props> = (props) => {
   useEffect(() => {
     const token = localStorage.getItem('token')
     tokenValidationAction(token)
-  }, [])
-
-  useEffect(() => {
-    if (userId) {
-      history.push('/dashboard')
-    } else {
-      history.push('/auth/login')
-    }
-  }, [userId])
+  })
 
   return (
     <div className={styles.App}>
-      <Route path="/auth" component={Authentication} />
-      <Route path="/dashboard" component={Dashboard} />
+      {window.localStorage.getItem('token') ? (
+        // @ts-ignore
+        <Dashboard />
+      ) : (
+        <>
+          <Authentication />
+          <Redirect to="/login" />
+        </>
+      )}
     </div>
   )
 }
