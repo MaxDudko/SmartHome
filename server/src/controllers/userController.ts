@@ -13,14 +13,10 @@ class UserController {
         const user = await services.createUser(email, password, fullName)
         return res.status(200).json({ user: user.toAuthJSON() })
       } catch (e) {
-        return res.status(400).json({ error: e.message })
+        return res.status(400).send({ message: e.message })
       }
     } else {
-      res.status(422).json({
-        errors: {
-          message: 'All fields are Required',
-        },
-      })
+      res.status(400).send({ message: 'All fields are Required' })
     }
   }
 
@@ -40,18 +36,10 @@ class UserController {
           return res.json({ user: user.toAuthJSON() })
         }
 
-        return res.status(400).json({
-          errors: {
-            message: 'Wrong login or password',
-          },
-        })
+        return res.status(400).send({ message: 'Wrong login or password' })
       })(req, res, next)
     } else {
-      res.status(422).json({
-        errors: {
-          message: 'All fields are Required',
-        },
-      })
+      res.status(400).send({ message: 'All fields are Required' })
     }
   }
 
@@ -66,7 +54,7 @@ class UserController {
         return res.status(400).json({ error: e.message })
       }
     } else {
-      return res.status(400).send('All fields are Required')
+      return res.status(400).send({ message: 'All fields are Required' })
     }
   }
 }

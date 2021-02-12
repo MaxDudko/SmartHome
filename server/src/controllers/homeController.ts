@@ -12,10 +12,10 @@ class HomeController {
         const homeList = await services.findHomeList(userId)
         return res.status(200).json({ homeList })
       } catch (e) {
-        return res.status(400).json({ error: e.message })
+        return res.status(400).send({ message: e.message })
       }
     } else {
-      return res.status(400).send('User ID are ' + typeof userId)
+      return res.status(400).send({ message: 'User ID are ' + typeof userId })
     }
   }
 
@@ -27,10 +27,10 @@ class HomeController {
         const resData = await services.selectHome(userId, homeId)
         return res.status(200).json({ ...resData })
       } catch (e) {
-        return res.status(400).json({ error: e.message })
+        return res.status(400).send({ message: e.message })
       }
     } else {
-      return res.status(400).send('All fields are Required')
+      return res.status(400).send({ message: 'All fields are Required' })
     }
   }
 
@@ -42,10 +42,10 @@ class HomeController {
         const resData = await services.createHome(userId, homeName, homeAddress, key)
         return res.status(200).json({ ...resData })
       } catch (e) {
-        return res.status(400).json({ error: e.message })
+        return res.status(400).send({ message: e.message })
       }
     } else {
-      return res.status(400).send('All fields are Required')
+      return res.status(400).send({ message: 'All fields are Required' })
     }
   }
 
@@ -57,10 +57,10 @@ class HomeController {
         const resData = await services.addResident(userId, homeId, key)
         return res.status(200).json({ ...resData })
       } catch (e) {
-        return res.status(400).json({ error: e.message })
+        return res.status(400).send({ message: e.message })
       }
     } else {
-      return res.status(400).send('All fields are Required')
+      return res.status(400).send({ message: 'All fields are Required' })
     }
   }
 }

@@ -5,12 +5,13 @@ import { Link } from 'react-router-dom'
 import styles from './Authentication.module.scss'
 
 interface Props {
+  errors: string
   handleSubmit: any
   handleChange: any
 }
 
 const LoginForm: React.FC<Props> = (props) => {
-  const { handleSubmit, handleChange } = props
+  const { handleSubmit, handleChange, errors } = props
 
   return (
     <form className={styles.form + ' col s10 m8'} style={{ marginLeft: 0 }} onSubmit={handleSubmit}>
@@ -35,6 +36,7 @@ const LoginForm: React.FC<Props> = (props) => {
         label="Password"
         placeholder=""
       />
+      <span style={{ color: 'red', fontSize: '12px' }}>{errors}</span>
       <Button
         node="button"
         type="submit"

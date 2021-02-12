@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { Redirect, Route, Switch } from 'react-router'
 import { useLocation } from 'react-router-dom'
@@ -13,13 +13,18 @@ import RestoreForm from './RestoreForm'
 interface Props {
   registerUserAction: Function
   loginUserAction: Function
+  responseError: string
 }
 
 const Authentication: React.FC<Props> = (props) => {
-  const { registerUserAction, loginUserAction } = props
+  const { registerUserAction, loginUserAction, responseError } = props
   const location = useLocation()
   const [data, setData] = useState<any>({})
   const [errors, throwErrors] = useState<string>('')
+
+  useEffect(() => {
+    throwErrors(responseError)
+  }, [responseError])
 
   const handleChange = (event) => {
     setData({
@@ -101,7 +106,9 @@ const Authentication: React.FC<Props> = (props) => {
         />
         <Route
           path="/login"
-          render={() => <LoginForm handleSubmit={handleSubmit} handleChange={handleChange} />}
+          render={() => (
+            <LoginForm handleSubmit={handleSubmit} handleChange={handleChange} errors={errors} />
+          )}
         />
         <Route
           path="/restore"
@@ -112,9 +119,13 @@ const Authentication: React.FC<Props> = (props) => {
   )
 }
 
+const mapStateToProps = (state) => ({
+  responseError: state.app.responseError,
+})
+
 const mapDispatchToProps = (dispatch) => ({
   loginUserAction: (data) => dispatch(loginUserAction(data)),
   registerUserAction: (data) => dispatch(registerUserAction(data)),
 })
 
-export default connect(null, mapDispatchToProps)(Authentication)
+export default connect(mapStateToProps, mapDispatchToProps)(Authentication)

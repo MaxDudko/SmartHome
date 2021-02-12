@@ -11,7 +11,7 @@ class SmartAppController {
         const devices = await services.getDevices(homeId)
         res.status(200).send(devices)
       } catch (e) {
-        return res.status(400).json({ error: e.message })
+        return res.status(400).send({ message: e.message })
       }
     }
   }
@@ -27,7 +27,7 @@ class SmartAppController {
         }
         res.status(200).send(resp)
       } catch (e) {
-        return res.status(400).json({ error: e.message })
+        return res.status(400).send({ message: e.message })
       }
     }
   }
@@ -37,7 +37,7 @@ class SmartAppController {
       const lockValue = await services.lockToggle()
       res.status(200).send(lockValue)
     } catch (e) {
-      return res.status(400).json({ error: e.message })
+      return res.status(400).send({ message: e.message })
     }
   }
 }
