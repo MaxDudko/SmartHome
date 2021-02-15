@@ -1,21 +1,34 @@
-import React from 'react'
-import { Button, Icon, Table, TextInput } from 'react-materialize'
+import React, {useEffect, useState} from 'react'
+import { Button, Col, Icon, Table } from 'react-materialize'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import {getHomeListAction, selectHomeAction} from '../../actions/homeActions'
 import styles from './AddHome.module.scss'
 
 interface Props {
   homeList: any
-  handleSubmit: any
-  setData: any
-  data: any
   userId: string
+  getHomeListAction: any
+  selectHomeAction: any
 }
 
 const SelectHome: React.FC<Props> = (props) => {
-  const { homeList, handleSubmit, setData, data, userId } = props
+  const { homeList, userId, getHomeListAction, selectHomeAction } = props
+  const [data, setData] = useState<any>({})
+
+  useEffect(() => {
+    userId && getHomeListAction(userId.toString())
+  }, [userId])
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+
+    const { userId, homeId } = data
+
+    selectHomeAction(userId.toString(), homeId.toString())
+  }
+
   return (
-    <div>
+    <Col s={12} l={10} className={styles.homeForm}>
       <p className={styles.title}>Select Home</p>
       {homeList.length ? (
         <Table>
@@ -46,7 +59,6 @@ const SelectHome: React.FC<Props> = (props) => {
                       type="submit"
                       onClick={() => {
                         setData({
-                          ...data,
                           userId,
                           homeId: home.id,
                         })
@@ -65,13 +77,18 @@ const SelectHome: React.FC<Props> = (props) => {
           No one Home not found, please create new Home or join to existing
         </p>
       )}
-    </div>
+    </Col>
   )
 }
 
 const mapStateToProps = (state) => ({
+  userId: state.user.id,
+  homeList: state.user.homeList,
 })
 
-const mapDispatchToProps = (dispatch) => ({})
+const mapDispatchToProps = (dispatch) => ({
+  getHomeListAction: (userId) => dispatch(getHomeListAction(userId)),
+  selectHomeAction: (userId, homeId) => dispatch(selectHomeAction(userId, homeId)),
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelectHome)

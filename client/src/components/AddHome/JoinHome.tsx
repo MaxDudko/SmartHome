@@ -1,20 +1,29 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, Col, TextInput } from 'react-materialize'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { joinHomeAction } from '../../actions/homeActions'
 import styles from './AddHome.module.scss'
 
 interface Props {
-  handleSubmit: any
-  setData: Function
-  data: any
+  joinHomeAction: any
   userId: string
 }
 
 const JoinHome: React.FC<Props> = (props) => {
-  const { handleSubmit, setData, data, userId } = props
+  const { joinHomeAction, userId } = props
+  const [data, setData] = useState<any>({})
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+
+    const { userId, homeId, key } = data
+
+    joinHomeAction(userId.toString(), homeId.toString(), key)
+  }
+
   return (
-    <Col s={12} l={6}>
+    <Col s={12} l={6} className={styles.homeForm}>
       <p className={styles.title}>Join Home</p>
       <form onSubmit={(e) => handleSubmit(e)}>
         <TextInput
@@ -63,8 +72,11 @@ const JoinHome: React.FC<Props> = (props) => {
 }
 
 const mapStateToProps = (state) => ({
+  userId: state.user.id,
 })
 
-const mapDispatchToProps = (dispatch) => ({})
+const mapDispatchToProps = (dispatch) => ({
+  joinHomeAction: (userId, homeId, key) => dispatch(joinHomeAction(userId, homeId, key)),
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(JoinHome)

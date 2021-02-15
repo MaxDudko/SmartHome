@@ -1,15 +1,31 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, TextInput } from 'react-materialize'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router'
+import { loginUserAction } from '../../actions/userActions'
 import styles from './Authentication.module.scss'
 
-interface Props {
-  handleSubmit: any
-  handleChange: any
-}
+interface Props {}
 
 const Gallery: React.FC<Props> = (props) => {
-  const { handleSubmit, handleChange } = props
+  const {} = props
+  const [data, setData] = useState<any>({})
+  const [errors, throwErrors] = useState<string>('')
+
+  const handleChange = (event) => {
+    setData({
+      ...data,
+      [event.target.id]: event.target.value,
+    })
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+
+    loginUserAction(data)
+    return <Redirect to="/overview" />
+  }
+
   return (
     <form className={styles.form + ' col s10 m8'} style={{ marginLeft: 0 }} onSubmit={handleSubmit}>
       <p className={styles.title}>Forgot Password</p>
