@@ -34,6 +34,12 @@ export const saveUserDataAction = (data: {}) => {
   }
 }
 
+export const removeUserDataAction = (data: {}) => {
+  return {
+    type: 'REMOVE_USER_DATA',
+  }
+}
+
 export const saveHomeListAction = (data: []) => {
   return {
     type: 'SAVE_HOME_LIST',

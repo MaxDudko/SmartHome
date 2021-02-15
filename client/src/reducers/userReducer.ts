@@ -14,6 +14,8 @@ const user = (state = initialState, action: AnyAction) => {
         ...state,
         ...action.payload,
       }
+    case 'REMOVE_USER_DATA':
+      return initialState
     case 'SAVE_HOME_LIST':
       return {
         ...state,
