@@ -19,7 +19,9 @@ function* selectHomeSaga(payload) {
 
     yield put({ type: 'SAVE_HOME', payload: response.data })
     yield put({ type: 'GET_DEVICES_ACTION', payload: { homeId: response.data.home.id.toString() } })
+    yield put({ type: 'APP_READY' })
   } catch (error) {
+    yield put({ type: 'APP_READY' })
     yield put({ type: 'RESPONSE_ERROR', error })
   }
 }

@@ -1,3 +1,8 @@
+export const appReadyAction = () => {
+  return {
+    type: 'APP_READY',
+  }
+}
 export const openAddDeviceModalAction = () => {
   return {
     type: 'OPEN_ADD_DEVICE_MODAL_ACTION',

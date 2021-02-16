@@ -7,10 +7,18 @@ function* tokenValidationSaga(payload) {
     const response = yield axios.post(API_ENDPOINT, { token: payload.token })
 
     yield put({ type: 'SAVE_USER_DATA', payload: response.data.user })
+    yield put({
+      type: 'SELECT_HOME',
+      payload: {
+        userId: response.data.user.id.toString(),
+        homeId: localStorage.getItem('homeId'),
+      },
+    })
   } catch (error) {
     localStorage.removeItem('token')
     localStorage.removeItem('homeId')
 
+    yield put({ type: 'APP_READY' })
     yield put({ type: 'VALIDATE_TOKEN_ERROR', error })
   }
 }

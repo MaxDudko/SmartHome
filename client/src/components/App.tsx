@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Container, Row } from 'react-materialize'
 import { connect } from 'react-redux'
 import { Redirect, Route, Switch, useHistory } from 'react-router'
+import { appReadyAction } from '../actions/appActions'
 import { saveDevicesAction } from '../actions/devicesActions'
 import { selectHomeAction } from '../actions/homeActions'
 import { tokenValidationAction } from '../actions/userActions'
@@ -35,14 +36,7 @@ interface Props {
 }
 
 const App: React.FC<Props> = (props) => {
-  const {
-    tokenValidationAction,
-    homeId,
-    userId,
-    selectHomeAction,
-    saveDevicesAction,
-    addDeviceModalOpen,
-  } = props
+  const { tokenValidationAction, homeId, userId, saveDevicesAction, addDeviceModalOpen } = props
 
   useEffect(() => {
     const eventSource = new EventSource(`http://localhost:4000/stream?homeId=${homeId}`)
@@ -60,13 +54,6 @@ const App: React.FC<Props> = (props) => {
     const token = localStorage.getItem('token')
     tokenValidationAction(token)
   })
-
-  useEffect(() => {
-    const homeId = localStorage.getItem('homeId')
-    if (userId && homeId) {
-      selectHomeAction(userId.toString(), homeId)
-    }
-  }, [userId])
 
   return (
     <Row className={styles.App}>
