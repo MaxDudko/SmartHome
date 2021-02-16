@@ -45,24 +45,16 @@ const App: React.FC<Props> = (props) => {
   } = props
 
   useEffect(() => {
-    if (!homeId) {
-      return
-    }
     const eventSource = new EventSource(`http://localhost:4000/stream?homeId=${homeId}`)
-    eventSource.onopen = () => {
-      // tslint:disable-next-line:no-console
-      console.log('connection to stream has been opened')
+
+    if (homeId && userId) {
+      eventSource.onmessage = (stream) => {
+        saveDevicesAction(JSON.parse(stream.data))
+      }
+    } else {
+      eventSource.close()
     }
-    eventSource.onerror = (error) => {
-      // tslint:disable-next-line:no-console
-      console.log('An error has occurred while receiving stream', error)
-    }
-    eventSource.onmessage = (stream) => {
-      // tslint:disable-next-line:no-console
-      console.log('received stream', JSON.parse(stream.data))
-      saveDevicesAction(JSON.parse(stream.data))
-    }
-  }, [homeId])
+  }, [homeId, userId])
 
   useEffect(() => {
     const token = localStorage.getItem('token')
