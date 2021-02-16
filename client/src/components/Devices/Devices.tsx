@@ -1,8 +1,8 @@
 import { DateTime } from 'luxon'
-import React, { useEffect, useState } from 'react'
-import { Icon, Switch, Table } from 'react-materialize'
+import React from 'react'
+import { Icon, Table } from 'react-materialize'
 import { connect } from 'react-redux'
-import { openAddDeviceModalAction, switchPageAction } from '../../actions/appActions'
+import { openAddDeviceModalAction } from '../../actions/appActions'
 import { lockToggleAction } from '../../actions/devicesActions'
 import styles from './Devices.module.scss'
 

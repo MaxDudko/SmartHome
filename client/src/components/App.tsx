@@ -43,7 +43,6 @@ const App: React.FC<Props> = (props) => {
     saveDevicesAction,
     addDeviceModalOpen,
   } = props
-  const history = useHistory()
 
   useEffect(() => {
     if (!homeId) {
