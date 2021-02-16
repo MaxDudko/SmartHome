@@ -24,3 +24,10 @@ export const saveDevicesAction = (data) => {
     },
   }
 }
+
+export const removeDevicesAction = () => {
+  return {
+    type: 'REMOVE_DEVICES_ACTION',
+    payload: {},
+  }
+}

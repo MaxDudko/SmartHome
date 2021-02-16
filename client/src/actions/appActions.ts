@@ -1,12 +1,3 @@
-export const switchPageAction = (page) => {
-  return {
-    type: 'SWITCH_PAGE',
-    payload: {
-      currentPage: page,
-    },
-  }
-}
-
 export const openAddDeviceModalAction = () => {
   return {
     type: 'OPEN_ADD_DEVICE_MODAL_ACTION',

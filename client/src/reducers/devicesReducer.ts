@@ -11,6 +11,8 @@ const devices = (state = initialState, action: AnyAction) => {
         ...state,
         ...action.payload,
       }
+    case 'REMOVE_DEVICES_ACTION':
+      return initialState
     default:
       return state
   }

@@ -1,10 +1,5 @@
 import axios from 'axios'
-import { call, put, takeLatest } from 'redux-saga/effects'
-import {
-  loginUserService,
-  registerUserService,
-  tokenValidationService,
-} from '../services/userServices'
+import { put, takeLatest } from 'redux-saga/effects'
 
 function* tokenValidationSaga(payload) {
   try {
@@ -44,10 +39,13 @@ function* registerSaga(payload) {
   }
 }
 
-function* logoutSaga(payload) {
+function* logoutSaga() {
   try {
     localStorage.removeItem('token')
     localStorage.removeItem('homeId')
+
+    yield put({ type: 'REMOVE_HOME_DATA' })
+    yield put({ type: 'REMOVE_DEVICES_ACTION' })
     yield put({ type: 'REMOVE_USER_DATA' })
   } catch (error) {
     yield put({ type: 'LOGOUT_USER_ERROR', error })

@@ -6,7 +6,6 @@ import home from '../../images/home.png'
 import styles from './Sidebar.module.scss'
 
 interface Props {
-  currentPage: string
   homeName: string
   homeAddress: string
 }
@@ -107,7 +106,6 @@ const Sidebar: React.FC<Props> = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-  currentPage: state.app.currentPage,
   homeName: state.home.name,
   homeAddress: state.home.address,
 })
