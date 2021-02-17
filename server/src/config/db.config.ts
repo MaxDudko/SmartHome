@@ -1,14 +1,29 @@
-const dbConfig = {
-  HOST: process.env.DB_HOST,
-  USER: process.env.DB_USER,
-  PASSWORD: process.env.DB_PASSWORD,
-  DB: process.env.DB_NAME,
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
-    idle: 10000,
-  },
+import { Sequelize } from 'sequelize'
+
+const DB_NAME =
+  process.env.NODE_ENV === 'test'
+    ? (process.env.DB_NAME_TEST as string)
+    : (process.env.DB_NAME as string)
+
+export const sequelize = new Sequelize(
+  DB_NAME,
+  process.env.DB_USER as string,
+  process.env.DB_PASSWORD as string,
+  {
+    host: process.env.DB_HOST,
+    dialect: 'postgres',
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000,
+    },
+  }
+)
+
+const DB = {
+  Sequelize,
+  sequelize,
 }
 
-export default dbConfig
+export default DB

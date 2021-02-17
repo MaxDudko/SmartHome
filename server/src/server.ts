@@ -2,8 +2,8 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import express from 'express'
 import passport from 'passport'
+import DB from './config/db.config'
 import strategy from './config/passport'
-import DB from './models'
 import router from './router'
 
 class Server {

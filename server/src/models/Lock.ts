@@ -1,9 +1,5 @@
-import { DataTypes, Model, Sequelize } from 'sequelize'
-
-const DB_NAME = process.env.NODE_ENV === 'test' ? process.env.DB_NAME_TEST : process.env.DB_NAME
-const sequelize = new Sequelize(
-  `postgres://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:5432/${DB_NAME}`
-)
+import { DataTypes, Model } from 'sequelize'
+import { sequelize } from '../config/db.config'
 
 export interface LockAttributes {
   homeId: string
@@ -64,7 +60,7 @@ Lock.init(
     location: DataTypes.STRING,
     updatedAt: DataTypes.DATE,
   },
-  { sequelize }
+  { sequelize, freezeTableName: process.env.NODE_ENV === 'test' }
 )
 
 export default Lock
