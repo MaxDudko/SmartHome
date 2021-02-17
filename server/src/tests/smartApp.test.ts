@@ -57,8 +57,8 @@ describe('SmartAppServices behavior:', () => {
       const result = {
         locks: [
           {
-            home_id: home.id.toString(),
-            device_id: 'test-device-id',
+            homeId: home.id.toString(),
+            deviceId: 'test-device-id',
             type: 'lock',
             label: 'testLock',
             location: 'test',

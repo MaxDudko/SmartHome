@@ -1,7 +1,7 @@
 import { AnyAction } from 'redux'
 
 export const initialState = {
-  isReady: true,
+  isReady: false,
   addDeviceModalOpen: false,
   responseError: '',
 }

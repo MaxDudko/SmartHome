@@ -4,7 +4,8 @@ import Lock from '../models/Lock'
 class SmartAppServices {
   public async getDevices(homeId: string) {
     if (homeId) {
-      const locks = await Lock.findAll({ where: { homeId } })
+      const list = await Lock.findAll({ where: { homeId } })
+      const locks = list.map((lock: any) => lock.getAttributes())
 
       return {
         locks,

@@ -5,15 +5,21 @@ function* tokenValidationSaga(payload) {
   try {
     const API_ENDPOINT = `${process.env.REACT_APP_API_URL}/profile`
     const response = yield axios.post(API_ENDPOINT, { token: payload.token })
-
     yield put({ type: 'SAVE_USER_DATA', payload: response.data.user })
-    yield put({
-      type: 'SELECT_HOME',
-      payload: {
-        userId: response.data.user.id.toString(),
-        homeId: localStorage.getItem('homeId'),
-      },
-    })
+
+    const userId = response.data.user.id.toString()
+    const homeId = localStorage.getItem('homeId')
+    if (userId && homeId) {
+      yield put({
+        type: 'SELECT_HOME',
+        payload: {
+          userId: response.data.user.id.toString(),
+          homeId: localStorage.getItem('homeId'),
+        },
+      })
+    } else {
+      yield put({ type: 'APP_READY' })
+    }
   } catch (error) {
     localStorage.removeItem('token')
     localStorage.removeItem('homeId')
@@ -43,7 +49,7 @@ function* registerSaga(payload) {
 
     yield put({ type: 'SAVE_USER_DATA', payload: response.data.user })
   } catch (error) {
-    yield put({ type: 'RESPONSE_ERROR', payload: error.response.data.errors.message })
+    yield put({ type: 'RESPONSE_ERROR', payload: error.response.message })
   }
 }
 

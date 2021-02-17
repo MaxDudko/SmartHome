@@ -27,16 +27,26 @@ import Sidebar from './Sidebar/Sidebar'
 import Navbar from './TopNavbar/TopNavbar'
 
 interface Props {
+  isReady: boolean
   homeId: string
   userId: string
   addDeviceModalOpen: boolean
   tokenValidationAction: Function
   selectHomeAction: Function
   saveDevicesAction: Function
+  appReadyAction: Function
 }
 
 const App: React.FC<Props> = (props) => {
-  const { tokenValidationAction, homeId, userId, saveDevicesAction, addDeviceModalOpen } = props
+  const {
+    isReady,
+    appReadyAction,
+    tokenValidationAction,
+    homeId,
+    userId,
+    saveDevicesAction,
+    addDeviceModalOpen,
+  } = props
 
   useEffect(() => {
     const eventSource = new EventSource(`http://localhost:4000/stream?homeId=${homeId}`)
@@ -52,57 +62,65 @@ const App: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const token = localStorage.getItem('token')
-    tokenValidationAction(token)
+    if (token) {
+      tokenValidationAction(token)
+    } else {
+      appReadyAction()
+    }
   })
 
   return (
     <Row className={styles.App}>
-      {userId ? (
+      {isReady && (
         <>
-          <Navbar />
-          <div className="row">
-            <div className="hide-on-med-and-down">
-              <Sidebar />
-            </div>
-            {homeId ? (
-              <>
-                <Switch>
-                  <Route path="/overview" component={Overview} />
-                  <Route path="/devices" component={Devices} />
-                  <Route path="/analytics" component={Analytics} />
-                  <Route path="/rules" component={Rules} />
-                  <Route path="/gallery" component={Gallery} />
-                  <Route path="/history" component={History} />
-                  <Route path="/settings" component={Settings} />
-                </Switch>
+          {userId ? (
+            <>
+              <Navbar />
+              <div className="row">
+                <div className="hide-on-med-and-down">
+                  <Sidebar />
+                </div>
+                {homeId ? (
+                  <>
+                    <Switch>
+                      <Route path="/overview" component={Overview} />
+                      <Route path="/devices" component={Devices} />
+                      <Route path="/analytics" component={Analytics} />
+                      <Route path="/rules" component={Rules} />
+                      <Route path="/gallery" component={Gallery} />
+                      <Route path="/history" component={History} />
+                      <Route path="/settings" component={Settings} />
+                    </Switch>
 
-                <Redirect to="/overview" />
-                <DevicesSidebar />
-                {addDeviceModalOpen && <AddDevice />}
-              </>
-            ) : (
-              <>
-                <Switch>
-                  <Route path="/select-home" component={SelectHome} />
-                  <Route path="/create-home" component={CreateHome} />
-                  <Route path="/join-home" component={JoinHome} />
-                </Switch>
+                    <Redirect to="/overview" />
+                    <DevicesSidebar />
+                    {addDeviceModalOpen && <AddDevice />}
+                  </>
+                ) : (
+                  <>
+                    <Switch>
+                      <Route path="/select-home" component={SelectHome} />
+                      <Route path="/create-home" component={CreateHome} />
+                      <Route path="/join-home" component={JoinHome} />
+                    </Switch>
 
-                <Redirect to="/select-home" />
-              </>
-            )}
-          </div>
-        </>
-      ) : (
-        <>
-          <Switch>
-            <Route path="/login" component={LoginForm} />
-            <Route path="/register" component={RegisterForm} />
-            <Route path="/restore" component={RestoreForm} />
-          </Switch>
+                    <Redirect to="/select-home" />
+                  </>
+                )}
+              </div>
+            </>
+          ) : (
+            <>
+              <Switch>
+                <Route path="/login" component={LoginForm} />
+                <Route path="/register" component={RegisterForm} />
+                <Route path="/restore" component={RestoreForm} />
+              </Switch>
 
-          <WelcomeScreen />
-          <Redirect to="/login" />
+              <WelcomeScreen />
+              <Redirect to="/login" />
+            </>
+          )}
         </>
       )}
     </Row>
@@ -110,12 +128,14 @@ const App: React.FC<Props> = (props) => {
 }
 
 const mapStateToProps = (state) => ({
+  isReady: state.app.isReady,
   homeId: state.home.id,
   userId: state.user.id,
   addDeviceModalOpen: state.app.addDeviceModalOpen,
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  appReadyAction: () => dispatch(appReadyAction()),
   tokenValidationAction: (token) => dispatch(tokenValidationAction(token)),
   saveDevicesAction: (data) => dispatch(saveDevicesAction(data)),
   selectHomeAction: (userId, homeId) => dispatch(selectHomeAction(userId, homeId)),
