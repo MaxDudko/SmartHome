@@ -42,7 +42,7 @@ class Lock extends Model<LockAttributes> implements LockAttributes {
   public getAttributes() {
     return {
       homeId: this.homeId,
-      device_id: this.deviceId,
+      deviceId: this.deviceId,
       type: this.type,
       label: this.label,
       value: this.value === 'locked',

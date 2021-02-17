@@ -16,7 +16,8 @@ class UserServices {
 
   public async createUser(email: string, password: string, fullName: string) {
     if (UserServices.validateEmail(email) && UserServices.validatePassword(password)) {
-      if (User.findOne({ where: { email } })) {
+      const isUserRegister = await User.findOne({ where: { email } })
+      if (isUserRegister) {
         throw Error('email is exists')
       }
       const user = new User({ email, fullName })
