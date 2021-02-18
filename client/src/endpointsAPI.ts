@@ -1,43 +1,47 @@
 import axios from 'axios'
 import {
-  CREATE_HOME, GET_DEVICES,
+  CREATE_HOME,
+  GET_DEVICES,
   GET_HOME_LIST,
-  JOIN_HOME, LOCK_TOGGLE,
+  JOIN_HOME,
+  LOCK_TOGGLE,
   LOGIN_USER,
   REGISTER_USER,
   SELECT_HOME,
-  VALIDATE_TOKEN
+  VALIDATE_TOKEN,
 } from './actionTypes'
 
 const sendRequest = (actionType: string, data: any) => {
   const API_URL = process.env.REACT_APP_API_URL
 
-  const getURL = (type: string) => {
+  const getPath = (type: string) => {
     switch (type) {
       case VALIDATE_TOKEN:
-        return `${API_URL}/profile`
+        return `/profile`
       case LOGIN_USER:
-        return `${API_URL}/login`
+        return `/login`
       case REGISTER_USER:
-        return `${API_URL}/register`
+        return `/register`
       case GET_HOME_LIST:
-        return `${API_URL}/find-home`
+        return `/find-home`
       case SELECT_HOME:
-        return `${API_URL}/select-home`
+        return `/select-home`
       case CREATE_HOME:
-        return `${API_URL}/create-home`
+        return `/create-home`
       case JOIN_HOME:
-        return `${API_URL}/join-home`
+        return `/join-home`
       case GET_DEVICES:
-        return `${API_URL}/smart-api/get-devices`
+        return `/smart-api/get-devices`
       case LOCK_TOGGLE:
-        return `${API_URL}/smart-api/lock-toggle`
+        return `/smart-api/lock-toggle`
       default:
         return null
     }
   }
 
-  return axios.post(getURL(actionType) as string, data)
+  const url = `${API_URL}${getPath(actionType)}`
+
+  return axios.post(url, data)
 }
 
 export default sendRequest
