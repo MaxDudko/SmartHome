@@ -41,7 +41,9 @@ const sendRequest = (actionType: string, data: any) => {
 
   const url = `${API_URL}${getPath(actionType)}`
 
-  return axios.post(url, data)
+  if (url && data) {
+    return axios.post(url, data)
+  }
 }
 
 export default sendRequest
