@@ -29,7 +29,7 @@ const RegisterForm: React.FC<Props> = (props) => {
       !email.match(/^([a-zA-Z0-9._-]+@[a-zA-Z]+.[a-zA-Z]{2,4})$/) ||
       !(email.length > 5 && email.length < 64)
     ) {
-      throwErrors('Email is not valid')
+      throwErrors('Email not valid')
       return false
     }
 
@@ -39,12 +39,12 @@ const RegisterForm: React.FC<Props> = (props) => {
     }
 
     if (!password.match(/^(?=.*[A-Za-z0-9])(?=.*\d)[A-Za-z0-9\d]{8,64}$/)) {
-      throwErrors('Password is not valid')
+      throwErrors('Password must be at least 8-64 A-Z, a-z, 0-9')
       return false
     }
 
     if (password !== confirmPassword) {
-      throwErrors('Passwords are not identical')
+      throwErrors('Passwords not identical')
       return false
     }
 

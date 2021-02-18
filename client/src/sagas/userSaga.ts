@@ -47,7 +47,7 @@ function* loginSaga(payload) {
 
     yield put({ type: SAVE_USER_DATA, payload: response.data.user })
   } catch (error) {
-    yield put({ type: RESPONSE_ERROR, payload: error.response.data.errors.message })
+    yield put({ type: RESPONSE_ERROR, payload: error.response.data.message })
   }
 }
 
@@ -58,7 +58,7 @@ function* registerSaga(payload) {
 
     yield put({ type: SAVE_USER_DATA, payload: response.data.user })
   } catch (error) {
-    yield put({ type: RESPONSE_ERROR, payload: error.response.message })
+    yield put({ type: RESPONSE_ERROR, payload: error.response.data.message })
   }
 }
 

@@ -18,7 +18,7 @@ class UserServices {
     if (UserServices.validateEmail(email) && UserServices.validatePassword(password)) {
       const isUserRegister = await User.findOne({ where: { email } })
       if (isUserRegister) {
-        throw Error('email is exists')
+        throw Error('Email is exists')
       }
       const user = new User({ email, fullName })
       user.setPassword(password)
@@ -26,7 +26,7 @@ class UserServices {
       return User.create(user.getAttributes())
     }
 
-    throw Error('email or password not valid')
+    throw Error('Email or password not valid')
   }
 
   public authenticateUser(email: string, password: string) {
@@ -45,13 +45,13 @@ class UserServices {
       })
     }
 
-    throw Error('email or password not valid')
+    throw Error('Email or password not valid')
   }
 
   public async checkToken(email: string) {
     const user = await User.findOne({ where: { email } })
     if (!user) {
-      throw Error('user not found')
+      throw Error('User not found')
     }
 
     return user.toAuthJSON()
