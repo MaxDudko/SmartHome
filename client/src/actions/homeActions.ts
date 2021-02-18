@@ -1,4 +1,6 @@
-export const getHomeListAction = (userId) => {
+import { HomeState } from '../reducers/homeReducer'
+
+export const getHomeListAction = (userId: string) => {
   return {
     type: 'GET_HOME_LIST',
     payload: {
@@ -7,7 +9,7 @@ export const getHomeListAction = (userId) => {
   }
 }
 
-export const selectHomeAction = (userId, homeId) => {
+export const selectHomeAction = (userId: string, homeId: string) => {
   return {
     type: 'SELECT_HOME',
     payload: {
@@ -28,7 +30,12 @@ export const removeHomeData = () => {
   }
 }
 
-export const createHomeAction = (userId, homeName, homeAddress, key) => {
+export const createHomeAction = (
+  userId: string,
+  homeName: string,
+  homeAddress: string,
+  key: string
+) => {
   return {
     type: 'CREATE_HOME',
     payload: {
@@ -40,7 +47,7 @@ export const createHomeAction = (userId, homeName, homeAddress, key) => {
   }
 }
 
-export const joinHomeAction = (userId, homeId, key) => {
+export const joinHomeAction = (userId: string, homeId: string, key: string) => {
   return {
     type: 'JOIN_HOME',
     payload: {
@@ -51,20 +58,9 @@ export const joinHomeAction = (userId, homeId, key) => {
   }
 }
 
-export const saveHomeAction = (data) => {
+export const saveHomeAction = (data: HomeState) => {
   return {
     type: 'SAVE_HOME',
-    payload: {
-      home: data.home,
-      resident: data.resident,
-    },
-  }
-}
-export const responseErrorAction = (error) => {
-  return {
-    type: 'RESPONSE_ERROR',
-    payload: {
-      error,
-    },
+    payload: data,
   }
 }

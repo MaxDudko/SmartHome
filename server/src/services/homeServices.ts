@@ -27,8 +27,8 @@ class HomeServices {
 
       if (home) {
         return {
-          home: home.getAttributes(),
-          resident: resident.getAttributes(),
+          ...home.getAttributes(),
+          role: resident.getAttributes().role,
         }
       }
       throw Error('Home not found')
@@ -56,8 +56,8 @@ class HomeServices {
       })
 
       return {
-        home: home.getAttributes(),
-        resident: resident.getAttributes(),
+        ...home.getAttributes(),
+        role: resident.getAttributes().role,
       }
     }
     throw Error('User not found')
@@ -81,8 +81,8 @@ class HomeServices {
           role: 'user',
         })
         return {
-          home: home.getAttributes(),
-          resident: resident.getAttributes(),
+          ...home.getAttributes(),
+          role: resident.getAttributes().role,
         }
       }
       throw Error('Wrong Key')

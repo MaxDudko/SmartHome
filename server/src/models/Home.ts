@@ -19,7 +19,7 @@ class Home extends Model<HomeAttributes> implements HomeAttributes {
 
   public getAttributes() {
     return {
-      id: this.id,
+      id: this.id.toString(),
       name: this.name,
       address: this.address,
     }

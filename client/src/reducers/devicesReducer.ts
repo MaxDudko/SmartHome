@@ -1,17 +1,22 @@
 import { AnyAction } from 'redux'
+import { REMOVE_DEVICES, SAVE_DEVICES } from '../actionTypes'
 
-export const initialState = {
+export interface DevicesState {
+  locks: object[]
+}
+
+const initialState = {
   locks: [],
 }
 
-const devices = (state = initialState, action: AnyAction) => {
+const devices = (state: DevicesState = initialState, action: AnyAction) => {
   switch (action.type) {
-    case 'SAVE_DEVICES_ACTION':
+    case SAVE_DEVICES:
       return {
         ...state,
         ...action.payload,
       }
-    case 'REMOVE_DEVICES_ACTION':
+    case REMOVE_DEVICES:
       return initialState
     default:
       return state

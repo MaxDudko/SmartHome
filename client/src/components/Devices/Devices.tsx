@@ -2,19 +2,19 @@ import { DateTime } from 'luxon'
 import React from 'react'
 import { Icon, Table } from 'react-materialize'
 import { connect } from 'react-redux'
-import { openAddDeviceModalAction } from '../../actions/appActions'
+import { openModalAction } from '../../actions/appActions'
 import { lockToggleAction } from '../../actions/devicesActions'
 import styles from './Devices.module.scss'
 
 interface Props {
   homeId: string
   devices: any
-  openAddDeviceModalAction: Function
+  openModalAction: Function
   lockToggleAction: Function
 }
 
 const Devices: React.FC<Props> = (props) => {
-  const { homeId, openAddDeviceModalAction, devices, lockToggleAction } = props
+  const { homeId, openModalAction, devices, lockToggleAction } = props
 
   const formatDate = (date: string) => {
     const newDate = DateTime.fromISO(date)
@@ -24,7 +24,7 @@ const Devices: React.FC<Props> = (props) => {
   return (
     <div className={styles.Devices + ' col s12 l9'}>
       <h4>Devices</h4>
-      <Icon className={styles.add} onClick={openAddDeviceModalAction}>
+      <Icon className={styles.add} onClick={openModalAction}>
         add_circle
       </Icon>
       <div className={styles.wrapper}>
@@ -90,7 +90,7 @@ const mapStateToProps = (state) => ({
   devices: state.devices,
 })
 const mapDispatchToProps = (dispatch) => ({
-  openAddDeviceModalAction: () => dispatch(openAddDeviceModalAction()),
+  openModalAction: () => dispatch(openModalAction()),
   lockToggleAction: (homeId) => dispatch(lockToggleAction(homeId)),
 })
 

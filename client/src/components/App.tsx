@@ -30,7 +30,7 @@ interface Props {
   isReady: boolean
   homeId: string
   userId: string
-  addDeviceModalOpen: boolean
+  modalOpen: boolean
   tokenValidationAction: Function
   selectHomeAction: Function
   saveDevicesAction: Function
@@ -45,7 +45,7 @@ const App: React.FC<Props> = (props) => {
     homeId,
     userId,
     saveDevicesAction,
-    addDeviceModalOpen,
+    modalOpen,
   } = props
 
   useEffect(() => {
@@ -94,7 +94,7 @@ const App: React.FC<Props> = (props) => {
 
                     <Redirect to="/overview" />
                     <DevicesSidebar />
-                    {addDeviceModalOpen && <AddDevice />}
+                    {modalOpen && <AddDevice />}
                   </>
                 ) : (
                   <>
@@ -131,7 +131,7 @@ const mapStateToProps = (state) => ({
   isReady: state.app.isReady,
   homeId: state.home.id,
   userId: state.user.id,
-  addDeviceModalOpen: state.app.addDeviceModalOpen,
+  modalOpen: state.app.modalOpen,
 })
 
 const mapDispatchToProps = (dispatch) => ({

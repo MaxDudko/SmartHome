@@ -1,3 +1,5 @@
+import { UserState } from '../reducers/userReducer'
+
 export const tokenValidationAction = (token: string) => {
   return {
     type: 'VALIDATE_TOKEN',
@@ -5,7 +7,7 @@ export const tokenValidationAction = (token: string) => {
   }
 }
 
-export const loginUserAction = (data: {}) => {
+export const loginUserAction = (data: UserState) => {
   return {
     type: 'LOGIN_USER',
     data,
@@ -18,14 +20,14 @@ export const logoutUserAction = () => {
   }
 }
 
-export const registerUserAction = (data: {}) => {
+export const registerUserAction = (data: UserState) => {
   return {
     type: 'REGISTER_USER',
     data,
   }
 }
 
-export const saveUserDataAction = (data: {}) => {
+export const saveUserDataAction = (data: UserState) => {
   return {
     type: 'SAVE_USER_DATA',
     payload: {
@@ -34,13 +36,13 @@ export const saveUserDataAction = (data: {}) => {
   }
 }
 
-export const removeUserDataAction = (data: {}) => {
+export const removeUserDataAction = () => {
   return {
     type: 'REMOVE_USER_DATA',
   }
 }
 
-export const saveHomeListAction = (data: []) => {
+export const saveHomeListAction = (data: object[]) => {
   return {
     type: 'SAVE_HOME_LIST',
     payload: {

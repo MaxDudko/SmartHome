@@ -3,19 +3,20 @@ export const appReadyAction = () => {
     type: 'APP_READY',
   }
 }
-export const openAddDeviceModalAction = () => {
+
+export const openModalAction = () => {
   return {
-    type: 'OPEN_ADD_DEVICE_MODAL_ACTION',
+    type: 'OPEN_MODAL',
   }
 }
 
-export const closeAddDeviceModalAction = () => {
+export const openDevicesSidebarAction = () => {
   return {
-    type: 'CLOSE_ADD_DEVICE_MODAL_ACTION',
+    type: 'OPEN_DEVICES_SIDEBAR',
   }
 }
 
-export const responseErrorAction = (error) => {
+export const responseErrorAction = (error: Error) => {
   return {
     type: 'RESPONSE_ERROR',
     payload: {

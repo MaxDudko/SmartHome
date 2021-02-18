@@ -1,31 +1,29 @@
-import axios from 'axios'
 import { put, takeLatest } from 'redux-saga/effects'
-const SMART_APP_ENDPOINT = '/smart-api'
+import { GET_DEVICES, LOCK_TOGGLE, RESPONSE_ERROR, SAVE_DEVICES } from '../actionTypes'
+import sendRequest from '../endpointsAPI'
 
 function* getDevicesSaga(payload) {
   try {
-    const API_ENDPOINT = `${process.env.REACT_APP_API_URL}${SMART_APP_ENDPOINT}/get-devices`
-    const response = yield axios.post(API_ENDPOINT, payload.payload)
+    const response = yield sendRequest(GET_DEVICES, payload.payload)
 
-    yield put({ type: 'SAVE_DEVICES_ACTION', payload: response.data })
+    yield put({ type: SAVE_DEVICES, payload: response.data })
   } catch (error) {
-    yield put({ type: 'RESPONSE_ERROR', error })
+    yield put({ type: RESPONSE_ERROR, error })
   }
 }
 
 function* lockToggleSaga(payload) {
   try {
-    const API_ENDPOINT = `${process.env.REACT_APP_API_URL}${SMART_APP_ENDPOINT}/lock-toggle`
     const homeId = localStorage.getItem('homeId')
-    yield axios.post(API_ENDPOINT, payload.payload)
+    yield sendRequest(LOCK_TOGGLE, payload.payload)
 
-    yield put({ type: 'GET_DEVICES_ACTION', payload: { homeId: homeId && homeId.toString() } })
+    yield put({ type: GET_DEVICES, payload: { homeId: homeId && homeId.toString() } })
   } catch (error) {
-    yield put({ type: 'RESPONSE_ERROR', error })
+    yield put({ type: RESPONSE_ERROR, error })
   }
 }
 
 export default function* watchDevicesSaga() {
-  yield takeLatest('GET_DEVICES_ACTION', getDevicesSaga)
-  yield takeLatest('LOCK_TOGGLE_ACTION', lockToggleSaga)
+  yield takeLatest(GET_DEVICES, getDevicesSaga)
+  yield takeLatest(LOCK_TOGGLE, lockToggleSaga)
 }

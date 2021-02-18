@@ -2,31 +2,40 @@ import { DateTime } from 'luxon'
 import React, { useState } from 'react'
 import { Icon } from 'react-materialize'
 import { connect } from 'react-redux'
-import { openAddDeviceModalAction } from '../../actions/appActions'
+import { openDevicesSidebarAction, openModalAction } from '../../actions/appActions'
 import { lockToggleAction } from '../../actions/devicesActions'
 import styles from './DevicesSidebar.module.scss'
 
 interface Props {
+  devicesSidebarOpen: boolean
   homeId: string
   devices: {}
-  openAddDeviceModalAction: Function
+  openDevicesSidebarAction: Function
+  openModalAction: Function
   lockToggleAction: Function
 }
+
 const DevicesSidebar: React.FC<Props> = (props) => {
-  const { homeId, devices, openAddDeviceModalAction, lockToggleAction } = props
-  const [view, setView] = useState(true)
+  const {
+    homeId,
+    devices,
+    devicesSidebarOpen,
+    openDevicesSidebarAction,
+    openModalAction,
+    lockToggleAction,
+  } = props
 
   return (
-    <div className={styles.DevicesSidebar + ` ${!view ? styles.collapsed : ''}`}>
+    <div className={styles.DevicesSidebar + ` ${!devicesSidebarOpen ? styles.collapsed : ''}`}>
       <div className={styles.hidebtn}>
-        <span onClick={() => setView(!view)}>
+        <span onClick={() => openDevicesSidebarAction()}>
           <Icon>keyboard_arrow_down</Icon>
         </span>
       </div>
-      {view && (
+      {devicesSidebarOpen && (
         <>
           <div className={styles.add + ' col s1'}>
-            <i className="material-icons right" onClick={() => openAddDeviceModalAction()}>
+            <i className="material-icons right" onClick={() => openModalAction()}>
               add_circle
             </i>
           </div>
@@ -67,10 +76,13 @@ const DevicesSidebar: React.FC<Props> = (props) => {
 const mapStateToProps = (state) => ({
   devices: state.devices,
   homeId: state.home.id,
+  devicesSidebarOpen: state.app.devicesSidebarOpen,
 })
+
 const mapDispatchToProps = (dispatch) => ({
   lockToggleAction: (homeId) => dispatch(lockToggleAction(homeId)),
-  openAddDeviceModalAction: () => dispatch(openAddDeviceModalAction()),
+  openDevicesSidebarAction: () => dispatch(openDevicesSidebarAction()),
+  openModalAction: () => dispatch(openModalAction()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DevicesSidebar)

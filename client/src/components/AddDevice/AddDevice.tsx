@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import { Button, Col, Icon, Modal, Select, TextInput } from 'react-materialize'
 import { connect } from 'react-redux'
-import { closeAddDeviceModalAction } from '../../actions/appActions'
+import { openModalAction } from '../../actions/appActions'
 import styles from './AddDevice.module.scss'
 
 interface Props {
-  closeAddDeviceModalAction: Function
+  openModalAction: Function
 }
 const AddDevice: React.FC<Props> = (props) => {
-  const { closeAddDeviceModalAction } = props
+  const { openModalAction } = props
   const [currentStep, setStep] = useState(1)
   const [selectedMethod, setSelectedMethod] = useState('')
 
@@ -75,13 +75,13 @@ const AddDevice: React.FC<Props> = (props) => {
       <Col className={styles.modal}>
         <div className={styles.header}>
           <p className={styles.title}>Add a new device</p>
-          <Icon className={styles.cancel} onClick={() => closeAddDeviceModalAction()}>
+          <Icon className={styles.cancel} onClick={() => openModalAction()}>
             cancel
           </Icon>
         </div>
         {steps[currentStep]}
         <div className={styles.footer}>
-          <Button className={styles.secondary} onClick={() => closeAddDeviceModalAction()}>
+          <Button className={styles.secondary} onClick={() => openModalAction()}>
             Cancel
           </Button>
           {(currentStep === 1 && (
@@ -100,7 +100,7 @@ const AddDevice: React.FC<Props> = (props) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  closeAddDeviceModalAction: () => dispatch(closeAddDeviceModalAction()),
+  openModalAction: () => dispatch(openModalAction()),
 })
 
 export default connect(null, mapDispatchToProps)(AddDevice)
