@@ -6,6 +6,7 @@ import { appReadyAction } from '../actions/appActions'
 import { saveDevicesAction } from '../actions/devicesActions'
 import { selectHomeAction } from '../actions/homeActions'
 import { tokenValidationAction } from '../actions/userActions'
+import { DevicesState } from '../reducers/devicesReducer'
 import AddDevice from './AddDevice/AddDevice'
 import CreateHome from './AddHome/CreateHome'
 import JoinHome from './AddHome/JoinHome'
@@ -136,9 +137,9 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   appReadyAction: () => dispatch(appReadyAction()),
-  tokenValidationAction: (token) => dispatch(tokenValidationAction(token)),
-  saveDevicesAction: (data) => dispatch(saveDevicesAction(data)),
-  selectHomeAction: (userId, homeId) => dispatch(selectHomeAction(userId, homeId)),
+  tokenValidationAction: (token: string) => dispatch(tokenValidationAction(token)),
+  saveDevicesAction: (data: DevicesState) => dispatch(saveDevicesAction(data)),
+  selectHomeAction: (userId: string, homeId: string) => dispatch(selectHomeAction(userId, homeId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

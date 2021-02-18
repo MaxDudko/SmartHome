@@ -91,7 +91,7 @@ const mapStateToProps = (state) => ({
 })
 const mapDispatchToProps = (dispatch) => ({
   openModalAction: () => dispatch(openModalAction()),
-  lockToggleAction: (homeId) => dispatch(lockToggleAction(homeId)),
+  lockToggleAction: (homeId: string) => dispatch(lockToggleAction(homeId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Devices)

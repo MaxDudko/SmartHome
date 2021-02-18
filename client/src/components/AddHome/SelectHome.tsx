@@ -87,8 +87,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  getHomeListAction: (userId) => dispatch(getHomeListAction(userId)),
-  selectHomeAction: (userId, homeId) => dispatch(selectHomeAction(userId, homeId)),
+  getHomeListAction: (userId: string) => dispatch(getHomeListAction(userId)),
+  selectHomeAction: (userId: string, homeId: string) => dispatch(selectHomeAction(userId, homeId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelectHome)

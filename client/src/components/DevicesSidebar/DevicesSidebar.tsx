@@ -80,7 +80,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  lockToggleAction: (homeId) => dispatch(lockToggleAction(homeId)),
+  lockToggleAction: (homeId: string) => dispatch(lockToggleAction(homeId)),
   openDevicesSidebarAction: () => dispatch(openDevicesSidebarAction()),
   openModalAction: () => dispatch(openModalAction()),
 })

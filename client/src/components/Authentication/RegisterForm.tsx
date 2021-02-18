@@ -5,6 +5,7 @@ import { Redirect } from 'react-router'
 import { Link } from 'react-router-dom'
 import { registerUserAction } from '../../actions/userActions'
 import logo from '../../images/logo.png'
+import { UserState } from '../../reducers/userReducer'
 import styles from './Authentication.module.scss'
 
 interface Props {
@@ -148,7 +149,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  registerUserAction: (data) => dispatch(registerUserAction(data)),
+  registerUserAction: (data: UserState) => dispatch(registerUserAction(data)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm)

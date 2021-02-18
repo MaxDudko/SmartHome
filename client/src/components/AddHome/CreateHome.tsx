@@ -90,7 +90,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  createHomeAction: (userId, homeName, homeAddress, key) =>
+  createHomeAction: (userId: string, homeName: string, homeAddress: string, key: string) =>
     dispatch(createHomeAction(userId, homeName, homeAddress, key)),
 })
 

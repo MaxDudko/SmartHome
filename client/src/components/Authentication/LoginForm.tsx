@@ -5,6 +5,7 @@ import { Redirect } from 'react-router'
 import { Link } from 'react-router-dom'
 import { loginUserAction } from '../../actions/userActions'
 import logo from '../../images/logo.png'
+import { UserState } from '../../reducers/userReducer'
 import styles from './Authentication.module.scss'
 
 interface Props {
@@ -96,7 +97,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  loginUserAction: (data) => dispatch(loginUserAction(data)),
+  loginUserAction: (data: UserState) => dispatch(loginUserAction(data)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)

@@ -76,7 +76,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  joinHomeAction: (userId, homeId, key) => dispatch(joinHomeAction(userId, homeId, key)),
+  joinHomeAction: (userId: string, homeId: string, key: string) => dispatch(joinHomeAction(userId, homeId, key)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(JoinHome)
