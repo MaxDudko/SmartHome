@@ -124,16 +124,16 @@ const RegisterForm: React.FC<Props> = (props) => {
         </Button>
       </form>
       <div className={styles.links}>
-          <span className="col s12" style={{ marginLeft: 'auto', marginRight: 'auto' }}>
-            By clicking Join now, you agree to the LinkedIn User Agreement, Privacy Policy. and
-            Cookie Policy.
-          </span>
+        <span className="col s12" style={{ marginLeft: 'auto', marginRight: 'auto' }}>
+          By clicking Join now, you agree to the LinkedIn User Agreement, Privacy Policy. and Cookie
+          Policy.
+        </span>
         <span>
-            Already have an account?
-            <Link to="/login">
-              <span className={styles.link}>Login</span>
-            </Link>
-          </span>
+          Already have an account?
+          <Link to="/login">
+            <span className={styles.link}>Login</span>
+          </Link>
+        </span>
       </div>
     </div>
   )
