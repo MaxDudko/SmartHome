@@ -1,9 +1,14 @@
 .Sidebar {
   color: #98a7b9;
+  padding: 0 !important;
   .head {
     margin-top: 30px;
     .name, .address {
       margin: 0;
+      text-overflow: ellipsis;
+      width: 100%;
+      white-space: nowrap;
+      overflow:hidden;
     }
     .name {
       font-size: 20px;
@@ -50,6 +55,20 @@
       .name {
         margin-bottom: 5px;
       }
+    }
+    .item a {
+      padding: 5px 20px;
+    }
+    .active {
+      a, i {
+        color: #1f8efa !important;
+      }
+      a {
+        padding: 5px 0;
+      }
+    }
+    i {
+      color: #98a7b9 !important;
     }
   }
 }

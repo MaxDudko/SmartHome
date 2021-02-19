@@ -76,18 +76,18 @@ const LoginForm: React.FC<Props> = (props) => {
         >
           SIGN IN
         </Button>
-        <div className={styles.links}>
-          <Link to="/restore">
-            <span className={styles.linkRestore}>Forgot your password?</span>
-          </Link>
-          <span>
-            Don't have an account?
-            <Link to="/register">
-              <span className={styles.link}>Sign up</span>
-            </Link>
-          </span>
-        </div>
       </form>
+      <div className={styles.links}>
+        <Link to="/restore">
+          <span className={styles.linkRestore}>Forgot your password?</span>
+        </Link>
+        <span>
+          Don't have an account?
+          <Link to="/register">
+            <span className={styles.link}>Sign up</span>
+          </Link>
+        </span>
+      </div>
     </div>
   )
 }

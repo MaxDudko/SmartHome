@@ -1,12 +1,15 @@
 .welcomeScreen {
-  height: 100%;
+  min-height: 100vh !important;
   background: #37435a;
-  padding-left: 60px;
+  padding: 0 50px !important;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
   order: 1;
+  position: absolute;
+  top: 0;
+  bottom: 0;
   .header {
     margin: 67px 0;
   }
@@ -43,11 +46,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
   background: #242e42;
   color: #ffffff;
   overflow-y: auto;
   order: 2;
+  min-height: 100vh !important;
   .header {}
   .form {
     display: flex;
@@ -63,25 +66,6 @@
       align-items: flex-start;
     }
     .wrapper {}
-    .links {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      margin-top: 20px;
-      span {
-        color: #5b677a;
-        margin: 20px 5px;
-      }
-      .link {
-        cursor: pointer;
-        color: #236cb7;
-        font-weight: bold;
-      }
-      .linkRestore {
-        color: #8d96a5;
-        margin-top: 20px;
-      }
-    }
     .input-field {
       display: block;
       margin-left: auto;
@@ -123,6 +107,25 @@
         color: #647386;
       }
       margin-bottom: 100px;
+    }
+  }
+  .links {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 20px;
+    span {
+      color: #5b677a;
+      margin: 20px 5px;
+    }
+    .link {
+      cursor: pointer;
+      color: #236cb7;
+      font-weight: bold;
+    }
+    .linkRestore {
+      color: #8d96a5;
+      margin-top: 20px;
     }
   }
 }

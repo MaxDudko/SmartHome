@@ -33,11 +33,6 @@ const RegisterForm: React.FC<Props> = (props) => {
       return false
     }
 
-    if (password.length < 8) {
-      throwErrors('Password must be at least 8 characters')
-      return false
-    }
-
     if (!password.match(/^(?=.*[A-Za-z0-9])(?=.*\d)[A-Za-z0-9\d]{8,64}$/)) {
       throwErrors('Password must be at least 8-64 A-Z, a-z, 0-9')
       return false
@@ -127,19 +122,19 @@ const RegisterForm: React.FC<Props> = (props) => {
         >
           SIGN UP
         </Button>
-        <div className={styles.links}>
+      </form>
+      <div className={styles.links}>
           <span className="col s12" style={{ marginLeft: 'auto', marginRight: 'auto' }}>
             By clicking Join now, you agree to the LinkedIn User Agreement, Privacy Policy. and
             Cookie Policy.
           </span>
-          <span>
+        <span>
             Already have an account?
             <Link to="/login">
               <span className={styles.link}>Login</span>
             </Link>
           </span>
-        </div>
-      </form>
+      </div>
     </div>
   )
 }

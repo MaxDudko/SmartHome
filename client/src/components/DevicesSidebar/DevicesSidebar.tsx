@@ -34,7 +34,7 @@ const DevicesSidebar: React.FC<Props> = (props) => {
       </div>
       {devicesSidebarOpen && (
         <>
-          <div className={styles.add + ' col s1'}>
+          <div className={styles.add}>
             <i className="material-icons right" onClick={() => openModalAction()}>
               add_circle
             </i>

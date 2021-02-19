@@ -24,8 +24,12 @@ const Sidebar: React.FC<Props> = (props) => {
         <div className={styles.head}>
           <img src={home} alt="HomeController" />
           <div>
-            <p className={styles.name}>{homeName}</p>
-            <p className={styles.address}>{homeAddress}</p>
+            <p className={styles.name} title={homeName}>
+              {homeName}
+            </p>
+            <p className={styles.address} title={homeAddress}>
+              {homeAddress}
+            </p>
           </div>
         </div>
       )}

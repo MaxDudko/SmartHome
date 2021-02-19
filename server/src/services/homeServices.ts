@@ -3,6 +3,14 @@ import Resident from '../models/Resident'
 import User from '../models/User'
 
 class HomeServices {
+  private static validateField(field: string) {
+    return field.match(/^(?=.*[A-Za-z0-9._-])(?=.*\d)[A-Za-z0-9\d]{3,64}$/)
+  }
+
+  private static validateKey(key: string) {
+    return key.match(/^(?=.*[A-Za-z0-9])(?=.*\d)[A-Za-z0-9\d]{8,64}$/)
+  }
+
   public async findHomeList(userId: string) {
     const residents = await Resident.findAll({ where: { userId } })
 
@@ -37,6 +45,16 @@ class HomeServices {
   }
 
   public async createHome(userId: string, homeName: string, homeAddress: string, key: string) {
+    if (!HomeServices.validateField(homeName)) {
+      throw Error('Home name not valid')
+    }
+    if (!HomeServices.validateField(homeAddress)) {
+      throw Error('Home address not valid')
+    }
+    if (!HomeServices.validateKey(key)) {
+      throw Error('Security key must be at least 8-64 A-Z, a-z, 0-9')
+    }
+
     const user = await User.findOne({ where: { id: userId } })
 
     if (user) {

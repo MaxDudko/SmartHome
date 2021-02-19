@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Col, TextInput } from 'react-materialize'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -8,18 +8,47 @@ import styles from './AddHome.module.scss'
 interface Props {
   userId: string
   createHomeAction: any
+  responseError: string
 }
 
 const CreateHome: React.FC<Props> = (props) => {
-  const { createHomeAction, userId } = props
+  const { createHomeAction, userId, responseError } = props
   const [data, setData] = useState<any>({})
+  const [errors, throwErrors] = useState<string>('')
+
+  useEffect(() => {
+    throwErrors(responseError)
+  }, [responseError])
+
+  const validateData = (data) => {
+    const { homeName, homeAddress, key } = data
+
+    if (!homeName.match(/^(?=.*[A-Za-z0-9._-])(?=.*\d)[A-Za-z0-9\d]{3,64}$/)) {
+      throwErrors('Home name not valid')
+      return false
+    }
+
+    if (!homeAddress.match(/^(?=.*[A-Za-z0-9._-])(?=.*\d)[A-Za-z0-9\d]{3,64}$/)) {
+      throwErrors('Home address not valid')
+      return false
+    }
+
+    if (!key.match(/^(?=.*[A-Za-z0-9])(?=.*\d)[A-Za-z0-9\d]{8,64}$/)) {
+      throwErrors('Security key must be at least 8-64 A-Z, a-z, 0-9')
+      return false
+    }
+
+    return true
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    const { userId, homeName, homeAddress, key } = data
-
-    createHomeAction(userId.toString(), homeName, homeAddress, key)
+    const isValid = validateData(data)
+    if (isValid) {
+      const { userId, homeName, homeAddress, key } = data
+      createHomeAction(userId.toString(), homeName, homeAddress, key)
+    }
   }
 
   return (
@@ -68,6 +97,7 @@ const CreateHome: React.FC<Props> = (props) => {
             })
           }}
         />
+        <span style={{ color: 'red', fontSize: '12px' }}>{errors}</span>
         <Button
           node="button"
           type="submit"
@@ -87,6 +117,7 @@ const CreateHome: React.FC<Props> = (props) => {
 
 const mapStateToProps = (state) => ({
   userId: state.user.id,
+  responseError: state.app.id,
 })
 
 const mapDispatchToProps = (dispatch) => ({

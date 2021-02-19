@@ -77,7 +77,7 @@ const App: React.FC<Props> = (props) => {
           {userId ? (
             <>
               <Navbar />
-              <div className="row">
+              <Row className={styles.wrapper}>
                 <div className="hide-on-med-and-down">
                   <Sidebar />
                 </div>
@@ -108,7 +108,7 @@ const App: React.FC<Props> = (props) => {
                     <Redirect to="/select-home" />
                   </>
                 )}
-              </div>
+              </Row>
             </>
           ) : (
             <>

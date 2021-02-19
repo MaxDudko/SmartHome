@@ -50,7 +50,7 @@ function* joinHomeSaga(payload) {
 
     yield put({ type: SAVE_HOME, payload: response.data })
   } catch (error) {
-    yield put({ type: RESPONSE_ERROR, error })
+    yield put({ type: RESPONSE_ERROR, payload: error.response.data.message })
   }
 }
 
