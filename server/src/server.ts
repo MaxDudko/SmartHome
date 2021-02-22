@@ -4,17 +4,21 @@ import express from 'express'
 import passport from 'passport'
 import DB from './config/db.config'
 import strategy from './config/passport'
+import authMiddleware from "./middlewares/auth";
+import auth from "./middlewares/auth";
 import router from './router'
 
 class Server {
+  private static passport() {
+    passport.use(strategy)
+  }
   private app
 
   constructor() {
     this.app = express()
     this.config()
-    this.routerConfig()
     this.dbConnect()
-    this.passport()
+    Server.passport()
   }
 
   public start = (port: number) => {
@@ -31,25 +35,20 @@ class Server {
     this.app.use(bodyParser.urlencoded({ extended: true }))
     this.app.use(bodyParser.json({ limit: '1mb' }))
     this.app.use(cors())
+    this.app.use(router)
   }
 
   private dbConnect() {
     DB.sequelize
       .sync()
       .then(() => {
+        // tslint:disable-next-line:no-console
         console.log('DB: Connection has been established successfully.')
       })
       .catch((err) => {
+        // tslint:disable-next-line:no-console
         console.error('DB: Unable to connect to the database:', err)
       })
-  }
-
-  private passport() {
-    passport.use(strategy)
-  }
-
-  private routerConfig() {
-    this.app.use(router)
   }
 }
 

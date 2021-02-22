@@ -43,7 +43,7 @@ function* tokenValidationSaga(payload) {
 function* loginSaga(payload) {
   try {
     const response = yield sendRequest(LOGIN_USER, { ...payload.data })
-    localStorage.setItem('token', response.data.user.token)
+    localStorage.setItem('token', `Bearer ${response.data.user.token}`)
 
     yield put({ type: SAVE_USER_DATA, payload: response.data.user })
   } catch (error) {

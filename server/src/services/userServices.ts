@@ -14,6 +14,19 @@ class UserServices {
     return password.match(/^(?=.*[A-Za-z0-9])(?=.*\d)[A-Za-z0-9\d]{8,64}$/)
   }
 
+  public async userPassport(email: string, password: string, done: any) {
+    const user = await User.findOne({ where: { email } })
+    if (!user || !user.validatePassword(password)) {
+      return done(null, false, {
+        errors: {
+          'login or password': 'not valid',
+        },
+      })
+    }
+
+    return done(null, user)
+  }
+
   public async createUser(email: string, password: string, fullName: string) {
     if (UserServices.validateEmail(email) && UserServices.validatePassword(password)) {
       const isUserRegister = await User.findOne({ where: { email } })

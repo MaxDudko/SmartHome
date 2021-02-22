@@ -44,8 +44,10 @@ class UserController {
   }
 
   public async checkToken(req: Request, res: Response) {
-    // @ts-ignore
-    const email = req.payload.email
+    const {
+      // @ts-ignore
+      payload: { email },
+    } = req
     if (email) {
       try {
         const user = await services.checkToken(email)

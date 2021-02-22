@@ -1,5 +1,6 @@
 import { Strategy as LocalStrategy } from 'passport-local'
-import User from '../models/User'
+import UserServices from '../services/userServices'
+const services = new UserServices()
 
 const strategy = new LocalStrategy(
   {
@@ -7,19 +8,11 @@ const strategy = new LocalStrategy(
     passwordField: 'password',
   },
   (email: string, password: string, done: any) => {
-    User.findOne({ where: { email } })
-      .then((user: any) => {
-        if (!user || !user.validatePassword(password)) {
-          return done(null, false, {
-            errors: {
-              'login or password': 'not valid',
-            },
-          })
-        }
-
-        return done(null, user)
-      })
-      .catch(done)
+    try {
+      return services.userPassport(email, password, done)
+    } catch (error) {
+      done(error)
+    }
   }
 )
 

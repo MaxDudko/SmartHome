@@ -1,22 +1,23 @@
-import { Request } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import jwt from 'express-jwt'
 
-const getToken = (req: Request): string | undefined => req.body.token
+const getTokenFromHeaders = (req: Request) => {
+  const {
+    headers: { authorization },
+  } = req
 
-const auth = {
-  required: jwt({
-    algorithms: ['HS256'],
-    secret: process.env.JWT_SECRET as string,
-    userProperty: 'payload',
-    getToken,
-  }),
-  optional: jwt({
-    algorithms: ['HS256'],
-    secret: process.env.JWT_SECRET as string,
-    userProperty: 'payload',
-    getToken,
-    credentialsRequired: false,
-  }),
+  if (authorization && authorization.split(' ')[0] === 'Bearer') {
+    return authorization.split(' ')[1]
+  }
+  return null
 }
 
-export default auth
+const authMiddleware = jwt({
+  algorithms: ['HS256'],
+  secret: process.env.JWT_SECRET as string,
+  userProperty: 'payload',
+  getTokenFromHeaders,
+  credentialsRequired: false,
+})
+
+export default authMiddleware
