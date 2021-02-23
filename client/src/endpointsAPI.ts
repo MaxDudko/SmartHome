@@ -39,15 +39,21 @@ const sendRequest = (actionType: string, data: any) => {
     }
   }
 
-  const url = `${API_URL}${getPath(actionType)}`
-  const token = localStorage.getItem('token')
-  const config = token
-    ? {
+  const getHeaders = (token) => {
+    if (token) {
+      return {
         headers: {
           authorization: token,
         },
       }
-    : {}
+    } else {
+      return {}
+    }
+  }
+
+  const url = `${API_URL}${getPath(actionType)}`
+  const token = localStorage.getItem('token')
+  const config = getHeaders(token)
 
   if (url && data) {
     return axios.post(url, data, config)
