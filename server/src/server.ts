@@ -4,8 +4,7 @@ import express from 'express'
 import passport from 'passport'
 import DB from './config/db.config'
 import strategy from './config/passport'
-import authMiddleware from "./middlewares/auth";
-import auth from "./middlewares/auth";
+import authMiddleware from './middlewares/auth'
 import router from './router'
 
 class Server {
@@ -27,7 +26,7 @@ class Server {
         .listen(port, () => {
           resolve(port)
         })
-        .on('error', (err: Object) => reject(err))
+        .on('error', (err: Error) => reject(err))
     })
   }
 
