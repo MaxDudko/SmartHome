@@ -4,6 +4,10 @@ import UserServices from '../services/userServices'
 
 const services = new UserServices()
 
+interface RequestWithPayload extends Request {
+  payload?: { [email: string]: string }
+}
+
 class UserController {
   public async createUser(req: Request, res: Response) {
     const { email, password, fullName } = req.body
@@ -43,11 +47,8 @@ class UserController {
     }
   }
 
-  public async checkToken(req: Request, res: Response) {
-    const {
-      // @ts-ignore
-      payload: { email },
-    } = req
+  public async checkToken(req: RequestWithPayload, res: Response) {
+    const email = req.payload?.email
     if (email) {
       try {
         const user = await services.checkToken(email)
