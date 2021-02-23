@@ -14,6 +14,7 @@ import SelectHome from './AddHome/SelectHome'
 import Analytics from './Analytics/Analytics'
 import styles from './App.module.scss'
 import LoginForm from './Authentication/LoginForm'
+import RefreshForm from './Authentication/RefreshForm'
 import RegisterForm from './Authentication/RegisterForm'
 import RestoreForm from './Authentication/RestoreForm'
 import WelcomeScreen from './Authentication/WelcomeScreen'
@@ -116,10 +117,11 @@ const App: React.FC<Props> = (props) => {
                 <Route path="/login" component={LoginForm} />
                 <Route path="/register" component={RegisterForm} />
                 <Route path="/restore" component={RestoreForm} />
+                <Route path="/refresh" component={RefreshForm} />
               </Switch>
 
               <WelcomeScreen />
-              <Redirect to="/login" />
+              {/*<Redirect to="/login" />*/}
             </>
           )}
         </>

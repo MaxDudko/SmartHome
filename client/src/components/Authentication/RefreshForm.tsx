@@ -1,20 +1,31 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, TextInput } from 'react-materialize'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router'
-import { resetPasswordAction } from '../../actions/userActions'
+import { Redirect, useLocation } from 'react-router'
+import { refreshPasswordAction, resetPasswordAction } from '../../actions/userActions'
 import logo from '../../images/logo.png'
 import styles from './Authentication.module.scss'
 
 interface Props {
   responseError: string
-  resetPasswordAction: Function
+  refreshPasswordAction: Function
 }
 
-const RestoreForm: React.FC<Props> = (props) => {
-  const { resetPasswordAction, responseError } = props
+const RefreshForm: React.FC<Props> = (props) => {
+  const { refreshPasswordAction, responseError } = props
   const [data, setData] = useState<any>({})
   const [errors, throwErrors] = useState<string>('')
+
+  useEffect(() => {
+    const search = window.location.search
+    const params = new URLSearchParams(search)
+    const token = params.get('token')
+
+    setData({
+      ...data,
+      token,
+    })
+  }, [])
 
   useEffect(() => {
     throwErrors(responseError)
@@ -30,7 +41,7 @@ const RestoreForm: React.FC<Props> = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    resetPasswordAction(data)
+    refreshPasswordAction(data)
   }
 
   return (
@@ -44,19 +55,25 @@ const RestoreForm: React.FC<Props> = (props) => {
         onSubmit={handleSubmit}
       >
         <p className={styles.title}>Forgot Password</p>
-        <div className={styles.restoreText}>
-          <p>Place your email in the field below.</p>
-          <p>We will send you a link with the</p>
-          <p>instructions to follow.</p>
-        </div>
+        <div className={styles.restoreText}></div>
         <TextInput
-          email={true}
-          id="email"
+          password={true}
+          id="password"
           onChange={handleChange}
           s={12}
           inputClassName="validate"
           required={true}
-          label="Email"
+          label="Password"
+          placeholder=""
+        />
+        <TextInput
+          password={true}
+          id="confirmPassword"
+          onChange={handleChange}
+          s={12}
+          inputClassName="validate"
+          required={true}
+          label="Confirm Password"
           placeholder=""
         />
         <span style={{ color: 'red', fontSize: '12px' }}>{errors}</span>
@@ -78,7 +95,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  resetPasswordAction: (data: object) => dispatch(resetPasswordAction(data)),
+  refreshPasswordAction: (data: object) => dispatch(refreshPasswordAction(data)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(RestoreForm)
+export default connect(mapStateToProps, mapDispatchToProps)(RefreshForm)

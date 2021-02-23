@@ -1,4 +1,7 @@
+import nodemailer from 'nodemailer'
 import passport from 'passport'
+import randomstring from 'randomstring'
+import PasswordToken from '../models/PasswordToken'
 import User from '../models/User'
 
 class UserServices {
@@ -68,6 +71,80 @@ class UserServices {
     }
 
     return user.toAuthJSON()
+  }
+
+  public async resetPassword(email: string) {
+    const user = await User.findOne({ where: { email } })
+
+    if (!user) {
+      throw Error('Email not found')
+    }
+
+    const token = randomstring.generate(32)
+    const url = `http://${process.env.HOST}:${process.env.PORT}/password/reset?token=${token}`
+
+    const passwordToken = new PasswordToken({ userId: user.id, token })
+
+    await PasswordToken.create(passwordToken.getAttributes())
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASS,
+      },
+    })
+
+    transporter.sendMail(
+      {
+        from: process.env.EMAIL,
+        to: user.email,
+        subject: 'SmartHome: reset password',
+        html: `<p>Please click on this link:</p><p>${url}</p>`,
+      },
+      (error, info) => {
+        if (error) {
+          // tslint:disable-next-line:no-console
+          console.log(error)
+        } else {
+          // tslint:disable-next-line:no-console
+          console.log('Email sent: ' + info.response)
+        }
+      }
+    )
+  }
+
+  public async checkPasswordToken(token: any) {
+    const passwordToken = await PasswordToken.findOne({ where: { token } })
+
+    if (!passwordToken) {
+      throw Error('Wrong token')
+    }
+
+    const tokenValid = passwordToken.validateTime()
+
+    if (!tokenValid) {
+      throw Error('Token not valid')
+    }
+
+    return tokenValid
+  }
+
+  public async refreshPassword(password: string, token: string) {
+    const passwordToken = await PasswordToken.findOne({ where: { token } })
+    const userId = passwordToken.getAttributes().userId
+
+    if (!passwordToken || !passwordToken.validateTime()) {
+      throw Error('Token not valid')
+    }
+
+    if (userId) {
+      const user = User.findOne({ where: { id: userId } })
+      if (!user) {
+        throw Error('User not found')
+      }
+    // update user password...
+    }
   }
 }
 

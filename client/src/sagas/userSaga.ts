@@ -2,11 +2,11 @@ import { put, takeLatest } from 'redux-saga/effects'
 import {
   APP_READY,
   LOGIN_USER,
-  LOGOUT_USER,
+  LOGOUT_USER, REFRESH_PASSWORD,
   REGISTER_USER,
   REMOVE_DEVICES,
   REMOVE_HOME_DATA,
-  REMOVE_USER_DATA,
+  REMOVE_USER_DATA, RESET_PASSWORD,
   RESPONSE_ERROR,
   SAVE_USER_DATA,
   SELECT_HOME,
@@ -62,6 +62,22 @@ function* registerSaga(payload) {
   }
 }
 
+function* resetPasswordSaga(payload) {
+  try {
+    yield sendRequest(RESET_PASSWORD, { ...payload.data })
+  } catch (error) {
+    yield put({ type: RESPONSE_ERROR, payload: error.response.data.message })
+  }
+}
+
+function* refreshPasswordSaga(payload) {
+  try {
+    yield sendRequest(REFRESH_PASSWORD, { ...payload.data })
+  } catch (error) {
+    yield put({ type: RESPONSE_ERROR, payload: error.response.data.message })
+  }
+}
+
 function* logoutSaga() {
   localStorage.removeItem('token')
   localStorage.removeItem('homeId')
@@ -74,6 +90,8 @@ function* logoutSaga() {
 export default function* watchUserAuthentication() {
   yield takeLatest(VALIDATE_TOKEN, tokenValidationSaga)
   yield takeLatest(LOGIN_USER, loginSaga)
+  yield takeLatest(RESET_PASSWORD, resetPasswordSaga)
+  yield takeLatest(REFRESH_PASSWORD, refreshPasswordSaga)
   yield takeLatest(REGISTER_USER, registerSaga)
   yield takeLatest(LOGOUT_USER, logoutSaga)
 }

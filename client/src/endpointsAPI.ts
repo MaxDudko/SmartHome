@@ -6,7 +6,9 @@ import {
   JOIN_HOME,
   LOCK_TOGGLE,
   LOGIN_USER,
+  REFRESH_PASSWORD,
   REGISTER_USER,
+  RESET_PASSWORD,
   SELECT_HOME,
   VALIDATE_TOKEN,
 } from './actionTypes'
@@ -22,6 +24,10 @@ const sendRequest = (actionType: string, data: any) => {
         return `/login`
       case REGISTER_USER:
         return `/register`
+      case RESET_PASSWORD:
+        return `/password/reset`
+      case REFRESH_PASSWORD:
+        return `/password/refresh`
       case GET_HOME_LIST:
         return `/find-home`
       case SELECT_HOME:

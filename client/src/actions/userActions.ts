@@ -27,6 +27,20 @@ export const registerUserAction = (data: UserState) => {
   }
 }
 
+export const resetPasswordAction = (data: object) => {
+  return {
+    type: 'RESET_PASSWORD',
+    data,
+  }
+}
+
+export const refreshPasswordAction = (data: object) => {
+  return {
+    type: 'REFRESH_PASSWORD',
+    data,
+  }
+}
+
 export const saveUserDataAction = (data: UserState) => {
   return {
     type: 'SAVE_USER_DATA',
