@@ -1,3 +1,4 @@
+import {NextFunction, Request, Response} from 'express'
 import nodemailer from 'nodemailer'
 import passport from 'passport'
 import randomstring from 'randomstring'
@@ -132,18 +133,23 @@ class UserServices {
 
   public async refreshPassword(password: string, token: string) {
     const passwordToken = await PasswordToken.findOne({ where: { token } })
-    const userId = passwordToken.getAttributes().userId
+    const userId = passwordToken?.getAttributes().userId
 
     if (!passwordToken || !passwordToken.validateTime()) {
       throw Error('Token not valid')
     }
 
     if (userId) {
-      const user = User.findOne({ where: { id: userId } })
+      const user = await User.findOne({ where: { id: userId } })
       if (!user) {
         throw Error('User not found')
       }
-    // update user password...
+
+      user.setPassword(password)
+
+      await user.save()
+
+      return user.toAuthJSON()
     }
   }
 }
