@@ -42,6 +42,8 @@ const RefreshForm: React.FC<Props> = (props) => {
     event.preventDefault()
 
     refreshPasswordAction(data)
+
+    return <Redirect to="/overview" />
   }
 
   return (

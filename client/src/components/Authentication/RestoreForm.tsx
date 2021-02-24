@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, TextInput } from 'react-materialize'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
@@ -15,6 +15,7 @@ const RestoreForm: React.FC<Props> = (props) => {
   const { resetPasswordAction, responseError } = props
   const [data, setData] = useState<any>({})
   const [errors, throwErrors] = useState<string>('')
+  const [submited, submit] = useState(false)
 
   useEffect(() => {
     throwErrors(responseError)
@@ -31,6 +32,7 @@ const RestoreForm: React.FC<Props> = (props) => {
     event.preventDefault()
 
     resetPasswordAction(data)
+    submit(true)
   }
 
   return (
@@ -38,37 +40,41 @@ const RestoreForm: React.FC<Props> = (props) => {
       <div className={styles.header}>
         <img src={logo} alt="SmartHome" />
       </div>
-      <form
-        className={styles.form + ' col s10 m8'}
-        style={{ marginLeft: 0 }}
-        onSubmit={handleSubmit}
-      >
-        <p className={styles.title}>Forgot Password</p>
-        <div className={styles.restoreText}>
-          <p>Place your email in the field below.</p>
-          <p>We will send you a link with the</p>
-          <p>instructions to follow.</p>
-        </div>
-        <TextInput
-          email={true}
-          id="email"
-          onChange={handleChange}
-          s={12}
-          inputClassName="validate"
-          required={true}
-          label="Email"
-          placeholder=""
-        />
-        <span style={{ color: 'red', fontSize: '12px' }}>{errors}</span>
-        <Button
-          node="button"
-          type="submit"
-          className="waves-effect btn col s12"
-          style={{ backgroundColor: '#1f8efa', marginLeft: '20px' }}
+      {!submited ? (
+        <form
+          className={styles.form + ' col s10 m8'}
+          style={{ marginLeft: 0 }}
+          onSubmit={handleSubmit}
         >
-          RECOVER PASSWORD
-        </Button>
-      </form>
+          <p className={styles.title}>Forgot Password</p>
+          <div className={styles.restoreText}>
+            <p>Place your email in the field below.</p>
+            <p>We will send you a link with the</p>
+            <p>instructions to follow.</p>
+          </div>
+          <TextInput
+            email={true}
+            id="email"
+            onChange={handleChange}
+            s={12}
+            inputClassName="validate"
+            required={true}
+            label="Email"
+            placeholder=""
+          />
+          <span style={{ color: 'red', fontSize: '12px' }}>{errors}</span>
+          <Button
+            node="button"
+            type="submit"
+            className="waves-effect btn col s12"
+            style={{ backgroundColor: '#1f8efa', marginLeft: '20px' }}
+          >
+            RECOVER PASSWORD
+          </Button>
+        </form>
+      ) : (
+        <p>Check your email</p>
+      )}
     </div>
   )
 }

@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { Container, Row } from 'react-materialize'
 import { connect } from 'react-redux'
 import { Redirect, Route, Switch, useHistory } from 'react-router'
+import { useLocation } from 'react-router-dom'
 import { appReadyAction } from '../actions/appActions'
 import { saveDevicesAction } from '../actions/devicesActions'
 import { selectHomeAction } from '../actions/homeActions'
 import { tokenValidationAction } from '../actions/userActions'
 import { DevicesState } from '../reducers/devicesReducer'
+import SmartRouter from '../SmartRouter'
 import AddDevice from './AddDevice/AddDevice'
 import CreateHome from './AddHome/CreateHome'
 import JoinHome from './AddHome/JoinHome'
@@ -49,6 +51,12 @@ const App: React.FC<Props> = (props) => {
     saveDevicesAction,
     modalOpen,
   } = props
+  const smartRouter = new SmartRouter()
+  const location = useLocation()
+
+  useEffect(() => {
+    smartRouter.getPaths('dashboardRoutes')
+  }, [userId, homeId])
 
   useEffect(() => {
     const eventSource = new EventSource(`http://localhost:4000/stream?homeId=${homeId}`)
@@ -84,44 +92,39 @@ const App: React.FC<Props> = (props) => {
                 </div>
                 {homeId ? (
                   <>
-                    <Switch>
-                      <Route path="/overview" component={Overview} />
-                      <Route path="/devices" component={Devices} />
-                      <Route path="/analytics" component={Analytics} />
-                      <Route path="/rules" component={Rules} />
-                      <Route path="/gallery" component={Gallery} />
-                      <Route path="/history" component={History} />
-                      <Route path="/settings" component={Settings} />
-                    </Switch>
-
-                    <Redirect to="/overview" />
+                    {smartRouter.getRoutes('dashboardRoutes')}
+                    {/*{smartRouter.getRedirects('dashboardRoutes', location.pathname, '/overview')}*/}
+                    {smartRouter.getPaths('dashboardRoutes').includes(location.pathname) ? (
+                      <Redirect to={location.pathname} />
+                    ) : (
+                      <Redirect to="/overview" />
+                    )}
                     <DevicesSidebar />
                     {modalOpen && <AddDevice />}
                   </>
                 ) : (
                   <>
-                    <Switch>
-                      <Route path="/select-home" component={SelectHome} />
-                      <Route path="/create-home" component={CreateHome} />
-                      <Route path="/join-home" component={JoinHome} />
-                    </Switch>
+                    {smartRouter.getRoutes('homeRoutes')}
 
-                    <Redirect to="/select-home" />
+                    {smartRouter.getPaths('homeRoutes').includes(location.pathname) ? (
+                      <Redirect to={location.pathname} />
+                    ) : (
+                      <Redirect to="/select-home" />
+                    )}
                   </>
                 )}
               </Row>
             </>
           ) : (
             <>
-              <Switch>
-                <Route path="/login" component={LoginForm} />
-                <Route path="/register" component={RegisterForm} />
-                <Route path="/restore" component={RestoreForm} />
-                <Route path="/refresh" component={RefreshForm} />
-              </Switch>
+              {smartRouter.getRoutes('authRoutes')}
 
               <WelcomeScreen />
-              {/*<Redirect to="/login" />*/}
+              {smartRouter.getPaths('authRoutes').includes(location.pathname) ? (
+                <Redirect to={`${location.pathname}${location.search}`} />
+              ) : (
+                <Redirect to="/login" />
+              )}
             </>
           )}
         </>
