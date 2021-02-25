@@ -48,7 +48,7 @@ class User extends Model<UserAttributes> implements UserAttributes {
         email: this.email,
         exp: parseInt(String(expirationDate.getTime() / 1000), 10),
       },
-      process.env.JWT_SECRET as string
+      (process.env.JWT_SECRET as string) || 'secret'
     )
   }
 
