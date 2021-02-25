@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Button, TextInput } from 'react-materialize'
 import { connect } from 'react-redux'
-import { Redirect, useLocation } from 'react-router'
-import { refreshPasswordAction, resetPasswordAction } from '../../actions/userActions'
+import { Redirect } from 'react-router'
+import { refreshPasswordAction } from '../../actions/userActions'
 import logo from '../../images/logo.png'
 import styles from './Authentication.module.scss'
 
@@ -25,7 +25,7 @@ const RefreshForm: React.FC<Props> = (props) => {
       ...data,
       token,
     })
-  }, [])
+  }, [data])
 
   useEffect(() => {
     throwErrors(responseError)
@@ -57,7 +57,7 @@ const RefreshForm: React.FC<Props> = (props) => {
         onSubmit={handleSubmit}
       >
         <p className={styles.title}>Forgot Password</p>
-        <div className={styles.restoreText}></div>
+        <div className={styles.restoreText} />
         <TextInput
           password={true}
           id="password"

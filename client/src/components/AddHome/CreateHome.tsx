@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Col, TextInput } from 'react-materialize'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import { createHomeAction } from '../../actions/homeActions'
 import styles from './AddHome.module.scss'
 

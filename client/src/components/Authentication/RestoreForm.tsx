@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button, TextInput } from 'react-materialize'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router'
 import { resetPasswordAction } from '../../actions/userActions'
 import logo from '../../images/logo.png'
 import styles from './Authentication.module.scss'

@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Col, Icon, Table } from 'react-materialize'
 import { connect } from 'react-redux'
-import {getHomeListAction, selectHomeAction} from '../../actions/homeActions'
+import { getHomeListAction, selectHomeAction } from '../../actions/homeActions'
 import styles from './AddHome.module.scss'
 
 interface Props {
@@ -16,8 +16,8 @@ const SelectHome: React.FC<Props> = (props) => {
   const [data, setData] = useState<any>({})
 
   useEffect(() => {
-    userId && getHomeListAction(userId.toString())
-  }, [userId])
+    getHomeListAction(userId.toString())
+  }, [getHomeListAction, userId])
 
   const handleSubmit = (event) => {
     event.preventDefault()
