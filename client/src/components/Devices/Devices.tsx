@@ -21,6 +21,13 @@ const Devices: React.FC<Props> = (props) => {
     return newDate.setLocale('en-gb').toLocaleString()
   }
 
+  const batteryIndicator = (value: number) => {
+    const icon =
+      (value > 50 && 'battery_charging_full') || (value <= 50 && 'battery_alert') || 'battery_std'
+    const color = (value > 50 && '#05c985') || (value <= 50 && '#ffab4f') || '#1f8efa'
+    return <Icon style={{ color }}>{icon}</Icon>
+  }
+
   return (
     <div className={styles.Devices + ' col s12 l9'}>
       <h4>Devices</h4>
@@ -62,14 +69,7 @@ const Devices: React.FC<Props> = (props) => {
                     </div>
                   </td>
                   <td>
-                    <span className={styles.battery}>
-                      {(device.battery > 50 && (
-                        <Icon style={{ color: '#05c985' }}>battery_charging_full</Icon>
-                      )) ||
-                        (device.battery && device.battery <= 50 && (
-                          <Icon style={{ color: '#ffab4f' }}>battery_alert</Icon>
-                        )) || <Icon style={{ color: '#1f8efa' }}>battery_std</Icon>}
-                    </span>
+                    <span className={styles.battery}>{batteryIndicator(device.battery)}</span>
                   </td>
                   <td>{formatDate(device.updatedAt)}</td>
                   <td>
