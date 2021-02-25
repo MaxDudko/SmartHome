@@ -23,8 +23,10 @@ const Devices: React.FC<Props> = (props) => {
 
   const batteryIndicator = (value: number) => {
     const icon =
-      (value > 50 && 'battery_charging_full') || (value <= 50 && 'battery_alert') || 'battery_std'
-    const color = (value > 50 && '#05c985') || (value <= 50 && '#ffab4f') || '#1f8efa'
+      (value > 50 && 'battery_charging_full') ||
+      (value <= 20 && value > 0 && 'battery_alert') ||
+      'battery_std'
+    const color = (value > 50 && '#05c985') || (value <= 20 && value > 0 && '#ffab4f') || '#1f8efa'
     return <Icon style={{ color }}>{icon}</Icon>
   }
 
