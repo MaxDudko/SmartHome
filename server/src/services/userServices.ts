@@ -134,7 +134,7 @@ class UserServices {
     const passwordToken = await PasswordToken.findOne({ where: { token } })
     const userId = passwordToken?.getAttributes().userId
 
-    if (!passwordToken || !passwordToken.validateTime()) {
+    if (!passwordToken?.validateTime()) {
       throw Error('Token not valid')
     }
 
