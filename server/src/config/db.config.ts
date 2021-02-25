@@ -2,15 +2,15 @@ import { Sequelize } from 'sequelize'
 
 const DB_NAME =
   process.env.NODE_ENV === 'test'
-    ? (process.env.DB_NAME_TEST as string)
-    : (process.env.DB_NAME as string)
+    ? (process.env.DB_NAME_TEST as string) || 'test'
+    : (process.env.DB_NAME as string) || 'smarthome'
 
 export const sequelize = new Sequelize(
   DB_NAME,
-  process.env.DB_USER as string,
-  process.env.DB_PASSWORD as string,
+  (process.env.DB_USER as string) || 'admin',
+  (process.env.DB_PASSWORD as string) || 'admin',
   {
-    host: process.env.DB_HOST,
+    host: process.env.DB_HOST || '127.0.0.1',
     dialect: 'postgres',
     pool: {
       max: 5,

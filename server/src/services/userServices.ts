@@ -1,4 +1,3 @@
-import {NextFunction, Request, Response} from 'express'
 import nodemailer from 'nodemailer'
 import passport from 'passport'
 import randomstring from 'randomstring'
@@ -91,8 +90,8 @@ class UserServices {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: process.env.EMAIL,
-        pass: process.env.EMAIL_PASS,
+        user: process.env.EMAIL || 'smartappemail@gmail.com',
+        pass: process.env.EMAIL_PASS || 'emailpassword',
       },
     })
 
