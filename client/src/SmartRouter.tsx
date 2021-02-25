@@ -19,14 +19,13 @@ interface RouteItem {
   path: string
   component: React.FunctionComponent
 }
-
 interface SmartSwitchProps {
   routes: RouteItem[]
 }
-
 interface SmartRedirectProps {
   path: string
 }
+
 const SmartSwitch: React.FC<SmartSwitchProps> = (props) => {
   const { routes } = props
   return (
@@ -122,22 +121,17 @@ class SmartRouter {
     }
   }
 
-  public getPaths(type: string) {
-    if (type) {
-      return this.routes[type].map((route: RouteItem) => route.path)
+  public getRedirects(type: string, defaultRedirect: string, pathname: string, query?: string) {
+    if (type && defaultRedirect && pathname) {
+      const paths = this.routes[type].map((route: RouteItem) => route.path)
+
+      if (paths.includes(pathname)) {
+        return <SmartRedirect path={`${pathname}${query ? query : ''}`} />
+      } else {
+        return <SmartRedirect path={defaultRedirect} />
+      }
     }
   }
-  // public getRedirects(type: string, pathname: string, redirect: string) {
-  //   if (type) {
-  //     const paths = this.routes[type].map((route: RouteItem) => route.path)
-  //
-  //     if (paths.includes(pathname)) {
-  //       return <SmartRedirect path={pathname} />
-  //     } else {
-  //       return <SmartRedirect path={redirect} />
-  //     }
-  //   }
-  // }
 }
 
 export default SmartRouter

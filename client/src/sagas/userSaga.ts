@@ -74,6 +74,8 @@ function* refreshPasswordSaga(payload) {
   try {
     const response = yield sendRequest(REFRESH_PASSWORD, { ...payload.data })
     localStorage.setItem('token', `Bearer ${response.data.user.token}`)
+
+    yield put({ type: SAVE_USER_DATA, payload: response.data.user })
   } catch (error) {
     yield put({ type: RESPONSE_ERROR, payload: error.response.data.message })
   }
