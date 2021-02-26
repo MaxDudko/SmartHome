@@ -2,9 +2,8 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import express from 'express'
 import passport from 'passport'
-import DB, {sequelize} from './config/db.config'
+import DB from './config/db.config'
 import strategy from './config/passport'
-import authMiddleware from './middlewares/auth'
 import router from './router'
 
 class Server {
@@ -47,7 +46,6 @@ class Server {
       .catch((err) => {
         // tslint:disable-next-line:no-console
         console.error('DB: Unable to connect to the database:', err)
-        sequelize.query('CREATE DATABASE `smarthomedefault`;')
       })
   }
 }

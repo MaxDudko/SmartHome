@@ -1,7 +1,7 @@
 import { Request } from 'express'
 import jwt from 'express-jwt'
 
-const getTokenFromHeaders = (req: Request) => {
+export const getTokenFromHeaders = (req: Request) => {
   const {
     headers: { authorization },
   } = req

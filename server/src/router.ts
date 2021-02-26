@@ -22,7 +22,7 @@ router.post('/join-home', auth.required, homeController.addResident)
 
 const smartAppController = new SmartAppController()
 router.post('/smart-api/get-devices', auth.required, smartAppController.getDevices)
-router.post('/smart-api/update-state', auth.required, smartAppController.updateState)
+router.post('/smart-api/update-state', smartAppController.updateState)
 router.post('/smart-api/lock-toggle', auth.required, smartAppController.lockToggle)
 
 const SSE = require('express-sse')
