@@ -86,12 +86,7 @@ def lockListener(evt) {
 	]
 
     try {
-        httpPostJson(params) { resp ->
-            resp.headers.each {
-                log.debug "${it.name} : ${it.value}"
-            }
-            log.debug "response contentType: ${resp.contentType}"
-        }
+        httpPostJson(params)
 	} catch (e) {
     	log.debug "something went wrong: $e"
 	}
