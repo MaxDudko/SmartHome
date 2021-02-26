@@ -23,7 +23,7 @@ class SmartAppServices {
     }
   }
 
-  public async lockToggle(token: string) {
+  public async lockToggle() {
     const SMART_APP_API_URL = process.env.SMART_APP_API_URL
     const API_TOKEN = process.env.API_TOKEN
 
@@ -37,7 +37,7 @@ class SmartAppServices {
       headers: {
         Authorization: `Bearer ${API_TOKEN}`,
       },
-      data: { user_token: token },
+      data: {},
     })
 
     return requestToSmartThings.data

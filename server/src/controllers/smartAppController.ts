@@ -36,15 +36,11 @@ class SmartAppController {
   }
 
   public async lockToggle(req: Request, res: Response) {
-    const token = getTokenFromHeaders(req)
-
-    if (token) {
-      try {
-        const lockValue = await services.lockToggle(token)
-        res.status(200).send(lockValue)
-      } catch (e) {
-        return res.status(400).send({ message: e.message })
-      }
+    try {
+      const lockValue = await services.lockToggle()
+      res.status(200).send(lockValue)
+    } catch (e) {
+      return res.status(400).send({ message: e.message })
     }
   }
 }
