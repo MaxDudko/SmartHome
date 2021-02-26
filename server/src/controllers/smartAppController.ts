@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import {getTokenFromHeaders} from "../middlewares/auth";
+import { getTokenFromHeaders } from '../middlewares/auth'
 import { sse } from '../router'
 import SmartAppServices from '../services/smartAppServices'
 const services = new SmartAppServices()
@@ -10,6 +10,7 @@ class SmartAppController {
     if (homeId) {
       try {
         const devices = await services.getDevices(homeId)
+
         res.status(200).send(devices)
       } catch (e) {
         return res.status(400).send({ message: e.message })
@@ -25,9 +26,11 @@ class SmartAppController {
       try {
         const resp = await services.updateState(state)
         const devices = resp && (await services.getDevices(resp.homeId))
+
         if (resp && devices) {
           sse.send(devices)
         }
+
         res.status(200)
       } catch (e) {
         return res.status(400).send({ message: e.message })
@@ -38,6 +41,7 @@ class SmartAppController {
   public async lockToggle(req: Request, res: Response) {
     try {
       const lockValue = await services.lockToggle()
+
       res.status(200).send(lockValue)
     } catch (e) {
       return res.status(400).send({ message: e.message })
