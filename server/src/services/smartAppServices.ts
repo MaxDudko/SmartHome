@@ -1,7 +1,30 @@
 import axios from 'axios'
+import randomstring from 'randomstring'
 import Lock from '../models/Lock'
+import SmartAppToken from '../models/SmartAppToken'
 
 class SmartAppServices {
+  private static async setToken(homeId: string) {
+    const token = randomstring.generate(32)
+
+    const apiToken = new SmartAppToken({ homeId, token })
+    await SmartAppToken.create(apiToken.getAttributes())
+
+    return apiToken.token
+  }
+
+  public async validateToken(token: string) {
+    const apiToken = await SmartAppToken.findOne({ where: { token } })
+
+    if (apiToken) {
+      await apiToken.destroy()
+
+      return true
+    }
+
+    throw Error('token not valid')
+  }
+
   public async getDevices(homeId: string) {
     const list = await Lock.findAll({ where: { homeId } })
     const locks = list.map((lock: any) => lock.getAttributes())
@@ -21,11 +44,12 @@ class SmartAppServices {
     }
   }
 
-  public async lockToggle() {
+  public async lockToggle(homeId: string) {
     const SMART_APP_API_URL = process.env.SMART_APP_API_URL
     const API_TOKEN = process.env.API_TOKEN
+    const responseToken = homeId && (await SmartAppServices.setToken(homeId))
 
-    if (!SMART_APP_API_URL || !API_TOKEN) {
+    if (!SMART_APP_API_URL || !API_TOKEN || !responseToken) {
       throw Error('API credentials not found')
     }
 
@@ -35,7 +59,7 @@ class SmartAppServices {
       headers: {
         Authorization: `Bearer ${API_TOKEN}`,
       },
-      data: {},
+      data: { token: responseToken },
     })
 
     return requestToSmartThings.data

@@ -22,8 +22,10 @@ class SmartAppController {
     const state = req.body
     const token = getTokenFromHeaders(req)
 
-    if (state && token === process.env.API_TOKEN) {
+    if (state && token) {
       try {
+        await services.validateToken(token)
+
         const resp = await services.updateState(state)
         const devices = resp && (await services.getDevices(resp.homeId))
 
@@ -31,7 +33,7 @@ class SmartAppController {
           sse.send(devices)
         }
 
-        res.status(200)
+        res.status(200).send('updated')
       } catch (e) {
         return res.status(400).send({ message: e.message })
       }
@@ -39,12 +41,16 @@ class SmartAppController {
   }
 
   public async lockToggle(req: Request, res: Response) {
-    try {
-      const lockValue = await services.lockToggle()
+    const { homeId } = req.body
 
-      res.status(200).send(lockValue)
-    } catch (e) {
-      return res.status(400).send({ message: e.message })
+    if (homeId) {
+      try {
+        const lockValue = await services.lockToggle(homeId)
+
+        res.status(200).send(lockValue)
+      } catch (e) {
+        return res.status(400).send({ message: e.message })
+      }
     }
   }
 }
