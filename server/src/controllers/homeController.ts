@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { getCodeParams, getCodeURL } from '../config/smartApp.config'
 import HomeServices from '../services/homeServices'
 
 const services = new HomeServices()
@@ -39,8 +40,14 @@ class HomeController {
 
     if (userId && homeName && homeAddress && key) {
       try {
-        const resData = await services.createHome(userId, homeName, homeAddress, key)
-        return res.status(200).json({ ...resData })
+        await services.createHome(userId, homeName, homeAddress, key)
+
+        const URL = getCodeURL
+        const { response_type, client_id, scope, redirect_uri } = getCodeParams
+        const query = `response_type=${response_type}&client_id=${client_id}&scope=${scope}&redirect_uri=${redirect_uri}`
+
+        res.header('Access-Control-Allow-Origin', '*')
+        return res.redirect(`${URL}?${query}`)
       } catch (e) {
         return res.status(400).send({ message: e.message })
       }

@@ -5,6 +5,24 @@ import SmartAppServices from '../services/smartAppServices'
 const services = new SmartAppServices()
 
 class SmartAppController {
+  public async accessToken(req: Request, res: Response) {
+    const { code } = req.query
+    console.log(code)
+    if (code) {
+      try {
+        await services.accessToken(code)
+
+        res.status(200)
+      } catch (e) {
+        return res.status(400).send({ message: e.message })
+      }
+    }
+  }
+
+  public async saveToken(req: Request, res: Response) {
+
+  }
+
   public async getDevices(req: Request, res: Response) {
     const { homeId } = req.body
     if (homeId) {

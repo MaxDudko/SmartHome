@@ -4,11 +4,11 @@ import User from '../models/User'
 
 class HomeServices {
   private static validateField(field: string) {
-    return field.match(/^(?=.*[A-Za-z0-9._-])(?=.*\d)[A-Za-z0-9\d]{3,64}$/)
+    return field.match(/^[A-Za-z_][A-Za-z0-9_]{3,32}$/)
   }
 
   private static validateKey(key: string) {
-    return key.match(/^(?=.*[A-Za-z0-9])(?=.*\d)[A-Za-z0-9\d]{8,64}$/)
+    return key.match(/^(?=.*[A-Za-z0-9])(?=.*\d)[A-Za-z0-9\d]{8,32}$/)
   }
 
   public async findHomeList(userId: string) {
@@ -57,28 +57,23 @@ class HomeServices {
 
     const user = await User.findOne({ where: { id: userId } })
 
-    if (user) {
-      const newHome = new Home({
-        name: homeName,
-        address: homeAddress,
-      })
-
-      newHome.setPassword(key)
-
-      const home = await Home.create(newHome.get())
-
-      const resident = await Resident.create({
-        userId,
-        homeId: home.id,
-        role: 'admin',
-      })
-
-      return {
-        ...home.getAttributes(),
-        role: resident.getAttributes().role,
-      }
+    if (!user) {
+      throw Error('User not found')
     }
-    throw Error('User not found')
+    const newHome = new Home({
+      name: homeName,
+      address: homeAddress,
+    })
+
+    newHome.setPassword(key)
+
+    const home = await Home.create(newHome.get())
+
+    await Resident.create({
+      userId,
+      homeId: home.id,
+      role: 'admin',
+    })
   }
 
   public async addResident(userId: string, homeId: string, key: string) {

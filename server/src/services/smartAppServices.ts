@@ -1,5 +1,6 @@
 import axios from 'axios'
 import randomstring from 'randomstring'
+import { getTokenParams, getTokenURL } from '../config/smartApp.config'
 import Lock from '../models/Lock'
 import SmartAppToken from '../models/SmartAppToken'
 
@@ -11,6 +12,17 @@ class SmartAppServices {
     await SmartAppToken.create(apiToken.getAttributes())
 
     return apiToken.token
+  }
+
+  public async accessToken(code: any) {
+    await axios({
+      method: 'post',
+      url: getTokenURL,
+      data: {
+        ...getTokenParams,
+        code,
+      },
+    })
   }
 
   public async validateToken(token: string) {
