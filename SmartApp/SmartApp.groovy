@@ -69,7 +69,7 @@ mappings {
 def lockListener(evt) {
     def params = [
         // Server URL (if server run on localhost, use ngrok)
-    	uri: "https://a08a9673e1a0.ngrok.io",
+    	uri: "SERVER_URL",
     	path: "/smart-api/update-state",
         headers: [
         	authorization: "Bearer " + state.token
