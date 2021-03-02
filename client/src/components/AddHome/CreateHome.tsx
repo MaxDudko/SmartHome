@@ -22,17 +22,17 @@ const CreateHome: React.FC<Props> = (props) => {
   const validateData = (data) => {
     const { homeName, homeAddress, key } = data
 
-    if (!homeName.match(/^(?=.*[A-Za-z0-9._-])(?=.*\d)[A-Za-z0-9\d]{3,64}$/)) {
+    if (!homeName.match(/^[A-Za-z_][A-Za-z0-9_]{3,32}$/)) {
       throwErrors('Home name not valid')
       return false
     }
 
-    if (!homeAddress.match(/^(?=.*[A-Za-z0-9._-])(?=.*\d)[A-Za-z0-9\d]{3,64}$/)) {
+    if (!homeAddress.match(/^[A-Za-z_][A-Za-z0-9_]{3,32}$/)) {
       throwErrors('Home address not valid')
       return false
     }
 
-    if (!key.match(/^(?=.*[A-Za-z0-9])(?=.*\d)[A-Za-z0-9\d]{8,64}$/)) {
+    if (!key.match(/^(?=.*[A-Za-z0-9])(?=.*\d)[A-Za-z0-9\d]{8,32}$/)) {
       throwErrors('Security key must be at least 8-64 A-Z, a-z, 0-9')
       return false
     }
