@@ -1,6 +1,9 @@
+import { EventEmitter } from 'events'
 import Home from '../models/Home'
 import Resident from '../models/Resident'
 import User from '../models/User'
+
+export const emitter = new EventEmitter()
 
 class HomeServices {
   private static validateField(field: string) {
@@ -56,10 +59,10 @@ class HomeServices {
     }
 
     const user = await User.findOne({ where: { id: userId } })
-
     if (!user) {
       throw Error('User not found')
     }
+
     const newHome = new Home({
       name: homeName,
       address: homeAddress,
@@ -73,6 +76,11 @@ class HomeServices {
       userId,
       homeId: home.id,
       role: 'admin',
+    })
+
+    emitter.on('token', (token: any) => {
+      Home.update({ token }, { where: { id: home.id } })
+      console.log('event: ', token)
     })
   }
 

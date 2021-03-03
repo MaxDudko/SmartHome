@@ -8,6 +8,7 @@ interface HomeAttributes {
   address: string
   salt?: string
   hash?: string
+  token?: string
 }
 
 class Home extends Model<HomeAttributes> implements HomeAttributes {
@@ -16,6 +17,7 @@ class Home extends Model<HomeAttributes> implements HomeAttributes {
   public address!: string
   public salt!: string
   public hash!: string
+  public token!: string
 
   public getAttributes() {
     return {
@@ -47,6 +49,7 @@ Home.init(
     },
     salt: DataTypes.STRING,
     hash: DataTypes.TEXT,
+    token: DataTypes.STRING,
   },
   { sequelize, freezeTableName: process.env.NODE_ENV === 'test' }
 )

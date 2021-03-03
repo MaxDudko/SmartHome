@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { getCodeParams, getCodeURL } from '../config/smartApp.config'
+import { getCodeEndpoint, getCodeParams } from '../config/smartApp.config'
 import HomeServices from '../services/homeServices'
 
 const services = new HomeServices()
@@ -42,12 +42,12 @@ class HomeController {
       try {
         await services.createHome(userId, homeName, homeAddress, key)
 
-        const URL = getCodeURL
+        const url = `${process.env.SMART_APP_API_URL}${getCodeEndpoint}`
         const { response_type, client_id, scope, redirect_uri } = getCodeParams
         const query = `response_type=${response_type}&client_id=${client_id}&scope=${scope}&redirect_uri=${redirect_uri}`
 
-        res.header('Access-Control-Allow-Origin', '*')
-        return res.redirect(`${URL}?${query}`)
+        // res.setHeader('Access-Control-Allow-Origin', '*')
+        return res.redirect(`${url}?${query}`)
       } catch (e) {
         return res.status(400).send({ message: e.message })
       }

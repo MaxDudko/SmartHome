@@ -1,8 +1,10 @@
 import axios from 'axios'
+import * as querystring from 'querystring'
 import randomstring from 'randomstring'
-import { getTokenParams, getTokenURL } from '../config/smartApp.config'
+import { getTokenEndpoint, getTokenParams } from '../config/smartApp.config'
 import Lock from '../models/Lock'
 import SmartAppToken from '../models/SmartAppToken'
+import { emitter } from './homeServices'
 
 class SmartAppServices {
   private static async setToken(homeId: string) {
@@ -15,14 +17,17 @@ class SmartAppServices {
   }
 
   public async accessToken(code: any) {
-    await axios({
-      method: 'post',
-      url: getTokenURL,
-      data: {
-        ...getTokenParams,
-        code,
-      },
-    })
+    const url = `${process.env.SMART_APP_API_URL}${getTokenEndpoint}`
+    const token = await axios
+      .post(url, querystring.stringify({ ...getTokenParams, code }), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      })
+      .then((res) => res.data.access_token)
+      .catch((err) => console.log(err))
+
+    emitter.emit('token', token)
   }
 
   public async validateToken(token: string) {

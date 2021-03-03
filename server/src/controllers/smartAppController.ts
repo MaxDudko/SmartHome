@@ -7,7 +7,6 @@ const services = new SmartAppServices()
 class SmartAppController {
   public async accessToken(req: Request, res: Response) {
     const { code } = req.query
-    console.log(code)
     if (code) {
       try {
         await services.accessToken(code)
@@ -20,7 +19,6 @@ class SmartAppController {
   }
 
   public async saveToken(req: Request, res: Response) {
-
   }
 
   public async getDevices(req: Request, res: Response) {
