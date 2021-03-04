@@ -57,7 +57,7 @@ const sendRequest = (actionType: string, data: any) => {
     }
   }
 
-  const url = `${API_URL}${getPath(actionType)}`
+  const url = `${API_URL}/api/v1${getPath(actionType)}`
   const token = localStorage.getItem('token')
   const config = getHeaders(token)
 

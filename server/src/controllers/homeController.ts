@@ -46,7 +46,9 @@ class HomeController {
         const { response_type, client_id, scope, redirect_uri } = getCodeParams
         const query = `response_type=${response_type}&client_id=${client_id}&scope=${scope}&redirect_uri=${redirect_uri}`
 
-        // res.setHeader('Access-Control-Allow-Origin', '*')
+        // res.header('Access-Control-Allow-Origin', '*')
+        // res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS')
+        // res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
         return res.redirect(`${url}?${query}`)
       } catch (e) {
         return res.status(400).send({ message: e.message })

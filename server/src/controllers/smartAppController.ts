@@ -19,6 +19,7 @@ class SmartAppController {
   }
 
   public async saveToken(req: Request, res: Response) {
+    console.log('::::', req)
   }
 
   public async getDevices(req: Request, res: Response) {
@@ -46,7 +47,7 @@ class SmartAppController {
         const devices = resp && (await services.getDevices(resp.homeId))
 
         if (resp && devices) {
-          sse.send(devices)
+          sse.send(devices, 'devices')
         }
 
         res.status(200).send('updated')

@@ -9,6 +9,8 @@ interface HomeAttributes {
   salt?: string
   hash?: string
   token?: string
+  tokenExpires?: number
+  endpoints?: any
 }
 
 class Home extends Model<HomeAttributes> implements HomeAttributes {
@@ -18,12 +20,15 @@ class Home extends Model<HomeAttributes> implements HomeAttributes {
   public salt!: string
   public hash!: string
   public token!: string
+  public tokenExpires!: number
+  public endpoints!: any
 
   public getAttributes() {
     return {
       id: this.id.toString(),
       name: this.name,
       address: this.address,
+      endpoints: this.endpoints,
     }
   }
   public setPassword(password: string): void {
@@ -50,6 +55,8 @@ Home.init(
     salt: DataTypes.STRING,
     hash: DataTypes.TEXT,
     token: DataTypes.STRING,
+    tokenExpires: DataTypes.NUMBER,
+    endpoints: DataTypes.JSON,
   },
   { sequelize, freezeTableName: process.env.NODE_ENV === 'test' }
 )

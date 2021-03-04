@@ -18,16 +18,27 @@ class SmartAppServices {
 
   public async accessToken(code: any) {
     const url = `${process.env.SMART_APP_API_URL}${getTokenEndpoint}`
-    const token = await axios
-      .post(url, querystring.stringify({ ...getTokenParams, code }), {
+    const credentials = await axios.post(url, querystring.stringify({ ...getTokenParams, code }), {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    })
+
+    const { access_token, expires_in } = credentials.data
+
+    if (access_token) {
+      const endpoints = await axios({
+        method: 'get',
+        url: `${process.env.SMART_APP_API_URL}/api/smartapps/endpoints`,
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `Bearer ${access_token}`,
         },
       })
-      .then((res) => res.data.access_token)
-      .catch((err) => console.log(err))
 
-    emitter.emit('token', token)
+      if (endpoints) {
+        emitter.emit('smartAppData', access_token, expires_in, endpoints.data)
+      }
+    }
   }
 
   public async validateToken(token: string) {

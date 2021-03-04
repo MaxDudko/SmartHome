@@ -4,9 +4,10 @@ import { connect } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { appReadyAction } from '../actions/appActions'
 import { saveDevicesAction } from '../actions/devicesActions'
-import { selectHomeAction } from '../actions/homeActions'
+import {saveHomeAction, selectHomeAction} from '../actions/homeActions'
 import { tokenValidationAction } from '../actions/userActions'
 import { DevicesState } from '../reducers/devicesReducer'
+import {HomeState} from "../reducers/homeReducer";
 import SmartRouter from '../SmartRouter'
 import AddDevice from './AddDevice/AddDevice'
 import styles from './App.module.scss'
@@ -23,6 +24,7 @@ interface Props {
   tokenValidationAction: Function
   selectHomeAction: Function
   saveDevicesAction: Function
+  saveHomeAction: Function
   appReadyAction: Function
 }
 
@@ -34,17 +36,23 @@ const App: React.FC<Props> = (props) => {
     homeId,
     userId,
     saveDevicesAction,
+    saveHomeAction,
     modalOpen,
   } = props
   const smartRouter = new SmartRouter()
   const location = useLocation()
 
   useEffect(() => {
-    const eventSource = new EventSource(`http://localhost:4000/stream?homeId=${homeId}`)
+    const eventSource = new EventSource(`http://localhost:4000/api/v1/stream?homeId=${homeId}`)
 
     if (homeId && userId) {
-      eventSource.onmessage = (stream) => {
-        saveDevicesAction(JSON.parse(stream.data))
+      eventSource.onmessage = (stream: any) => {
+        if (JSON.parse(stream.event) === 'devices') {
+          saveDevicesAction(JSON.parse(stream.data))
+        }
+        if (JSON.parse(stream.eventName) === 'home') {
+          saveHomeAction(JSON.parse(stream.data))
+        }
       }
     } else {
       eventSource.close()
@@ -110,6 +118,7 @@ const mapDispatchToProps = (dispatch) => ({
   appReadyAction: () => dispatch(appReadyAction()),
   tokenValidationAction: (token: string) => dispatch(tokenValidationAction(token)),
   saveDevicesAction: (data: DevicesState) => dispatch(saveDevicesAction(data)),
+  saveHomeAction: (data: HomeState) => dispatch(saveHomeAction(data)),
   selectHomeAction: (userId: string, homeId: string) => dispatch(selectHomeAction(userId, homeId)),
 })
 

@@ -2,6 +2,7 @@ import { EventEmitter } from 'events'
 import Home from '../models/Home'
 import Resident from '../models/Resident'
 import User from '../models/User'
+import { sse } from '../router'
 
 export const emitter = new EventEmitter()
 
@@ -72,15 +73,23 @@ class HomeServices {
 
     const home = await Home.create(newHome.get())
 
-    await Resident.create({
+    const resident = await Resident.create({
       userId,
       homeId: home.id,
       role: 'admin',
     })
 
-    emitter.on('token', (token: any) => {
-      Home.update({ token }, { where: { id: home.id } })
-      console.log('event: ', token)
+    emitter.on('smartAppData', (token: any, tokenExpires: any, endpoints: any) => {
+      Home.update({ token, tokenExpires, endpoints }, { where: { id: home.id } })
+      console.log('event: ', token, tokenExpires, endpoints)
+
+      sse.send(
+        {
+          ...home.getAttributes(),
+          role: resident.getAttributes().role,
+        },
+        'home'
+      )
     })
   }
 
