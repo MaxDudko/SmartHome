@@ -79,17 +79,17 @@ class HomeServices {
       role: 'admin',
     })
 
-    emitter.on('smartAppData', (token: any, tokenExpires: any, endpoints: any) => {
-      Home.update({ token, tokenExpires, endpoints }, { where: { id: home.id } })
+    emitter.on('smartAppData', async (token: any, tokenExpires: any, endpoints: any) => {
+      await Home.update({ token, tokenExpires, endpoints }, { where: { id: home.id } })
       console.log('event: ', token, tokenExpires, endpoints)
 
-      sse.send(
-        {
+      return sse.send({
+        event: 'home',
+        data: {
           ...home.getAttributes(),
           role: resident.getAttributes().role,
         },
-        'home'
-      )
+      })
     })
   }
 

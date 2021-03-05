@@ -45,19 +45,21 @@ const App: React.FC<Props> = (props) => {
   useEffect(() => {
     const eventSource = new EventSource(`http://localhost:4000/api/v1/stream?homeId=${homeId}`)
 
-    if (homeId && userId) {
+    if (homeId) {
       eventSource.onmessage = (stream: any) => {
-        if (JSON.parse(stream.event) === 'devices') {
-          saveDevicesAction(JSON.parse(stream.data))
-        }
-        if (JSON.parse(stream.eventName) === 'home') {
-          saveHomeAction(JSON.parse(stream.data))
+        const { event, data } = JSON.parse(stream.data)
+        switch (event) {
+          case 'devices':
+            return saveDevicesAction(data)
+          case 'home':
+            localStorage.setItem('homeId', data.id)
+            return saveHomeAction(data)
         }
       }
     } else {
       eventSource.close()
     }
-  }, [homeId, saveDevicesAction, userId])
+  })
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -66,7 +68,7 @@ const App: React.FC<Props> = (props) => {
     } else {
       appReadyAction()
     }
-  })
+  }, [appReadyAction, tokenValidationAction])
 
   return (
     <Row className={styles.App}>

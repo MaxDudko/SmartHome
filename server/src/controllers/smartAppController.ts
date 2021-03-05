@@ -18,9 +18,7 @@ class SmartAppController {
     }
   }
 
-  public async saveToken(req: Request, res: Response) {
-    console.log('::::', req)
-  }
+  public async saveToken(req: Request, res: Response) {}
 
   public async getDevices(req: Request, res: Response) {
     const { homeId } = req.body
@@ -40,14 +38,17 @@ class SmartAppController {
     const token = getTokenFromHeaders(req)
 
     if (state && token) {
-      try {
-        await services.validateToken(token)
+      const valid = await services.validateToken(token, state[0].homeId)
+      if (!valid) {
+        return res.status(401)
+      }
 
+      try {
         const resp = await services.updateState(state)
         const devices = resp && (await services.getDevices(resp.homeId))
 
         if (resp && devices) {
-          sse.send(devices, 'devices')
+          sse.send({ event: 'devices', data: devices })
         }
 
         res.status(200).send('updated')
@@ -64,7 +65,9 @@ class SmartAppController {
       try {
         const lockValue = await services.lockToggle(homeId)
 
-        res.status(200).send(lockValue)
+        if (lockValue) {
+          res.status(200).send(lockValue.data)
+        }
       } catch (e) {
         return res.status(400).send({ message: e.message })
       }

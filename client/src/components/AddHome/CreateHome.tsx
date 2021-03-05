@@ -6,18 +6,25 @@ import styles from './AddHome.module.scss'
 
 interface Props {
   userId: string
+  authModal: string
   createHomeAction: any
   responseError: string
 }
 
 const CreateHome: React.FC<Props> = (props) => {
-  const { createHomeAction, userId, responseError } = props
+  const { createHomeAction, userId, responseError, authModal } = props
   const [data, setData] = useState<any>({})
   const [errors, throwErrors] = useState<string>('')
 
   useEffect(() => {
     throwErrors(responseError)
   }, [responseError])
+
+  useEffect(() => {
+    if (authModal) {
+      window.open(authModal)
+    }
+  }, [authModal])
 
   const validateData = (data) => {
     const { homeName, homeAddress, key } = data
@@ -117,6 +124,7 @@ const CreateHome: React.FC<Props> = (props) => {
 const mapStateToProps = (state) => ({
   userId: state.user.id,
   responseError: state.app.id,
+  authModal: state.app.authModal,
 })
 
 const mapDispatchToProps = (dispatch) => ({

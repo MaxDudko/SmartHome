@@ -47,6 +47,7 @@ def updated() {
 def initialize() {
 	// TODO: subscribe to attributes, devices, locations, etc.
     state.token = ""
+    state.homeId = ""
     subscribe(lock, "lock.locked", lockListener)
     subscribe(lock, "lock.unlocked", lockListener)
     log.debug "Lock currentValue ${lock.currentValue('lock')[0]}"
@@ -67,10 +68,11 @@ mappings {
 }
 
 def lockListener(evt) {
+	log.debug state.token
     def params = [
         // Server URL (if server run on localhost, use ngrok)
     	uri: "SERVER_URL",
-    	path: "/smart-api/update-state",
+    	path: "/api/v1/smart-api/update-state",
         headers: [
         	authorization: "Bearer " + state.token
         ],
@@ -80,7 +82,8 @@ def lockListener(evt) {
                 type: 'lock',
                 label: it.label,
                 value: lock.currentValue("lock")[0],
-                battery: lock.currentValue("battery")[0]
+                battery: lock.currentValue("battery")[0],
+                homeId: state.homeId
             ]
 		}
 
@@ -94,14 +97,22 @@ def lockListener(evt) {
 }
 
 def	getDevices() {
-  [
-  	locks: locks.collect{[label: it.label, type: 'lock', id: it.id, value: lock.currentValue("lock")]}
-  ]
+	if (request.JSON.token) {
+    	state.token = request.JSON.token
+    }
+
+    return [
+  		locks: locks.collect{[label: it.label, type: 'lock', id: it.id, value: lock.currentValue("lock")]}
+  	]
 }
 
 def lockToggle() {
 	if (request.JSON.token) {
     	state.token = request.JSON.token
+    }
+
+    if (request.JSON.homeId) {
+    	state.homeId = request.JSON.homeId
     }
 
 	if (lock.currentValue("lock")[0] == "locked") {

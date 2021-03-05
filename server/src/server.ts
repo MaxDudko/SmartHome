@@ -1,6 +1,7 @@
 import bodyParser from 'body-parser'
 import cors from 'cors'
-import express from 'express'
+import express, { NextFunction, Request, Response } from 'express'
+import morgan from 'morgan'
 import passport from 'passport'
 import DB from './config/db.config'
 import strategy from './config/passport'
@@ -32,26 +33,8 @@ class Server {
   private config() {
     this.app.use(bodyParser.urlencoded({ extended: true }))
     this.app.use(bodyParser.json({ limit: '1mb' }))
+    this.app.use(morgan('dev'))
     this.app.use(cors())
-    // this.app.use(
-    //   cors({
-    //     allowedHeaders: ['sessionId', 'Content-Type'],
-    //     exposedHeaders: ['sessionId'],
-    //     origin: '*',
-    //     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    //     preflightContinue: false,
-    //   })
-    // )
-    // this.app.use((req, res, next) => {
-    //   res.append('Access-Control-Allow-Origin', '*')
-    //   res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
-    //   res.append('Access-Control-Allow-Credentials', 'true')
-    //   res.header(
-    //     'Access-Control-Allow-Headers',
-    //     'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'
-    //   )
-    //   next()
-    // })
     this.app.use('/api/v1', router)
   }
 

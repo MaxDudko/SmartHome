@@ -2,6 +2,7 @@ import axios from 'axios'
 import * as querystring from 'querystring'
 import randomstring from 'randomstring'
 import { getTokenEndpoint, getTokenParams } from '../config/smartApp.config'
+import Home from '../models/Home'
 import Lock from '../models/Lock'
 import SmartAppToken from '../models/SmartAppToken'
 import { emitter } from './homeServices'
@@ -41,12 +42,10 @@ class SmartAppServices {
     }
   }
 
-  public async validateToken(token: string) {
-    const apiToken = await SmartAppToken.findOne({ where: { token } })
+  public async validateToken(token: any, homeId: string) {
+    const home = await Home.findOne({ where: { id: homeId } })
 
-    if (apiToken) {
-      await apiToken.destroy()
-
+    if (home && token === home.token) {
       return true
     }
 
@@ -73,24 +72,18 @@ class SmartAppServices {
   }
 
   public async lockToggle(homeId: string) {
-    const SMART_APP_API_URL = process.env.SMART_APP_API_URL
-    const API_TOKEN = process.env.API_TOKEN
-    const responseToken = homeId && (await SmartAppServices.setToken(homeId))
+    const home = await Home.findOne({ where: { id: homeId } })
 
-    if (!SMART_APP_API_URL || !API_TOKEN || !responseToken) {
-      throw Error('API credentials not found')
+    if (home) {
+      return axios({
+        method: 'post',
+        url: `${process.env.SMART_APP_API_URL}/api/smartapps/installations/3fd57648-2aa5-4cd3-b4ff-d8b1fc786a27/lock-toggle`,
+        headers: {
+          Authorization: `Bearer ${home.token}`,
+        },
+        data: { token: home.token, homeId: home.id.toString() },
+      })
     }
-
-    const requestToSmartThings = await axios({
-      method: 'post',
-      url: `${SMART_APP_API_URL}/lock-toggle`,
-      headers: {
-        Authorization: `Bearer ${API_TOKEN}`,
-      },
-      data: { token: responseToken },
-    })
-
-    return requestToSmartThings.data
   }
 }
 

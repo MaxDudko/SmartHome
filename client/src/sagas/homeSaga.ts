@@ -1,6 +1,6 @@
 import { put, takeLatest } from 'redux-saga/effects'
 import {
-  APP_READY,
+  APP_READY, AUTH_MODAL,
   CREATE_HOME,
   GET_DEVICES,
   GET_HOME_LIST,
@@ -38,7 +38,7 @@ function* createHomeSaga(payload) {
   try {
     const response = yield sendRequest(CREATE_HOME, payload.payload)
 
-    yield put({ type: SAVE_HOME, payload: response.data })
+    yield put({ type: AUTH_MODAL, payload: response.data })
   } catch (error) {
     yield put({ type: RESPONSE_ERROR, error })
   }

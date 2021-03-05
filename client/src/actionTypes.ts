@@ -1,4 +1,5 @@
 export const APP_READY = 'APP_READY'
+export const AUTH_MODAL = 'AUTH_MODAL'
 export const OPEN_MODAL = 'OPEN_MODAL'
 export const OPEN_DEVICES_SIDEBAR = 'OPEN_DEVICES_SIDEBAR'
 export const RESPONSE_ERROR = 'RESPONSE_ERROR'

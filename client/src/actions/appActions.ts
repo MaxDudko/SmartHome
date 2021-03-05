@@ -4,6 +4,15 @@ export const appReadyAction = () => {
   }
 }
 
+export const authModalAction = (url: string) => {
+  return {
+    type: 'AUTH_MODAL',
+    payload: {
+      url,
+    },
+  }
+}
+
 export const openModalAction = () => {
   return {
     type: 'OPEN_MODAL',
