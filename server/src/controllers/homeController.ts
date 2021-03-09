@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { getCodeEndpoint, getCodeParams } from '../config/smartApp.config'
 import HomeServices from '../services/homeServices'
+import SmartAppServices from '../services/smartAppServices'
 
 const services = new HomeServices()
 
@@ -42,11 +42,8 @@ class HomeController {
       try {
         await services.createHome(userId, homeName, homeAddress, key)
 
-        const url = `${process.env.SMART_APP_API_URL}${getCodeEndpoint}`
-        const { response_type, client_id, scope, redirect_uri } = getCodeParams
-        const query = `response_type=${response_type}&client_id=${client_id}&scope=${scope}&redirect_uri=${redirect_uri}`
-
-        return res.status(200).send({ url: `${url}?${query}` })
+        const url = new SmartAppServices().generateUrl()
+        return res.status(200).send({ url })
       } catch (e) {
         return res.status(400).send({ message: e.message })
       }

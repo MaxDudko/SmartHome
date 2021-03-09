@@ -45,7 +45,7 @@ const App: React.FC<Props> = (props) => {
   useEffect(() => {
     const eventSource = new EventSource(`http://localhost:4000/api/v1/stream?homeId=${homeId}`)
 
-    if (homeId) {
+    if (userId) {
       eventSource.onmessage = (stream: any) => {
         const { event, data } = JSON.parse(stream.data)
         switch (event) {
@@ -59,7 +59,7 @@ const App: React.FC<Props> = (props) => {
     } else {
       eventSource.close()
     }
-  }, [homeId, saveDevicesAction, saveHomeAction])
+  })
 
   useEffect(() => {
     const token = localStorage.getItem('token')

@@ -1,19 +1,19 @@
+import Device from '../models/Device'
 import Home from '../models/Home'
-import Lock from '../models/Lock'
 import SmartAppServices from '../services/smartAppServices'
 
 const services = new SmartAppServices()
 
 const syncAll = async () => {
   await Home.sync({ force: true })
-  await Lock.sync({ force: true })
+  await Device.sync({ force: true })
 }
 const dropAll = async () => {
   await Home.drop()
-  await Lock.drop()
+  await Device.drop()
 }
 
-const createLock = async (
+const createDevice = async (
   homeId: string,
   deviceId: string,
   type: string,
@@ -23,8 +23,8 @@ const createLock = async (
   battery: number,
   active: boolean
 ) => {
-  const lock = new Lock({ homeId, deviceId, type, label, location, value, battery, active })
-  return Lock.create(lock.getAttributesAndCreate())
+  const device = new Device({ homeId, deviceId, type, label, location, value, battery, active })
+  return Device.create(device.getAttributesAndCreate())
 }
 const createHome = async (name: string, address: string, key: string) => {
   const home = new Home({ name, address })
@@ -45,7 +45,7 @@ describe('SmartAppServices behavior:', () => {
     it('Should return list of devices for current home:', async () => {
       const home = await createHome('TEST HOME', 'TestTest, 1', 'qwerty123')
 
-      const lock = await createLock(
+      const devices = await createDevice(
         home.id.toString(),
         'test-device-id',
         'lock',
@@ -66,7 +66,7 @@ describe('SmartAppServices behavior:', () => {
             location: 'test',
             value: true,
             battery: 100,
-            updatedAt: lock.updatedAt,
+            updatedAt: devices.updatedAt,
             active: true,
           },
         ],

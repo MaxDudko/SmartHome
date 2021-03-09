@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize'
 import { sequelize } from '../config/db.config'
 
-export interface LockAttributes {
+export interface DeviceAttributes {
   homeId: string
   deviceId: string
   type: string
@@ -13,7 +13,7 @@ export interface LockAttributes {
   active: boolean
 }
 
-class Lock extends Model<LockAttributes> implements LockAttributes {
+class Device extends Model<DeviceAttributes> implements DeviceAttributes {
   public homeId!: string
   public deviceId!: string
   public type!: string
@@ -23,6 +23,13 @@ class Lock extends Model<LockAttributes> implements LockAttributes {
   public location!: string
   public updatedAt!: any
   public active!: boolean
+
+  public getValue(type: string) {
+    switch (type) {
+      case 'lock':
+        return this.value === 'locked'
+    }
+  }
 
   public getAttributesAndCreate() {
     return {
@@ -44,7 +51,7 @@ class Lock extends Model<LockAttributes> implements LockAttributes {
       deviceId: this.deviceId,
       type: this.type,
       label: this.label,
-      value: this.value === 'locked',
+      value: this.getValue(this.type),
       battery: this.battery,
       location: this.location,
       updatedAt: this.updatedAt,
@@ -53,7 +60,7 @@ class Lock extends Model<LockAttributes> implements LockAttributes {
   }
 }
 
-Lock.init(
+Device.init(
   {
     homeId: DataTypes.STRING,
     deviceId: DataTypes.STRING,
@@ -68,4 +75,4 @@ Lock.init(
   { sequelize, freezeTableName: process.env.NODE_ENV === 'test' }
 )
 
-export default Lock
+export default Device

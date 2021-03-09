@@ -29,12 +29,12 @@ const CreateHome: React.FC<Props> = (props) => {
   const validateData = (data) => {
     const { homeName, homeAddress, key } = data
 
-    if (!homeName.match(/^[A-Za-z_][A-Za-z0-9_]{3,32}$/)) {
+    if (homeName.length < 3 || homeName.length > 32) {
       throwErrors('Home name not valid')
       return false
     }
 
-    if (!homeAddress.match(/^[A-Za-z_][A-Za-z0-9_]{3,32}$/)) {
+    if (homeAddress.length < 3 || homeAddress.length > 32) {
       throwErrors('Home address not valid')
       return false
     }

@@ -3,16 +3,17 @@ import Home from '../models/Home'
 import Resident from '../models/Resident'
 import User from '../models/User'
 import { sse } from '../router'
+import SmartAppServices from './smartAppServices'
 
 export const emitter = new EventEmitter()
 
 class HomeServices {
   private static validateField(field: string) {
-    return field.match(/^[A-Za-z_][A-Za-z0-9_]{3,32}$/)
+    return field.length > 3 && field.length < 32
   }
 
   private static validateKey(key: string) {
-    return key.match(/^(?=.*[A-Za-z0-9])(?=.*\d)[A-Za-z0-9\d]{8,32}$/)
+    return key.match(/^[A-Za-z0-9_. ][A-Za-z0-9_. ]{3,32}$/)
   }
 
   public async findHomeList(userId: string) {
@@ -83,13 +84,18 @@ class HomeServices {
       await Home.update({ token, tokenExpires, endpoints }, { where: { id: home.id } })
       console.log('event: ', token, tokenExpires, endpoints)
 
-      return sse.send({
+      await new SmartAppServices().addDevices(home.id.toString())
+      const devices = await new SmartAppServices().getDevices(home.id.toString())
+
+      sse.send({
         event: 'home',
         data: {
           ...home.getAttributes(),
           role: resident.getAttributes().role,
         },
       })
+
+      sse.send({ event: 'devices', data: devices })
     })
   }
 
