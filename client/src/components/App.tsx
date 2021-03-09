@@ -59,7 +59,7 @@ const App: React.FC<Props> = (props) => {
     } else {
       eventSource.close()
     }
-  })
+  }, [homeId, saveDevicesAction, saveHomeAction])
 
   useEffect(() => {
     const token = localStorage.getItem('token')
