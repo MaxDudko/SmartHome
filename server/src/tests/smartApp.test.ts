@@ -20,9 +20,10 @@ const createLock = async (
   label: string,
   location: string,
   value: string,
-  battery: number
+  battery: number,
+  active: boolean
 ) => {
-  const lock = new Lock({ homeId, deviceId, type, label, location, value, battery })
+  const lock = new Lock({ homeId, deviceId, type, label, location, value, battery, active })
   return Lock.create(lock.getAttributesAndCreate())
 }
 const createHome = async (name: string, address: string, key: string) => {
@@ -51,7 +52,8 @@ describe('SmartAppServices behavior:', () => {
         'testLock',
         'test',
         'locked',
-        100
+        100,
+        true
       )
 
       const result = {
@@ -65,6 +67,7 @@ describe('SmartAppServices behavior:', () => {
             value: true,
             battery: 100,
             updatedAt: lock.updatedAt,
+            active: true,
           },
         ],
       }
