@@ -10,6 +10,7 @@ export interface LockAttributes {
   battery: number
   location?: string
   updatedAt?: any
+  active: boolean
 }
 
 class Lock extends Model<LockAttributes> implements LockAttributes {
@@ -21,6 +22,7 @@ class Lock extends Model<LockAttributes> implements LockAttributes {
   public battery!: number
   public location!: string
   public updatedAt!: any
+  public active!: boolean
 
   public getAttributesAndCreate() {
     return {
@@ -32,6 +34,7 @@ class Lock extends Model<LockAttributes> implements LockAttributes {
       location: this.location,
       battery: this.battery,
       updatedAt: this.updatedAt,
+      active: this.active,
     }
   }
 
@@ -45,6 +48,7 @@ class Lock extends Model<LockAttributes> implements LockAttributes {
       battery: this.battery,
       location: this.location,
       updatedAt: this.updatedAt,
+      active: this.active,
     }
   }
 }
@@ -59,6 +63,7 @@ Lock.init(
     battery: DataTypes.INTEGER,
     location: DataTypes.STRING,
     updatedAt: DataTypes.DATE,
+    active: DataTypes.BOOLEAN,
   },
   { sequelize, freezeTableName: process.env.NODE_ENV === 'test' }
 )
