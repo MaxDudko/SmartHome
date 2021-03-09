@@ -11,6 +11,7 @@ router.post('/register', auth.optional, userController.createUser)
 router.post('/login', auth.optional, userController.authenticateUser)
 router.post('/profile', auth.required, userController.checkToken) // GET
 router.post('/password/reset', auth.optional, userController.resetPassword)
+router.get('/password/reset', auth.optional, userController.checkPasswordToken)
 router.post('/password/refresh', auth.optional, userController.refreshPassword)
 
 const homeController = new HomeController()

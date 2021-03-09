@@ -13,6 +13,7 @@ interface Props {
 
 const RefreshForm: React.FC<Props> = (props) => {
   const { refreshPasswordAction, responseError } = props
+  const [token, setToken] = useState('')
   const [data, setData] = useState<any>({})
   const [errors, throwErrors] = useState<string>('')
 
@@ -21,12 +22,10 @@ const RefreshForm: React.FC<Props> = (props) => {
     const params = new URLSearchParams(search)
     const token = params.get('token')
 
-    setData({
-      ...data,
-      token,
-    })
-  }, [data])
-
+    if (token) {
+      setToken(token)
+    }
+  })
   useEffect(() => {
     throwErrors(responseError)
   }, [responseError])
@@ -38,12 +37,36 @@ const RefreshForm: React.FC<Props> = (props) => {
     })
   }
 
+  const validateData = (data) => {
+    const { password, confirmPassword } = data
+
+    if (!password.match(/^(?=.*[A-Za-z0-9])(?=.*\d)[A-Za-z0-9\d]{8,64}$/)) {
+      throwErrors('Password must be at least 8-64 A-Z, a-z, 0-9')
+      return false
+    }
+
+    if (password !== confirmPassword) {
+      throwErrors('Passwords not identical')
+      return false
+    }
+
+    return true
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    refreshPasswordAction(data)
+    const valid = validateData(data)
 
-    return <Redirect to="/overview" />
+    if (valid && token) {
+
+      refreshPasswordAction({
+        ...data,
+        token,
+      })
+
+      return <Redirect to="/overview" />
+    }
   }
 
   return (

@@ -81,7 +81,7 @@ class UserServices {
     }
 
     const token = randomstring.generate(32)
-    const url = `http://${process.env.HOST}:${process.env.PORT}/password/reset?token=${token}`
+    const url = `http://${process.env.HOST}:${process.env.PORT}/api/v1/password/reset?token=${token}`
 
     const passwordToken = new PasswordToken({ userId: user.id, token })
 
