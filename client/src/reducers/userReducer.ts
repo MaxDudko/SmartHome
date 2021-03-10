@@ -1,12 +1,19 @@
 import { AnyAction } from 'redux'
 import { REMOVE_USER_DATA, SAVE_HOME_LIST, SAVE_USER_DATA } from '../actionTypes'
 
+interface Home {
+  id: string
+  name: string
+  address: string
+  role: string
+}
+
 export interface UserState {
   id: null | string
   email: null | string
   fullName: null | string
   token: null | string
-  homeList: null | object[]
+  homeList: null | Home[]
 }
 
 const initialState = {
