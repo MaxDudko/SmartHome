@@ -12,18 +12,17 @@ export const getTokenFromHeaders = (req: Request) => {
   return null
 }
 
+const options = {
+  algorithms: ['HS256'],
+  secret: (process.env.JWT_SECRET as string) || 'secret',
+  userProperty: 'payload',
+  getTokenFromHeaders,
+}
+
 const auth = {
-  required: jwt({
-    algorithms: ['HS256'],
-    secret: (process.env.JWT_SECRET as string) || 'secret',
-    userProperty: 'payload',
-    getTokenFromHeaders,
-  }),
+  required: jwt(options),
   optional: jwt({
-    algorithms: ['HS256'],
-    secret: (process.env.JWT_SECRET as string) || 'secret',
-    userProperty: 'payload',
-    getTokenFromHeaders,
+    ...options,
     credentialsRequired: false,
   }),
 }

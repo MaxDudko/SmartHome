@@ -43,13 +43,16 @@ const App: React.FC<Props> = (props) => {
   const location = useLocation()
 
   useEffect(() => {
-    const eventSource = new EventSource(`http://localhost:4000/api/v1/stream?homeId=${homeId}`)
+    const eventSource = new EventSource(
+      `${process.env.REACT_APP_API_URL}/api/v1/stream?homeId=${homeId}`
+    )
 
     if (userId) {
       eventSource.onmessage = (stream: any) => {
         const { event, data } = JSON.parse(stream.data)
         switch (event) {
           case 'devices':
+            console.log(data)
             return saveDevicesAction(data)
           case 'home':
             localStorage.setItem('homeId', data.id)
@@ -59,7 +62,7 @@ const App: React.FC<Props> = (props) => {
     } else {
       eventSource.close()
     }
-  })
+  }, [homeId])
 
   useEffect(() => {
     const token = localStorage.getItem('token')

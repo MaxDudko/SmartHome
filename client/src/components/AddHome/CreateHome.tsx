@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Col, TextInput } from 'react-materialize'
 import { connect } from 'react-redux'
+import {authModalAction} from "../../actions/appActions";
 import { createHomeAction } from '../../actions/homeActions'
+import validate from '../../validatin'
 import styles from './AddHome.module.scss'
 
 interface Props {
@@ -9,10 +11,11 @@ interface Props {
   authModal: string
   createHomeAction: any
   responseError: string
+  authModalAction: Function
 }
 
 const CreateHome: React.FC<Props> = (props) => {
-  const { createHomeAction, userId, responseError, authModal } = props
+  const { createHomeAction, userId, responseError, authModal, authModalAction } = props
   const [data, setData] = useState<any>({})
   const [errors, throwErrors] = useState<string>('')
 
@@ -23,34 +26,14 @@ const CreateHome: React.FC<Props> = (props) => {
   useEffect(() => {
     if (authModal) {
       window.open(authModal)
+      authModalAction('')
     }
   }, [authModal])
-
-  const validateData = (data) => {
-    const { homeName, homeAddress, key } = data
-
-    if (homeName.length < 3 || homeName.length > 32) {
-      throwErrors('Home name not valid')
-      return false
-    }
-
-    if (homeAddress.length < 3 || homeAddress.length > 32) {
-      throwErrors('Home address not valid')
-      return false
-    }
-
-    if (!key.match(/^(?=.*[A-Za-z0-9])(?=.*\d)[A-Za-z0-9\d]{8,32}$/)) {
-      throwErrors('Security key must be at least 8-64 A-Z, a-z, 0-9')
-      return false
-    }
-
-    return true
-  }
 
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    const isValid = validateData(data)
+    const isValid = validate(data, throwErrors)
     if (isValid) {
       const { userId, homeName, homeAddress, key } = data
       createHomeAction(userId.toString(), homeName, homeAddress, key)
@@ -130,6 +113,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   createHomeAction: (userId: string, homeName: string, homeAddress: string, key: string) =>
     dispatch(createHomeAction(userId, homeName, homeAddress, key)),
+  authModalAction: (url: string) => dispatch(authModalAction(url)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateHome)

@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { registerUserAction } from '../../actions/userActions'
 import logo from '../../images/logo.png'
 import { UserState } from '../../reducers/userReducer'
+import validate from '../../validatin'
 import styles from './Authentication.module.scss'
 
 interface Props {
@@ -22,30 +23,6 @@ const RegisterForm: React.FC<Props> = (props) => {
     throwErrors(responseError)
   }, [responseError])
 
-  const validateData = (data) => {
-    const { email, password, confirmPassword } = data
-
-    if (
-      !email.match(/^([a-zA-Z0-9._-]+@[a-zA-Z]+.[a-zA-Z]{2,4})$/) ||
-      !(email.length > 5 && email.length < 64)
-    ) {
-      throwErrors('Email not valid')
-      return false
-    }
-
-    if (!password.match(/^(?=.*[A-Za-z0-9])(?=.*\d)[A-Za-z0-9\d]{8,64}$/)) {
-      throwErrors('Password must be at least 8-64 A-Z, a-z, 0-9')
-      return false
-    }
-
-    if (password !== confirmPassword) {
-      throwErrors('Passwords not identical')
-      return false
-    }
-
-    return true
-  }
-
   const handleChange = (event) => {
     setData({
       ...data,
@@ -56,7 +33,7 @@ const RegisterForm: React.FC<Props> = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    const isValid = validateData(data)
+    const isValid = validate(data, throwErrors)
     if (isValid) {
       registerUserAction(data)
       return <Redirect to="/overview" />

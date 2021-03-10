@@ -74,7 +74,7 @@ const SelectHome: React.FC<Props> = (props) => {
         </Table>
       ) : (
         <p className={styles.error}>
-          No one Home not found, please create new Home or join to existing
+          You don't have any homes, please create new Home or join to existing
         </p>
       )}
     </Col>

@@ -27,17 +27,20 @@ function* getHomeListSaga(payload) {
 
 function* selectHomeSaga(payload) {
   const response = yield sendRequest(SELECT_HOME, payload.payload)
-  localStorage.setItem('homeId', response.data.id)
+  if (response) {
+    localStorage.setItem('homeId', response.data.id)
 
-  yield put({ type: SAVE_HOME, payload: response.data })
-  yield put({ type: GET_DEVICES, payload: { homeId: response.data.id.toString() } })
-  yield put({ type: APP_READY })
+    yield put({ type: SAVE_HOME, payload: response.data })
+    yield put({ type: GET_DEVICES, payload: { homeId: response.data.id.toString() } })
+    yield put({ type: APP_READY })
+  }
 }
 
 function* createHomeSaga(payload) {
   try {
     const response = yield sendRequest(CREATE_HOME, payload.payload)
 
+    yield put({ type: RESPONSE_ERROR, payload: '' })
     yield put({ type: AUTH_MODAL, payload: response.data })
   } catch (error) {
     yield put({ type: RESPONSE_ERROR, error })
@@ -48,6 +51,7 @@ function* joinHomeSaga(payload) {
   try {
     const response = yield sendRequest(JOIN_HOME, payload.payload)
 
+    yield put({ type: RESPONSE_ERROR, payload: '' })
     yield put({ type: SAVE_HOME, payload: response.data })
   } catch (error) {
     yield put({ type: RESPONSE_ERROR, payload: error.response.data.message })

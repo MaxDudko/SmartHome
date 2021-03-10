@@ -57,7 +57,7 @@ def initialize() {
 mappings {
   path("/get-devices") {
     action: [
-      POST: "getDevices"
+      GET: "getDevices"
     ]
   }
   path("/lock-toggle") {
@@ -102,7 +102,14 @@ def	getDevices() {
     }
 
     return [
-  		locks: locks.collect{[label: it.label, type: 'lock', id: it.id, value: lock.currentValue("lock")]}
+  		locks: locks.collect{[
+        	deviceId: it.id,
+            type: 'lock',
+            label: it.label,
+            value: lock.currentValue("lock")[0],
+            battery: lock.currentValue("battery")[0],
+            homeId: state.homeId
+        ]}
   	]
 }
 
