@@ -28,7 +28,6 @@ class Home extends Model<HomeAttributes> implements HomeAttributes {
       id: this.id.toString(),
       name: this.name,
       address: this.address,
-      endpoints: this.endpoints,
     }
   }
   public setPassword(password: string): void {
