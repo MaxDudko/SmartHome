@@ -1,6 +1,6 @@
+import * as crypto from 'crypto'
 import nodemailer from 'nodemailer'
 import passport from 'passport'
-import randomstring from 'randomstring'
 import PasswordToken from '../models/PasswordToken'
 import User from '../models/User'
 
@@ -80,38 +80,53 @@ class UserServices {
       throw Error('Email not found')
     }
 
-    const token = randomstring.generate(32)
-    const url = `http://${process.env.HOST}:${process.env.PORT}/api/v1/password/reset?token=${token}`
+    const generateUniqueToken = async () => {
+      const randomstring64 = crypto.randomBytes(64).toString('hex')
 
-    const passwordToken = new PasswordToken({ userId: user.id, token })
+      const exist = await PasswordToken.findOne({ where: { token: randomstring64 } })
 
-    await PasswordToken.create(passwordToken.getAttributes())
-
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL || 'smartappemail@gmail.com',
-        pass: process.env.EMAIL_PASS || 'emailpassword',
-      },
-    })
-
-    transporter.sendMail(
-      {
-        from: process.env.EMAIL,
-        to: user.email,
-        subject: 'SmartHome: reset password',
-        html: `<p>Please click on this link:</p><p>${url}</p>`,
-      },
-      (error, info) => {
-        if (error) {
-          // tslint:disable-next-line:no-console
-          console.log(error)
-        } else {
-          // tslint:disable-next-line:no-console
-          console.log('Email sent: ' + info.response)
-        }
+      if (!exist) {
+        return randomstring64
+      } else {
+        await generateUniqueToken()
       }
-    )
+    }
+
+    const token = await generateUniqueToken()
+
+    if (token) {
+      const url = `http://${process.env.HOST}:${process.env.PORT}/api/v1/password/reset?token=${token}`
+
+      const passwordToken = new PasswordToken({ userId: user.id, token })
+
+      await PasswordToken.create(passwordToken.getAttributes())
+
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.EMAIL || 'smartappemail@gmail.com',
+          pass: process.env.EMAIL_PASS || 'emailpassword',
+        },
+      })
+
+      transporter.sendMail(
+        {
+          from: process.env.EMAIL,
+          to: user.email,
+          subject: 'SmartHome: reset password',
+          html: `<p>Please click on this link:</p><p>${url}</p>`,
+        },
+        (error, info) => {
+          if (error) {
+            // tslint:disable-next-line:no-console
+            console.error(error)
+          } else {
+            // tslint:disable-next-line:no-console
+            console.log('Email sent: ' + info.response)
+          }
+        }
+      )
+    }
   }
 
   public async checkPasswordToken(token: any) {
@@ -147,6 +162,7 @@ class UserServices {
       user.setPassword(password)
 
       await user.save()
+      await PasswordToken.destroy({ where: { token } })
 
       return user.toAuthJSON()
     }
