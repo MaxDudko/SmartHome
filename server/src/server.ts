@@ -1,6 +1,7 @@
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import express, { NextFunction, Request, Response } from 'express'
+import {ValidationError} from "express-validation";
 import morgan from 'morgan'
 import passport from 'passport'
 import DB from './config/db.config'
@@ -36,7 +37,7 @@ class Server {
     this.app.use(bodyParser.json({ limit: '1mb' }))
     this.app.use(morgan('dev'))
     this.app.use(cors())
-    this.app.use('/api/v1', router)
+    this.app.use(process.env.API_PREFIX || '/api/v1', router)
   }
 
   private dbConnect() {
