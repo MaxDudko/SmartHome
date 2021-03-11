@@ -1,6 +1,7 @@
 import * as crypto from 'crypto'
 import nodemailer from 'nodemailer'
 import passport from 'passport'
+import logger from '../config/logger.config'
 import PasswordToken from '../models/PasswordToken'
 import User from '../models/User'
 
@@ -118,11 +119,9 @@ class UserServices {
         },
         (error, info) => {
           if (error) {
-            // tslint:disable-next-line:no-console
-            console.error(error)
+            logger.error(error)
           } else {
-            // tslint:disable-next-line:no-console
-            console.log('Email sent: ' + info.response)
+            logger.info('Email sent: ' + info.response)
           }
         }
       )

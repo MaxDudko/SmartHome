@@ -1,4 +1,5 @@
 import { EventEmitter } from 'events'
+import logger from '../config/logger.config'
 import Home from '../models/Home'
 import Resident from '../models/Resident'
 import User from '../models/User'
@@ -82,7 +83,7 @@ class HomeServices {
 
     emitter.on('smartAppData', async (token: any, tokenExpires: any, endpoints: any) => {
       await Home.update({ token, tokenExpires, endpoints }, { where: { id: home.id } })
-      console.log('event: ', token, tokenExpires, endpoints)
+      logger.info('event: ', token, tokenExpires, endpoints)
 
       await new SmartAppServices().addDevices(home.id.toString())
       const devices = await new SmartAppServices().getDevices(home.id.toString())

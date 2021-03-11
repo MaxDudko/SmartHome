@@ -4,6 +4,7 @@ import express, { NextFunction, Request, Response } from 'express'
 import morgan from 'morgan'
 import passport from 'passport'
 import DB from './config/db.config'
+import logger from './config/logger.config'
 import strategy from './config/passport'
 import router from './router'
 
@@ -42,12 +43,10 @@ class Server {
     DB.sequelize
       .sync()
       .then(() => {
-        // tslint:disable-next-line:no-console
-        console.log('DB: Connection has been established successfully.')
+        logger.info('DB: Connection has been established successfully.')
       })
       .catch((err) => {
-        // tslint:disable-next-line:no-console
-        console.error('DB: Unable to connect to the database:', err)
+        logger.error('DB: Unable to connect to the database:', err)
       })
   }
 }
