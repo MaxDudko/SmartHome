@@ -43,10 +43,10 @@ class Server {
     DB.sequelize
       .sync()
       .then(() => {
-        logger.info('DB: Connection has been established successfully.')
+        logger.info('Connection has been established successfully.')
       })
       .catch((err) => {
-        logger.error('DB: Unable to connect to the database:', err)
+        logger.error('Unable to connect to the database:', err)
       })
   }
 }

@@ -3,13 +3,19 @@ import { configure, getLogger } from 'log4js'
 configure({
   appenders: {
     console: {
-      type: 'stdout',
-      layout: { type: 'messagePassThrough' },
+      type: 'console',
+      layout: { type: 'pattern', pattern: '%[%p: %m%n %]' },
+      level: 'all',
+    },
+    file: {
+      type: 'file',
+      filename: 'server_logs.log',
+      compress: false,
     },
   },
   categories: {
     default: {
-      appenders: ['console'],
+      appenders: ['console', 'file'],
       level: 'all',
     },
   },
