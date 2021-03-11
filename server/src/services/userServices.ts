@@ -81,12 +81,12 @@ class UserServices {
     }
 
     const generateUniqueToken = async () => {
-      const randomstring64 = crypto.randomBytes(64).toString('hex')
+      const randomBytes = crypto.randomBytes(64).toString('hex')
 
-      const exist = await PasswordToken.findOne({ where: { token: randomstring64 } })
+      const exist = await PasswordToken.findOne({ where: { token: randomBytes } })
 
       if (!exist) {
-        return randomstring64
+        return randomBytes
       } else {
         await generateUniqueToken()
       }
