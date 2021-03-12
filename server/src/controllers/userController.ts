@@ -68,7 +68,7 @@ class UserController {
 
     try {
       await services.checkPasswordToken(token)
-      return res.redirect(`http://localhost:3000/refresh?token=${token}`)
+      return res.redirect(`${process.env.CLIENT_URL}/refresh?token=${token}`)
     } catch (e) {
       return res.status(404).json({ error: e.message })
     }

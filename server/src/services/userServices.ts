@@ -121,7 +121,7 @@ class UserServices {
           if (error) {
             logger.error(error)
           } else {
-            logger.info('Email sent: ' + info.response)
+            logger.info('Email sent:', info.response)
           }
         }
       )
