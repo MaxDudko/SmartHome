@@ -1,78 +1,98 @@
 import { Joi } from 'express-validation'
 
+const emailSchema = Joi.string()
+  .email()
+  .min(5)
+  .max(64)
+  .pattern(/^([a-zA-Z0-9._-]+@[a-zA-Z]+.[a-zA-Z]{2,4})$/)
+
+const passwordSchema = Joi.string().pattern(/^(?=.*[A-Za-z0-9])(?=.*\d)[A-Za-z0-9\d]{8,64}$/)
+
+const resetPasswordTokenSchema = Joi.string().hex().length(64).required()
+
+const idSchema = Joi.string()
+  .max(64)
+  .pattern(/^[0-9]*$/)
+
+const keySchema = Joi.string().pattern(/^(?=.*[A-Za-z0-9])(?=.*\d)[A-Za-z0-9\d]{4,32}$/)
+
+const fieldSchema = Joi.string().max(64)
+
+const smartAppTokenSchema = Joi.string().pattern(/^[0-9a-z-]*$/)
+
 export const registerSchema = {
   body: Joi.object({
-    email: Joi.string().email().required(),
-    password: Joi.string().required(),
-    fullName: Joi.string().required(),
+    email: emailSchema.required(),
+    password: passwordSchema.required(),
+    fullName: fieldSchema.required(),
   }),
 }
 
 export const loginSchema = {
   body: Joi.object({
-    email: Joi.string().email().required(),
-    password: Joi.string().required(),
+    email: emailSchema.required(),
+    password: passwordSchema.required(),
   }),
 }
 
 export const profileSchema = {
   payload: Joi.object({
-    email: Joi.string().email().required(),
+    email: emailSchema,
   }),
 }
 
 export const resetPasswordSchema = {
   body: Joi.object({
-    email: Joi.string().email().required(),
+    email: emailSchema.required(),
   }),
 }
 
 export const checkPasswordTokenSchema = {
   query: Joi.object({
-    token: Joi.string().required(),
+    token: resetPasswordTokenSchema.required(),
   }),
 }
 
 export const refreshPasswordSchema = {
   body: Joi.object({
-    password: Joi.string().required(),
-    token: Joi.string().required(),
+    password: passwordSchema.required(),
+    token: resetPasswordTokenSchema.required(),
   }),
 }
 
 export const findHomeSchema = {
   body: Joi.object({
-    userId: Joi.string().required(),
+    userId: idSchema.required(),
   }),
 }
 
 export const selectHomeSchema = {
   body: Joi.object({
-    userId: Joi.string().required(),
-    homeId: Joi.string().required(),
+    userId: idSchema.required(),
+    homeId: idSchema.required(),
   }),
 }
 
 export const createHomeSchema = {
   body: Joi.object({
-    userId: Joi.string().required(),
-    homeName: Joi.string().required(),
-    homeAddress: Joi.string().required(),
-    key: Joi.string().required(),
+    userId: idSchema.required(),
+    homeName: fieldSchema.required(),
+    homeAddress: fieldSchema,
+    key: keySchema.required(),
   }),
 }
 
 export const joinHomeSchema = {
   body: Joi.object({
-    userId: Joi.string().required(),
-    homeId: Joi.string().required(),
-    key: Joi.string().required(),
+    userId: idSchema.required(),
+    homeId: idSchema.required(),
+    key: keySchema.required(),
   }),
 }
 
 export const accessTokenSchema = {
   query: Joi.object({
-    code: Joi.string().required(),
+    code: smartAppTokenSchema.required(),
   }),
 }
 
@@ -82,7 +102,7 @@ export const saveTokenSchema = {
 
 export const getDevicesSchema = {
   body: Joi.object({
-    homeId: Joi.string().required(),
+    homeId: idSchema.required(),
   }),
 }
 
@@ -94,6 +114,6 @@ export const updateStateSchema = {
 
 export const lockToggleSchema = {
   body: Joi.object({
-    homeId: Joi.string().required(),
+    homeId: idSchema.required(),
   }),
 }
