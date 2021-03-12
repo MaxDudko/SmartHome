@@ -4,10 +4,10 @@ import { connect } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { appReadyAction } from '../actions/appActions'
 import { saveDevicesAction } from '../actions/devicesActions'
-import {saveHomeAction, selectHomeAction} from '../actions/homeActions'
+import { saveHomeAction, selectHomeAction } from '../actions/homeActions'
 import { tokenValidationAction } from '../actions/userActions'
 import { DevicesState } from '../reducers/devicesReducer'
-import {HomeState} from "../reducers/homeReducer";
+import { HomeState } from '../reducers/homeReducer'
 import SmartRouter from '../SmartRouter'
 import AddDevice from './AddDevice/AddDevice'
 import styles from './App.module.scss'
@@ -52,7 +52,6 @@ const App: React.FC<Props> = (props) => {
         const { event, data } = JSON.parse(stream.data)
         switch (event) {
           case 'devices':
-            console.log(data)
             return saveDevicesAction(data)
           case 'home':
             localStorage.setItem('homeId', data.id)

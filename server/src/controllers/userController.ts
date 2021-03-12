@@ -1,12 +1,9 @@
 import { NextFunction, Request, Response } from 'express'
 import passport from 'passport'
+import { RequestWithPayload } from '../middlewares/auth'
 import UserServices from '../services/userServices'
 
 const services = new UserServices()
-
-interface RequestWithPayload extends Request {
-  payload?: { [email: string]: string }
-}
 
 class UserController {
   public async createUser(req: Request, res: Response) {
@@ -52,7 +49,7 @@ class UserController {
     }
   }
 
-  public async resetPassword(req: RequestWithPayload, res: Response) {
+  public async resetPassword(req: Request, res: Response) {
     const { email } = req.body
 
     try {
@@ -63,7 +60,7 @@ class UserController {
     }
   }
 
-  public async checkPasswordToken(req: RequestWithPayload, res: Response) {
+  public async checkPasswordToken(req: Request, res: Response) {
     const token = req.query.token
 
     try {
@@ -74,7 +71,7 @@ class UserController {
     }
   }
 
-  public async refreshPassword(req: RequestWithPayload, res: Response) {
+  public async refreshPassword(req: Request, res: Response) {
     const { password, token } = req.body
 
     try {

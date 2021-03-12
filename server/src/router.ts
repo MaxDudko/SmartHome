@@ -17,10 +17,9 @@ import {
   refreshPasswordSchema,
   registerSchema,
   resetPasswordSchema,
-  saveTokenSchema,
   selectHomeSchema,
   updateStateSchema,
-} from './middlewares/schemas'
+} from './middlewares/validationSchemas'
 
 const router = Router()
 
@@ -55,14 +54,14 @@ router.post('/join-home', auth.required, validate(joinHomeSchema), homeControlle
 
 const smartAppController = new SmartAppController()
 router.get('/smart-api/auth-token', validate(accessTokenSchema), smartAppController.accessToken)
-router.post('/smart-api/auth-token', validate(saveTokenSchema), smartAppController.saveToken)
+router.post('/smart-api/auth-token', smartAppController.saveToken)
 router.post(
   '/smart-api/get-devices',
   validate(getDevicesSchema),
   auth.required,
   smartAppController.getDevices
 ) // GET /devices
-router.post('/smart-api/update-state', smartAppController.updateState) // PUT /devices/:id
+router.post('/smart-api/update-state', validate(updateStateSchema), smartAppController.updateState) // PUT /devices/:id
 router.post(
   '/smart-api/lock-toggle',
   validate(lockToggleSchema),

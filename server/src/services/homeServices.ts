@@ -1,4 +1,11 @@
 import { EventEmitter } from 'events'
+import {
+  EVENT_DEVICES,
+  EVENT_HOME,
+  EVENT_SMART_APP_DATA,
+  ROLE_ADMIN,
+  ROLE_USER,
+} from '../config/constants'
 import logger from '../config/logger.config'
 import Home from '../models/Home'
 import Resident from '../models/Resident'
@@ -78,10 +85,10 @@ class HomeServices {
     const resident = await Resident.create({
       userId,
       homeId: home.id,
-      role: 'admin',
+      role: ROLE_ADMIN,
     })
 
-    emitter.on('smartAppData', async (token: any, tokenExpires: any, endpoints: any) => {
+    emitter.on(EVENT_SMART_APP_DATA, async (token: any, tokenExpires: any, endpoints: any) => {
       await Home.update({ token, tokenExpires, endpoints }, { where: { id: home.id } })
       logger.info('event: ', token, tokenExpires, endpoints)
 
@@ -89,14 +96,14 @@ class HomeServices {
       const devices = await new SmartAppServices().getDevices(home.id.toString())
 
       sse.send({
-        event: 'home',
+        event: EVENT_HOME,
         data: {
           ...home.getAttributes(),
           role: resident.getAttributes().role,
         },
       })
 
-      sse.send({ event: 'devices', data: devices })
+      sse.send({ event: EVENT_DEVICES, data: devices })
     })
   }
 
@@ -115,7 +122,7 @@ class HomeServices {
         const resident = await Resident.create({
           userId,
           homeId: home.id,
-          role: 'user',
+          role: ROLE_USER,
         })
         return {
           ...home.getAttributes(),

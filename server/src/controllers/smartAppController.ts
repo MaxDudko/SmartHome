@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import {EVENT_DEVICES} from "../config/constants";
 import { getTokenFromHeaders } from '../middlewares/auth'
 import { sse } from '../router'
 import SmartAppServices from '../services/smartAppServices'
@@ -45,9 +46,8 @@ class SmartAppController {
         const resp = await services.updateState(state)
         const devices = resp && (await services.getDevices(resp.homeId))
 
-        console.log(1111, devices)
         if (resp && devices) {
-          sse.send({ event: 'devices', data: devices })
+          sse.send({ event: EVENT_DEVICES, data: devices })
         }
 
         res.status(200).send('updated')

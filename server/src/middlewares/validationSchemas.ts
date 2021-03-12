@@ -96,10 +96,6 @@ export const accessTokenSchema = {
   }),
 }
 
-export const saveTokenSchema = {
-  body: Joi.object({}),
-}
-
 export const getDevicesSchema = {
   body: Joi.object({
     homeId: idSchema.required(),
@@ -107,9 +103,7 @@ export const getDevicesSchema = {
 }
 
 export const updateStateSchema = {
-  body: Joi.object({
-    state: Joi.object().required(),
-  }),
+  body: Joi.object({}),
 }
 
 export const lockToggleSchema = {

@@ -45,6 +45,7 @@ class User extends Model<UserAttributes> implements UserAttributes {
 
     return jwt.sign(
       {
+        id: this.id.toString(),
         email: this.email,
         exp: parseInt(String(expirationDate.getTime() / 1000), 10),
       },
