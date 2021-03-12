@@ -32,13 +32,13 @@ preferences {
 }
 
 def installed() {
-	log.debug "Installed with settings: ${settings}"
+	log.info "Installed with settings: ${settings}"
 
 	initialize()
 }
 
 def updated() {
-	log.debug "Updated with settings: ${settings}"
+	log.info "Updated with settings: ${settings}"
 
 	unsubscribe()
 	initialize()
@@ -50,7 +50,7 @@ def initialize() {
     state.homeId = ""
     subscribe(lock, "lock.locked", lockListener)
     subscribe(lock, "lock.unlocked", lockListener)
-    log.debug "Lock currentValue ${lock.currentValue('lock')[0]}"
+    log.info "Lock currentValue ${lock.currentValue('lock')[0]}"
 }
 
 // TODO: implement event handlers
@@ -68,7 +68,9 @@ mappings {
 }
 
 def lockListener(evt) {
-	log.debug state.token
+	log.debug 'token: ' + state.token
+    log.debug 'homeId: ' + state.homeId
+
     def params = [
         // Server URL (if server run on localhost, use ngrok)
     	uri: "SERVER_URL",
@@ -92,7 +94,7 @@ def lockListener(evt) {
     try {
         httpPostJson(params)
 	} catch (e) {
-    	log.debug "something went wrong: $e"
+    	log.error "something went wrong: $e"
 	}
 }
 
@@ -114,12 +116,12 @@ def	getDevices() {
 }
 
 def lockToggle() {
-	if (request.JSON.token) {
-    	state.token = request.JSON.token
+	if (request.JSON.data.token) {
+    	state.token = request.JSON.data.token
     }
 
-    if (request.JSON.homeId) {
-    	state.homeId = request.JSON.homeId
+    if (request.JSON.data.homeId) {
+    	state.homeId = request.JSON.data.homeId
     }
 
 	if (lock.currentValue("lock")[0] == "locked") {
