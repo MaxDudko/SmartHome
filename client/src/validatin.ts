@@ -30,7 +30,7 @@ const validate = (data, errorHandler) => {
     return false
   }
 
-  if (key && !key.match(/^(?=.*[A-Za-z0-9])(?=.*\d)[A-Za-z0-9\d]{8,32}$/)) {
+  if (key && !key.match(/^(?=.*[A-Za-z0-9])(?=.*\d)[A-Za-z0-9\d]{4,32}$/)) {
     errorHandler('Security key must be at least 8-64 A-Z, a-z, 0-9')
     return false
   }

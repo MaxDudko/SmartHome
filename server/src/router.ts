@@ -62,7 +62,7 @@ router.post(
   auth.required,
   smartAppController.getDevices
 ) // GET /devices
-router.post('/smart-api/update-state', validate(updateStateSchema), smartAppController.updateState) // PUT /devices/:id
+router.post('/smart-api/update-state', smartAppController.updateState) // PUT /devices/:id
 router.post(
   '/smart-api/lock-toggle',
   validate(lockToggleSchema),

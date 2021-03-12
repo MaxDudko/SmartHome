@@ -45,6 +45,7 @@ class SmartAppController {
         const resp = await services.updateState(state)
         const devices = resp && (await services.getDevices(resp.homeId))
 
+        console.log(1111, devices)
         if (resp && devices) {
           sse.send({ event: 'devices', data: devices })
         }
