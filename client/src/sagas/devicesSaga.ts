@@ -14,10 +14,7 @@ function* getDevicesSaga(payload) {
 
 function* lockToggleSaga(payload) {
   try {
-    const homeId = localStorage.getItem('homeId')
     yield sendRequest(LOCK_TOGGLE, payload.payload)
-
-    yield put({ type: GET_DEVICES, payload: { homeId: homeId && homeId.toString() } })
   } catch (error) {
     yield put({ type: RESPONSE_ERROR, error })
   }
