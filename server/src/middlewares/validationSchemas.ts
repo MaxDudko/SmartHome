@@ -18,7 +18,9 @@ const keySchema = Joi.string().pattern(/^(?=.*[A-Za-z0-9])(?=.*\d)[A-Za-z0-9\d]{
 
 const fieldSchema = Joi.string().max(64)
 
-const smartAppTokenSchema = Joi.string().pattern(/^[0-9a-z-]*$/)
+const smartAppTokenSchema = Joi.string()
+  .max(64)
+  .pattern(/^[0-9a-zA-Z-]*$/)
 
 export const registerSchema = {
   body: Joi.object({
@@ -35,11 +37,7 @@ export const loginSchema = {
   }),
 }
 
-export const profileSchema = {
-  payload: Joi.object({
-    email: emailSchema,
-  }),
-}
+export const profileSchema = {}
 
 export const resetPasswordSchema = {
   body: Joi.object({
@@ -60,22 +58,16 @@ export const refreshPasswordSchema = {
   }),
 }
 
-export const findHomeSchema = {
-  body: Joi.object({
-    userId: idSchema.required(),
-  }),
-}
+export const findHomeSchema = {}
 
 export const selectHomeSchema = {
-  body: Joi.object({
-    userId: idSchema.required(),
+  query: Joi.object({
     homeId: idSchema.required(),
   }),
 }
 
 export const createHomeSchema = {
   body: Joi.object({
-    userId: idSchema.required(),
     homeName: fieldSchema.required(),
     homeAddress: fieldSchema,
     key: keySchema.required(),
@@ -84,7 +76,6 @@ export const createHomeSchema = {
 
 export const joinHomeSchema = {
   body: Joi.object({
-    userId: idSchema.required(),
     homeId: idSchema.required(),
     key: keySchema.required(),
   }),
@@ -97,7 +88,7 @@ export const accessTokenSchema = {
 }
 
 export const getDevicesSchema = {
-  body: Joi.object({
+  query: Joi.object({
     homeId: idSchema.required(),
   }),
 }

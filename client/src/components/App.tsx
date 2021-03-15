@@ -44,7 +44,7 @@ const App: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const eventSource = new EventSource(
-      `${process.env.REACT_APP_API_URL}/api/v1/stream?homeId=${homeId}`
+      `${process.env.REACT_APP_API_URL}${process.env.REACT_APP_API_PREFIX}/stream?homeId=${homeId}`
     )
 
     if (userId) {
@@ -55,18 +55,18 @@ const App: React.FC<Props> = (props) => {
             return saveDevicesAction(data)
           case 'home':
             localStorage.setItem('homeId', data.id)
-            return saveHomeAction(data)
+            return saveHomeAction(data.id)
         }
       }
     } else {
       eventSource.close()
     }
-  }, [homeId])
+  }, [userId, homeId])
 
   useEffect(() => {
     const token = localStorage.getItem('token')
     if (token) {
-      tokenValidationAction(token)
+      tokenValidationAction()
     } else {
       appReadyAction()
     }
@@ -120,10 +120,10 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   appReadyAction: () => dispatch(appReadyAction()),
-  tokenValidationAction: (token: string) => dispatch(tokenValidationAction(token)),
+  tokenValidationAction: () => dispatch(tokenValidationAction()),
   saveDevicesAction: (data: DevicesState) => dispatch(saveDevicesAction(data)),
   saveHomeAction: (data: HomeState) => dispatch(saveHomeAction(data)),
-  selectHomeAction: (userId: string, homeId: string) => dispatch(selectHomeAction(userId, homeId)),
+  selectHomeAction: (homeId: string) => dispatch(selectHomeAction(homeId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

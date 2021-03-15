@@ -25,7 +25,6 @@ function* tokenValidationSaga(payload) {
       yield put({
         type: SELECT_HOME,
         payload: {
-          userId: response.data.user.id.toString(),
           homeId: localStorage.getItem('homeId'),
         },
       })

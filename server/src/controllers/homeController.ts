@@ -20,10 +20,10 @@ class HomeController {
   }
 
   public async selectHome(req: RequestWithPayload, res: Response) {
-    const { homeId } = req.body
+    const homeId = req.query.homeId
     const userId = req.payload?.id
 
-    if (userId) {
+    if (userId && homeId) {
       try {
         const resData = await services.selectHome(userId, homeId)
         return res.status(200).json({ ...resData })

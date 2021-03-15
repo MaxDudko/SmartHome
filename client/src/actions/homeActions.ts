@@ -1,19 +1,15 @@
 import { HomeState } from '../reducers/homeReducer'
 
-export const getHomeListAction = (userId: string) => {
+export const getHomeListAction = () => {
   return {
     type: 'GET_HOME_LIST',
-    payload: {
-      userId,
-    },
   }
 }
 
-export const selectHomeAction = (userId: string, homeId: string) => {
+export const selectHomeAction = (homeId: string) => {
   return {
     type: 'SELECT_HOME',
     payload: {
-      userId,
       homeId,
     },
   }
@@ -30,16 +26,10 @@ export const removeHomeData = () => {
   }
 }
 
-export const createHomeAction = (
-  userId: string,
-  homeName: string,
-  homeAddress: string,
-  key: string
-) => {
+export const createHomeAction = (homeName: string, homeAddress: string, key: string) => {
   return {
     type: 'CREATE_HOME',
     payload: {
-      userId,
       homeName,
       homeAddress,
       key,
@@ -47,11 +37,10 @@ export const createHomeAction = (
   }
 }
 
-export const joinHomeAction = (userId: string, homeId: string, key: string) => {
+export const joinHomeAction = (homeId: string, key: string) => {
   return {
     type: 'JOIN_HOME',
     payload: {
-      userId,
       homeId,
       key,
     },

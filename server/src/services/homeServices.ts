@@ -1,4 +1,5 @@
 import { EventEmitter } from 'events'
+import * as QueryString from "querystring";
 import {
   EVENT_DEVICES,
   EVENT_HOME,
@@ -16,14 +17,6 @@ import SmartAppServices from './smartAppServices'
 export const emitter = new EventEmitter()
 
 class HomeServices {
-  private static validateField(field: string) {
-    return field.length > 3 && field.length < 32
-  }
-
-  private static validateKey(key: string) {
-    return key.match(/^[A-Za-z0-9_. ][A-Za-z0-9_. ]{3,32}$/)
-  }
-
   public async findHomeList(userId: string) {
     const residents = await Resident.findAll({ where: { userId } })
 
@@ -40,7 +33,7 @@ class HomeServices {
     }
   }
 
-  public async selectHome(userId: string, homeId: string) {
+  public async selectHome(userId: string, homeId: any) {
     const resident = await Resident.findOne({ where: { userId, homeId } })
 
     if (resident) {
@@ -58,16 +51,6 @@ class HomeServices {
   }
 
   public async createHome(userId: string, homeName: string, homeAddress: string, key: string) {
-    if (!HomeServices.validateField(homeName)) {
-      throw Error('Home name not valid')
-    }
-    if (!HomeServices.validateField(homeAddress)) {
-      throw Error('Home address not valid')
-    }
-    if (!HomeServices.validateKey(key)) {
-      throw Error('Security key must be at least 8-64 A-Z, a-z, 0-9')
-    }
-
     const user = await User.findOne({ where: { id: userId } })
     if (!user) {
       throw Error('User not found')

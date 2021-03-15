@@ -26,7 +26,7 @@ const router = Router()
 const userController = new UserController()
 router.post('/register', auth.optional, validate(registerSchema), userController.createUser)
 router.post('/login', auth.optional, validate(loginSchema), userController.authenticateUser)
-router.post('/profile', auth.required, /*validate(profileSchema),*/ userController.checkToken) // GET
+router.get('/profile', auth.required, userController.checkToken)
 router.post(
   '/password/reset',
   auth.optional,
@@ -47,27 +47,27 @@ router.post(
 )
 
 const homeController = new HomeController()
-router.post('/find-home', auth.required, validate(findHomeSchema), homeController.findHomeList) // GET /home-list
-router.post('/select-home', auth.required, validate(selectHomeSchema), homeController.selectHome) // GET /home/:id
-router.post('/create-home', auth.required, validate(createHomeSchema), homeController.createHome) // POST /home
-router.post('/join-home', auth.required, validate(joinHomeSchema), homeController.addResident) // POST || PUT ? /home/:id
+router.get('/home-list', auth.required, homeController.findHomeList)
+router.get('/home', auth.required, validate(selectHomeSchema), homeController.selectHome)
+router.post('/create-home', auth.required, validate(createHomeSchema), homeController.createHome)
+router.post('/join-home', auth.required, validate(joinHomeSchema), homeController.addResident)
 
 const smartAppController = new SmartAppController()
 router.get('/smart-api/auth-token', validate(accessTokenSchema), smartAppController.accessToken)
 router.post('/smart-api/auth-token', smartAppController.saveToken)
-router.post(
-  '/smart-api/get-devices',
+router.get(
+  '/smart-api/devices',
   validate(getDevicesSchema),
   auth.required,
   smartAppController.getDevices
-) // GET /devices
-router.post('/smart-api/update-state', validate(updateStateSchema), smartAppController.updateState) // PUT /devices/:id
+)
+router.post('/smart-api/update-state', validate(updateStateSchema), smartAppController.updateState)
 router.post(
   '/smart-api/lock-toggle',
   validate(lockToggleSchema),
   auth.required,
   smartAppController.lockToggle
-) // ?
+)
 
 const SSE = require('express-sse')
 export const sse = new SSE()

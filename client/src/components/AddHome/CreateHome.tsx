@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Col, TextInput } from 'react-materialize'
 import { connect } from 'react-redux'
-import {authModalAction} from "../../actions/appActions";
+import { authModalAction } from '../../actions/appActions'
 import { createHomeAction } from '../../actions/homeActions'
 import validate from '../../validatin'
 import styles from './AddHome.module.scss'
@@ -36,7 +36,7 @@ const CreateHome: React.FC<Props> = (props) => {
     const isValid = validate(data, throwErrors)
     if (isValid) {
       const { userId, homeName, homeAddress, key } = data
-      createHomeAction(userId.toString(), homeName, homeAddress, key)
+      createHomeAction(homeName, homeAddress, key)
     }
   }
 
@@ -111,8 +111,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  createHomeAction: (userId: string, homeName: string, homeAddress: string, key: string) =>
-    dispatch(createHomeAction(userId, homeName, homeAddress, key)),
+  createHomeAction: (homeName: string, homeAddress: string, key: string) =>
+    dispatch(createHomeAction(homeName, homeAddress, key)),
   authModalAction: (url: string) => dispatch(authModalAction(url)),
 })
 

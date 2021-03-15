@@ -22,9 +22,9 @@ const JoinHome: React.FC<Props> = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    const { userId, homeId, key } = data
+    const { homeId, key } = data
 
-    joinHomeAction(userId.toString(), homeId.toString(), key)
+    joinHomeAction(homeId.toString(), key)
   }
 
   return (
@@ -83,7 +83,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  joinHomeAction: (userId: string, homeId: string, key: string) => dispatch(joinHomeAction(userId, homeId, key)),
+  joinHomeAction: (homeId: string, key: string) => dispatch(joinHomeAction(homeId, key)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(JoinHome)

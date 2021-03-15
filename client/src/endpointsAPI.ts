@@ -14,32 +14,71 @@ import {
 } from './actionTypes'
 
 const sendRequest = (actionType: string, data: any) => {
-  const API_URL = process.env.REACT_APP_API_URL
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000'
+  const API_PREFIX = process.env.REACT_APP_API_PREFIX || '/api/v1'
 
-  const getPath = (type: string) => {
+  const GET = 'GET'
+  const POST = 'POST'
+  const PUT = 'PUT'
+  const DELETE = 'DELETE'
+
+  const getEndpoint = (type: string) => {
     switch (type) {
       case VALIDATE_TOKEN:
-        return `/profile`
+        return {
+          path: `/profile`,
+          method: GET,
+        }
       case LOGIN_USER:
-        return `/login`
+        return {
+          path: `/login`,
+          method: POST,
+        }
       case REGISTER_USER:
-        return `/register`
+        return {
+          path: `/register`,
+          method: POST,
+        }
       case RESET_PASSWORD:
-        return `/password/reset`
+        return {
+          path: `/password/reset`,
+          method: POST,
+        }
       case REFRESH_PASSWORD:
-        return `/password/refresh`
+        return {
+          path: `/password/refresh`,
+          method: POST,
+        }
       case GET_HOME_LIST:
-        return `/find-home`
+        return {
+          path: `/home-list`,
+          method: GET,
+        }
       case SELECT_HOME:
-        return `/select-home`
+        return {
+          path: `/home`,
+          method: GET,
+        }
       case CREATE_HOME:
-        return `/create-home`
+        return {
+          path: `/create-home`,
+          method: POST,
+        }
       case JOIN_HOME:
-        return `/join-home`
+        return {
+          path: `/join-home`,
+          method: POST,
+        }
       case GET_DEVICES:
-        return `/smart-api/get-devices`
+        return {
+          path: `/smart-api/devices`,
+          method: GET,
+        }
       case LOCK_TOGGLE:
-        return `/smart-api/lock-toggle`
+        return {
+          path: `/smart-api/lock-toggle`,
+          method: POST,
+        }
       default:
         return null
     }
@@ -48,21 +87,28 @@ const sendRequest = (actionType: string, data: any) => {
   const getHeaders = (token) => {
     if (token) {
       return {
-        headers: {
-          authorization: token,
-        },
+        authorization: token,
       }
     } else {
       return {}
     }
   }
 
-  const url = `${API_URL}/api/v1${getPath(actionType)}`
-  const token = localStorage.getItem('token')
-  const config = getHeaders(token)
+  const { path, method } = getEndpoint(actionType) || {}
+  if (path && method) {
+    const url = `${API_URL}${API_PREFIX}${path}${
+      method === GET ? '?' + new URLSearchParams(data).toString() : ''
+    }`
+    const token = localStorage.getItem('token')
+    const headers = getHeaders(token)
 
-  if (url && data) {
-    return axios.post(url, data, config)
+    // @ts-ignore
+    return axios({
+      method,
+      url,
+      headers,
+      data,
+    })
   }
 }
 

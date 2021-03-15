@@ -92,7 +92,7 @@ class SmartAppServices {
     })
   }
 
-  public async getDevices(homeId: string) {
+  public async getDevices(homeId: any) {
     const list = await Device.findAll({ where: { homeId } })
     const devices = list.map((lock: any) => lock.getAttributes())
 

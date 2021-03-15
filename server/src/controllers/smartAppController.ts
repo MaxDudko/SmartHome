@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import {EVENT_DEVICES} from "../config/constants";
+import { EVENT_DEVICES } from '../config/constants'
 import { getTokenFromHeaders } from '../middlewares/auth'
 import { sse } from '../router'
 import SmartAppServices from '../services/smartAppServices'
@@ -21,7 +21,7 @@ class SmartAppController {
   public async saveToken(req: Request, res: Response) {}
 
   public async getDevices(req: Request, res: Response) {
-    const { homeId } = req.body
+    const homeId = req.query.homeId
 
     try {
       const devices = await services.getDevices(homeId)

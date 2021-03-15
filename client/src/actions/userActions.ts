@@ -1,9 +1,8 @@
 import { UserState } from '../reducers/userReducer'
 
-export const tokenValidationAction = (token: string) => {
+export const tokenValidationAction = () => {
   return {
     type: 'VALIDATE_TOKEN',
-    token,
   }
 }
 

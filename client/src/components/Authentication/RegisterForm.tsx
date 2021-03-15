@@ -35,7 +35,11 @@ const RegisterForm: React.FC<Props> = (props) => {
 
     const isValid = validate(data, throwErrors)
     if (isValid) {
-      registerUserAction(data)
+      registerUserAction({
+        email: data.email,
+        password: data.password,
+        fullName: data.fullName,
+      })
       return <Redirect to="/overview" />
     }
   }

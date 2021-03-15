@@ -16,15 +16,15 @@ const SelectHome: React.FC<Props> = (props) => {
   const [data, setData] = useState<any>({})
 
   useEffect(() => {
-    getHomeListAction(userId.toString())
-  }, [getHomeListAction, userId])
+    getHomeListAction()
+  }, [getHomeListAction])
 
   const handleSubmit = (event) => {
     event.preventDefault()
 
     const { userId, homeId } = data
 
-    selectHomeAction(userId.toString(), homeId.toString())
+    selectHomeAction(homeId.toString())
   }
 
   return (
@@ -87,8 +87,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  getHomeListAction: (userId: string) => dispatch(getHomeListAction(userId)),
-  selectHomeAction: (userId: string, homeId: string) => dispatch(selectHomeAction(userId, homeId)),
+  getHomeListAction: () => dispatch(getHomeListAction()),
+  selectHomeAction: (homeId: string) => dispatch(selectHomeAction(homeId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelectHome)
