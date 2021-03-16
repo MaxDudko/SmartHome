@@ -22,66 +22,51 @@ const sendRequest = (actionType: string, data: any) => {
   const PUT = 'PUT'
   const DELETE = 'DELETE'
 
-  const getEndpoint = (type: string) => {
-    switch (type) {
-      case VALIDATE_TOKEN:
-        return {
-          path: `/profile`,
-          method: GET,
-        }
-      case LOGIN_USER:
-        return {
-          path: `/login`,
-          method: POST,
-        }
-      case REGISTER_USER:
-        return {
-          path: `/register`,
-          method: POST,
-        }
-      case RESET_PASSWORD:
-        return {
-          path: `/password/reset`,
-          method: POST,
-        }
-      case REFRESH_PASSWORD:
-        return {
-          path: `/password/refresh`,
-          method: POST,
-        }
-      case GET_HOME_LIST:
-        return {
-          path: `/home-list`,
-          method: GET,
-        }
-      case SELECT_HOME:
-        return {
-          path: `/home`,
-          method: GET,
-        }
-      case CREATE_HOME:
-        return {
-          path: `/create-home`,
-          method: POST,
-        }
-      case JOIN_HOME:
-        return {
-          path: `/join-home`,
-          method: POST,
-        }
-      case GET_DEVICES:
-        return {
-          path: `/smart-api/devices`,
-          method: GET,
-        }
-      case LOCK_TOGGLE:
-        return {
-          path: `/smart-api/lock-toggle`,
-          method: POST,
-        }
-      default:
-        return null
-    }
+  const endpoints = {
+    VALIDATE_TOKEN: {
+      path: `/profile`,
+      method: GET,
+    },
+    LOGIN_USER: {
+      path: `/login`,
+      method: POST,
+    },
+    REGISTER_USER: {
+      path: `/register`,
+      method: POST,
+    },
+    RESET_PASSWORD: {
+      path: `/password/reset`,
+      method: POST,
+    },
+    REFRESH_PASSWORD: {
+      path: `/password/refresh`,
+      method: POST,
+    },
+    GET_HOME_LIST: {
+      path: `/home-list`,
+      method: GET,
+    },
+    SELECT_HOME: {
+      path: `/home`,
+      method: GET,
+    },
+    CREATE_HOME: {
+      path: `/create-home`,
+      method: POST,
+    },
+    JOIN_HOME: {
+      path: `/join-home`,
+      method: POST,
+    },
+    GET_DEVICES: {
+      path: `/smart-api/devices`,
+      method: GET,
+    },
+    LOCK_TOGGLE: {
+      path: `/smart-api/lock-toggle`,
+      method: POST,
+    },
   }
 
   const getHeaders = (token) => {
@@ -94,7 +79,7 @@ const sendRequest = (actionType: string, data: any) => {
     }
   }
 
-  const { path, method } = getEndpoint(actionType) || {}
+  const { path, method } = endpoints[actionType] || {}
   if (path && method) {
     const url = `${API_URL}${API_PREFIX}${path}${
       method === GET ? '?' + new URLSearchParams(data).toString() : ''
