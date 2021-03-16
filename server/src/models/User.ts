@@ -17,16 +17,7 @@ class User extends Model<UserAttributes> implements UserAttributes {
   public salt!: string
   public hash!: string
   public fullName!: string
-
-  public getAttributes() {
-    return {
-      id: this.id,
-      email: this.email,
-      salt: this.salt,
-      hash: this.hash,
-      fullName: this.fullName,
-    }
-  }
+  public getAttributes!: Function
 
   public setPassword(password: string): void {
     this.salt = crypto.randomBytes(16).toString('hex')
@@ -73,7 +64,19 @@ User.init(
     hash: DataTypes.TEXT,
     fullName: DataTypes.STRING,
   },
-  { sequelize, freezeTableName: process.env.NODE_ENV === 'test' }
+  {
+    getterMethods: {
+      getAttributes() {
+        return {
+          id: this.id,
+          email: this.email,
+          fullName: this.fullName,
+        }
+      },
+    },
+    sequelize,
+    freezeTableName: process.env.NODE_ENV === 'test',
+  }
 )
 
 export default User
