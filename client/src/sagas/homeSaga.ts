@@ -1,6 +1,7 @@
 import { put, takeLatest } from 'redux-saga/effects'
 import {
-  APP_READY, AUTH_MODAL,
+  APP_READY,
+  AUTH_MODAL,
   CREATE_HOME,
   GET_DEVICES,
   GET_HOME_LIST,
@@ -36,23 +37,12 @@ function* selectHomeSaga(payload) {
   }
 }
 
-function* createHomeSaga(payload) {
+function* addHomeSaga(payload) {
   try {
-    const response = yield sendRequest(CREATE_HOME, payload.payload)
+    const response = yield sendRequest(payload.type, payload.payload)
 
     yield put({ type: RESPONSE_ERROR, payload: '' })
     yield put({ type: AUTH_MODAL, payload: response.data })
-  } catch (error) {
-    yield put({ type: RESPONSE_ERROR, error })
-  }
-}
-
-function* joinHomeSaga(payload) {
-  try {
-    const response = yield sendRequest(JOIN_HOME, payload.payload)
-
-    yield put({ type: RESPONSE_ERROR, payload: '' })
-    yield put({ type: SAVE_HOME, payload: response.data })
   } catch (error) {
     yield put({ type: RESPONSE_ERROR, payload: error.response.data.message })
   }
@@ -68,7 +58,6 @@ function* selectAnotherHomeSaga() {
 export default function* watchHomeAuthentication() {
   yield takeLatest(GET_HOME_LIST, getHomeListSaga)
   yield takeLatest(SELECT_HOME, selectHomeSaga)
-  yield takeLatest(CREATE_HOME, createHomeSaga)
-  yield takeLatest(JOIN_HOME, joinHomeSaga)
+  yield takeLatest([CREATE_HOME, JOIN_HOME], addHomeSaga)
   yield takeLatest(SELECT_ANOTHER_HOME, selectAnotherHomeSaga)
 }

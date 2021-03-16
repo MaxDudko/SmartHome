@@ -39,21 +39,9 @@ function* tokenValidationSaga(payload) {
   }
 }
 
-function* loginSaga(payload) {
+function* authSaga(payload) {
   try {
-    const response = yield sendRequest(LOGIN_USER, { ...payload.data })
-    localStorage.setItem('token', `Bearer ${response.data.user.token}`)
-
-    yield put({ type: RESPONSE_ERROR, payload: '' })
-    yield put({ type: SAVE_USER_DATA, payload: response.data.user })
-  } catch (error) {
-    yield put({ type: RESPONSE_ERROR, payload: error.response.data.message })
-  }
-}
-
-function* registerSaga(payload) {
-  try {
-    const response = yield sendRequest(REGISTER_USER, { ...payload.data })
+    const response = yield sendRequest(payload.type, { ...payload.data })
     localStorage.setItem('token', `Bearer ${response.data.user.token}`)
 
     yield put({ type: RESPONSE_ERROR, payload: '' })
@@ -93,9 +81,8 @@ function* logoutSaga() {
 
 export default function* watchUserAuthentication() {
   yield takeLatest(VALIDATE_TOKEN, tokenValidationSaga)
-  yield takeLatest(LOGIN_USER, loginSaga)
+  yield takeLatest([LOGIN_USER, REGISTER_USER], authSaga)
   yield takeLatest(RESET_PASSWORD, resetPasswordSaga)
   yield takeLatest(REFRESH_PASSWORD, refreshPasswordSaga)
-  yield takeLatest(REGISTER_USER, registerSaga)
   yield takeLatest(LOGOUT_USER, logoutSaga)
 }

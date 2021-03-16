@@ -1,8 +1,9 @@
+import { GET_DEVICES, LOCK_TOGGLE, REMOVE_DEVICES, SAVE_DEVICES } from '../actionTypes'
 import { DevicesState } from '../reducers/devicesReducer'
 
 export const getDevicesAction = (homeId: string) => {
   return {
-    type: 'GET_DEVICES',
+    type: GET_DEVICES,
     payload: {
       homeId,
     },
@@ -11,7 +12,7 @@ export const getDevicesAction = (homeId: string) => {
 
 export const lockToggleAction = (homeId: string) => {
   return {
-    type: 'LOCK_TOGGLE',
+    type: LOCK_TOGGLE,
     payload: {
       homeId,
     },
@@ -20,7 +21,7 @@ export const lockToggleAction = (homeId: string) => {
 
 export const saveDevicesAction = (data: DevicesState) => {
   return {
-    type: 'SAVE_DEVICES',
+    type: SAVE_DEVICES,
     payload: {
       ...data,
     },
@@ -29,7 +30,7 @@ export const saveDevicesAction = (data: DevicesState) => {
 
 export const removeDevicesAction = () => {
   return {
-    type: 'REMOVE_DEVICES',
+    type: REMOVE_DEVICES,
     payload: {},
   }
 }
