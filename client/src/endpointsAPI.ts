@@ -1,17 +1,4 @@
 import axios from 'axios'
-import {
-  CREATE_HOME,
-  GET_DEVICES,
-  GET_HOME_LIST,
-  JOIN_HOME,
-  LOCK_TOGGLE,
-  LOGIN_USER,
-  REFRESH_PASSWORD,
-  REGISTER_USER,
-  RESET_PASSWORD,
-  SELECT_HOME,
-  VALIDATE_TOKEN,
-} from './actionTypes'
 
 const sendRequest = (actionType: string, data: any) => {
   const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000'
