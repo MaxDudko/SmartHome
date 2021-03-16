@@ -1,4 +1,17 @@
 import axios from 'axios'
+import {
+  CREATE_HOME,
+  GET_DEVICES,
+  GET_HOME_LIST,
+  JOIN_HOME,
+  LOCK_TOGGLE,
+  LOGIN_USER,
+  REFRESH_PASSWORD,
+  REGISTER_USER,
+  RESET_PASSWORD,
+  SELECT_HOME,
+  VALIDATE_TOKEN,
+} from './actionTypes'
 
 const sendRequest = (actionType: string, data: any) => {
   const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000'
@@ -10,47 +23,47 @@ const sendRequest = (actionType: string, data: any) => {
   const DELETE = 'DELETE'
 
   const endpoints = {
-    VALIDATE_TOKEN: {
+    [VALIDATE_TOKEN]: {
       path: `/profile`,
       method: GET,
     },
-    LOGIN_USER: {
+    [LOGIN_USER]: {
       path: `/login`,
       method: POST,
     },
-    REGISTER_USER: {
+    [REGISTER_USER]: {
       path: `/register`,
       method: POST,
     },
-    RESET_PASSWORD: {
+    [RESET_PASSWORD]: {
       path: `/password/reset`,
       method: POST,
     },
-    REFRESH_PASSWORD: {
+    [REFRESH_PASSWORD]: {
       path: `/password/refresh`,
       method: POST,
     },
-    GET_HOME_LIST: {
+    [GET_HOME_LIST]: {
       path: `/home-list`,
       method: GET,
     },
-    SELECT_HOME: {
+    [SELECT_HOME]: {
       path: `/home`,
       method: GET,
     },
-    CREATE_HOME: {
+    [CREATE_HOME]: {
       path: `/create-home`,
       method: POST,
     },
-    JOIN_HOME: {
+    [JOIN_HOME]: {
       path: `/join-home`,
       method: POST,
     },
-    GET_DEVICES: {
+    [GET_DEVICES]: {
       path: `/smart-api/devices`,
       method: GET,
     },
-    LOCK_TOGGLE: {
+    [LOCK_TOGGLE]: {
       path: `/smart-api/lock-toggle`,
       method: POST,
     },
