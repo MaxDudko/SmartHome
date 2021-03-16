@@ -11,14 +11,7 @@ class Resident extends Model<ResidentAttributes> implements ResidentAttributes {
   public userId!: string
   public homeId!: string
   public role!: string
-
-  public getAttributes() {
-    return {
-      userId: this.userId,
-      homeId: this.homeId,
-      role: this.role,
-    }
-  }
+  public getAttributes!: any
 }
 
 Resident.init(
@@ -27,7 +20,19 @@ Resident.init(
     homeId: DataTypes.STRING,
     role: DataTypes.STRING,
   },
-  { sequelize, freezeTableName: process.env.NODE_ENV === 'test' }
+  {
+    getterMethods: {
+      getAttributes() {
+        return {
+          userId: this.userId,
+          homeId: this.homeId,
+          role: this.role,
+        }
+      },
+    },
+    sequelize,
+    freezeTableName: process.env.NODE_ENV === 'test',
+  }
 )
 
 export default Resident

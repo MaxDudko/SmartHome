@@ -23,39 +23,13 @@ class Device extends Model<DeviceAttributes> implements DeviceAttributes {
   public location!: string
   public updatedAt!: any
   public active!: boolean
+  public getAttributesAndCreate!: any
+  public getAttributes!: any
 
   public getValue(type: string) {
     switch (type) {
       case 'lock':
         return this.value === 'locked'
-    }
-  }
-
-  public getAttributesAndCreate() {
-    return {
-      homeId: this.homeId,
-      deviceId: this.deviceId,
-      type: this.type,
-      label: this.label,
-      value: this.value,
-      location: this.location,
-      battery: this.battery,
-      updatedAt: this.updatedAt,
-      active: this.active,
-    }
-  }
-
-  public getAttributes() {
-    return {
-      homeId: this.homeId,
-      deviceId: this.deviceId,
-      type: this.type,
-      label: this.label,
-      value: this.getValue(this.type),
-      battery: this.battery,
-      location: this.location,
-      updatedAt: this.updatedAt,
-      active: this.active,
     }
   }
 }
@@ -72,7 +46,39 @@ Device.init(
     updatedAt: DataTypes.DATE,
     active: DataTypes.BOOLEAN,
   },
-  { sequelize, freezeTableName: process.env.NODE_ENV === 'test' }
+  {
+    getterMethods: {
+      getAttributesAndCreate() {
+        return {
+          homeId: this.homeId,
+          deviceId: this.deviceId,
+          type: this.type,
+          label: this.label,
+          value: this.value,
+          location: this.location,
+          battery: this.battery,
+          updatedAt: this.updatedAt,
+          active: this.active,
+        }
+      },
+
+      getAttributes() {
+        return {
+          homeId: this.homeId,
+          deviceId: this.deviceId,
+          type: this.type,
+          label: this.label,
+          value: this.getValue(this.type),
+          battery: this.battery,
+          location: this.location,
+          updatedAt: this.updatedAt,
+          active: this.active,
+        }
+      },
+    },
+    sequelize,
+    freezeTableName: process.env.NODE_ENV === 'test',
+  }
 )
 
 export default Device

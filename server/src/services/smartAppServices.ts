@@ -87,14 +87,14 @@ class SmartAppServices {
           active: false,
         })
 
-        await Device.create(newDevice.getAttributesAndCreate())
+        await Device.create(newDevice.getAttributesAndCreate)
       })
     })
   }
 
   public async getDevices(homeId: any) {
     const list = await Device.findAll({ where: { homeId } })
-    const devices = list.map((lock: any) => lock.getAttributes())
+    const devices = list.map((lock: any) => lock.getAttributes)
 
     return {
       devices,
@@ -106,7 +106,7 @@ class SmartAppServices {
 
     const lock = await Device.update({ value }, { where: { deviceId: id }, returning: true })
 
-    return lock[1][0].getAttributes()
+    return lock[1][0].getAttributes
   }
 
   public async lockToggle(homeId: string) {

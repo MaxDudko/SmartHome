@@ -11,14 +11,7 @@ class SmartAppToken extends Model<SmartAppTokenAttributes> implements SmartAppTo
   public homeId!: string
   public token!: string
   public createdAt!: any
-
-  public getAttributes() {
-    return {
-      homeId: this.homeId,
-      token: this.token,
-      createdAt: this.createdAt,
-    }
-  }
+  public getAttributes!: Function
 }
 
 SmartAppToken.init(
@@ -27,7 +20,19 @@ SmartAppToken.init(
     token: DataTypes.STRING,
     createdAt: DataTypes.DATE,
   },
-  { sequelize, freezeTableName: process.env.NODE_ENV === 'test' }
+  {
+    getterMethods: {
+      getAttributes() {
+        return {
+          homeId: this.homeId,
+          token: this.token,
+          createdAt: this.createdAt,
+        }
+      },
+    },
+    sequelize,
+    freezeTableName: process.env.NODE_ENV === 'test',
+  }
 )
 
 export default SmartAppToken

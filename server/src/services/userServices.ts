@@ -27,7 +27,7 @@ class UserServices {
     const user = new User({ email, fullName })
     user.setPassword(password)
 
-    return User.create(user.getAttributes())
+    return User.create(user.get())
   }
 
   public authenticateUser(email: string, password: string) {

@@ -11,14 +11,7 @@ class PasswordToken extends Model<PasswordTokenAttributes> implements PasswordTo
   public userId!: string
   public token!: string
   public createdAt!: any
-
-  public getAttributes() {
-    return {
-      userId: this.userId,
-      token: this.token,
-      createdAt: this.createdAt,
-    }
-  }
+  public getAttributes!: Function
 
   public validateTime(): boolean {
     const term = 600000
@@ -35,7 +28,19 @@ PasswordToken.init(
     token: DataTypes.STRING,
     createdAt: DataTypes.DATE,
   },
-  { sequelize, freezeTableName: process.env.NODE_ENV === 'test' }
+  {
+    getterMethods: {
+      getAttributes() {
+        return {
+          userId: this.userId,
+          token: this.token,
+          createdAt: this.createdAt,
+        }
+      },
+    },
+    sequelize,
+    freezeTableName: process.env.NODE_ENV === 'test',
+  }
 )
 
 export default PasswordToken

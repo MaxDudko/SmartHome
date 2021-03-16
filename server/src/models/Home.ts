@@ -22,14 +22,8 @@ class Home extends Model<HomeAttributes> implements HomeAttributes {
   public token!: string
   public tokenExpires!: number
   public endpoints!: any
+  public getAttributes!: Function
 
-  public getAttributes() {
-    return {
-      id: this.id.toString(),
-      name: this.name,
-      address: this.address,
-    }
-  }
   public setPassword(password: string): void {
     this.salt = crypto.randomBytes(16).toString('hex')
     this.hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex')
@@ -57,7 +51,19 @@ Home.init(
     tokenExpires: DataTypes.NUMBER,
     endpoints: DataTypes.JSON,
   },
-  { sequelize, freezeTableName: process.env.NODE_ENV === 'test' }
+  {
+    getterMethods: {
+      getAttributes() {
+        return {
+          id: this.id.toString(),
+          name: this.name,
+          address: this.address,
+        }
+      },
+    },
+    sequelize,
+    freezeTableName: process.env.NODE_ENV === 'test',
+  }
 )
 
 export default Home

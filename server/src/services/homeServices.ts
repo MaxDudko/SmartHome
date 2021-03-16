@@ -1,5 +1,4 @@
 import { EventEmitter } from 'events'
-import * as QueryString from "querystring";
 import {
   EVENT_DEVICES,
   EVENT_HOME,
@@ -25,7 +24,7 @@ class HomeServices {
         residents.map(async (doc) => {
           const home = await Home.findOne({ where: { id: doc.getDataValue('homeId') } })
           return {
-            ...home?.getAttributes(),
+            ...home?.getAttributes,
             role: doc.getDataValue('role'),
           }
         })
@@ -41,8 +40,8 @@ class HomeServices {
 
       if (home) {
         return {
-          ...home.getAttributes(),
-          role: resident.getAttributes().role,
+          ...home.getAttributes,
+          role: resident.getAttributes.role,
         }
       }
       throw Error('Home not found')
@@ -81,8 +80,8 @@ class HomeServices {
       sse.send({
         event: EVENT_HOME,
         data: {
-          ...home.getAttributes(),
-          role: resident.getAttributes().role,
+          ...home.getAttributes,
+          role: resident.getAttributes.role,
         },
       })
 
@@ -108,8 +107,8 @@ class HomeServices {
           role: ROLE_USER,
         })
         return {
-          ...home.getAttributes(),
-          role: resident.getAttributes().role,
+          ...home.getAttributes,
+          role: resident.getAttributes.role,
         }
       }
       throw Error('Wrong Key')
