@@ -55,7 +55,7 @@ Home.init(
     getterMethods: {
       getAttributes() {
         return {
-          id: this.id.toString(),
+          id: this.id,
           name: this.name,
           address: this.address,
         }
