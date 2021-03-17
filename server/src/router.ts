@@ -61,7 +61,7 @@ router.get(
   auth.required,
   smartAppController.getDevices
 )
-router.post('/smart-api/update-state', validate(updateStateSchema), smartAppController.updateState)
+router.post('/smart-api/update-state', smartAppController.updateState)
 router.post(
   '/smart-api/lock-toggle',
   validate(lockToggleSchema),
@@ -71,6 +71,6 @@ router.post(
 
 const SSE = require('express-sse')
 export const sse = new SSE()
-router.get('/stream', sse.init)
+router.get('/stream', auth.required, sse.init)
 
 export default router

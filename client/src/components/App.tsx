@@ -1,3 +1,4 @@
+import { EventSourcePolyfill } from 'event-source-polyfill'
 import React, { useEffect } from 'react'
 import { Row } from 'react-materialize'
 import { connect } from 'react-redux'
@@ -43,8 +44,10 @@ const App: React.FC<Props> = (props) => {
   const location = useLocation()
 
   useEffect(() => {
-    const eventSource = new EventSource(
-      `${process.env.REACT_APP_API_URL}${process.env.REACT_APP_API_PREFIX}/stream?homeId=${homeId}`
+    const token = localStorage.getItem('token')
+    const eventSource = new EventSourcePolyfill(
+      `${process.env.REACT_APP_API_URL}${process.env.REACT_APP_API_PREFIX}/stream?userId=${userId}`,
+      { headers: { authorization: token } }
     )
 
     if (userId) {
@@ -52,16 +55,18 @@ const App: React.FC<Props> = (props) => {
         const { event, data } = JSON.parse(stream.data)
         switch (event) {
           case 'devices':
+            console.log(event, data)
             return saveDevicesAction(data)
           case 'home':
+            console.log(event, data)
             localStorage.setItem('homeId', data.id)
-            return saveHomeAction(data.id)
+            return saveHomeAction(data)
         }
       }
     } else {
       eventSource.close()
     }
-  }, [userId, homeId])
+  }, [userId])
 
   useEffect(() => {
     const token = localStorage.getItem('token')

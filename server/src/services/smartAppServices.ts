@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
 import * as querystring from 'querystring'
+import { EVENT_DEVICES } from '../config/constants'
 import {
   getCodeEndpoint,
   getCodeParams,
@@ -8,6 +9,8 @@ import {
 } from '../config/smartApp.config'
 import Device from '../models/Device'
 import Home from '../models/Home'
+import Resident from '../models/Resident'
+import { sse } from '../router'
 import { emitter } from './homeServices'
 
 class SmartAppServices {
@@ -19,6 +22,13 @@ class SmartAppServices {
         Authorization: `Bearer ${token}`,
       },
       data: { data },
+    })
+  }
+
+  public async sendDevices(devices: any, homeId: string) {
+    const residents = await Resident.findAll({ where: { homeId } })
+    residents.map((resident) => {
+      sse.send({ event: EVENT_DEVICES, data: devices, id: resident.userId })
     })
   }
 
@@ -102,9 +112,9 @@ class SmartAppServices {
   }
 
   public async updateState(state: any) {
-    const { value, id } = state[0]
+    const { value, deviceId, homeId } = state[0]
 
-    const lock = await Device.update({ value }, { where: { deviceId: id }, returning: true })
+    const lock = await Device.update({ value }, { where: { deviceId, homeId }, returning: true })
 
     return lock[1][0].getAttributes
   }

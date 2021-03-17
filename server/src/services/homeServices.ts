@@ -74,8 +74,8 @@ class HomeServices {
       await Home.update({ token, tokenExpires, endpoints }, { where: { id: home.id } })
       logger.info('event: ', token, tokenExpires, endpoints)
 
-      await new SmartAppServices().addDevices(home.id)
-      const devices = await new SmartAppServices().getDevices(home.id)
+      await new SmartAppServices().addDevices(home.id.toString())
+      const devices = await new SmartAppServices().getDevices(home.id.toString())
 
       sse.send({
         event: EVENT_HOME,
@@ -83,9 +83,10 @@ class HomeServices {
           ...home.getAttributes,
           role: resident.getAttributes.role,
         },
+        id: resident.userId,
       })
 
-      sse.send({ event: EVENT_DEVICES, data: devices })
+      sse.send({ event: EVENT_DEVICES, data: devices, id: resident.userId })
     })
   }
 
