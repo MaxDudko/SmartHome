@@ -44,7 +44,10 @@ function* addHomeSaga(payload) {
     yield put({ type: RESPONSE_ERROR, payload: '' })
     yield put({ type: AUTH_MODAL, payload: response.data })
   } catch (error) {
-    yield put({ type: RESPONSE_ERROR, payload: error.response.data.message })
+    const message = error.response.data.details
+      ? error.response.data.details.body[0].message
+      : error.response.data.message
+    yield put({ type: RESPONSE_ERROR, payload: message })
   }
 }
 

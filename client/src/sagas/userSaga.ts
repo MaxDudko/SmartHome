@@ -2,11 +2,13 @@ import { put, takeLatest } from 'redux-saga/effects'
 import {
   APP_READY,
   LOGIN_USER,
-  LOGOUT_USER, REFRESH_PASSWORD,
+  LOGOUT_USER,
+  REFRESH_PASSWORD,
   REGISTER_USER,
   REMOVE_DEVICES,
   REMOVE_HOME_DATA,
-  REMOVE_USER_DATA, RESET_PASSWORD,
+  REMOVE_USER_DATA,
+  RESET_PASSWORD,
   RESPONSE_ERROR,
   SAVE_USER_DATA,
   SELECT_HOME,
@@ -47,7 +49,10 @@ function* authSaga(payload) {
     yield put({ type: RESPONSE_ERROR, payload: '' })
     yield put({ type: SAVE_USER_DATA, payload: response.data.user })
   } catch (error) {
-    yield put({ type: RESPONSE_ERROR, payload: error.response.data.message })
+    const message = error.response.data.details
+      ? error.response.data.details.body[0].message
+      : error.response.data.message
+    yield put({ type: RESPONSE_ERROR, payload: message })
   }
 }
 

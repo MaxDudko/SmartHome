@@ -106,7 +106,7 @@ const CreateHome: React.FC<Props> = (props) => {
 
 const mapStateToProps = (state) => ({
   userId: state.user.id,
-  responseError: state.app.id,
+  responseError: state.app.responseError,
   authModal: state.app.authModal,
 })
 

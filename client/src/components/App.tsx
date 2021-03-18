@@ -45,26 +45,28 @@ const App: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const token = localStorage.getItem('token')
-    const eventSource = new EventSourcePolyfill(
-      `${process.env.REACT_APP_API_URL}${process.env.REACT_APP_API_PREFIX}/stream?userId=${userId}`,
-      { headers: { authorization: token } }
-    )
+    const eventSource =
+      userId &&
+      new EventSourcePolyfill(
+        `${process.env.REACT_APP_API_URL}${process.env.REACT_APP_API_PREFIX}/stream?userId=${userId}`,
+        { headers: { authorization: token } }
+      )
 
-    if (userId) {
+    if (eventSource) {
       eventSource.onmessage = (stream: any) => {
         const { event, data } = JSON.parse(stream.data)
         switch (event) {
           case 'devices':
-            console.log(event, data)
             return saveDevicesAction(data)
           case 'home':
-            console.log(event, data)
             localStorage.setItem('homeId', data.id)
             return saveHomeAction(data)
         }
+
+        if (!userId) {
+          eventSource?.close()
+        }
       }
-    } else {
-      eventSource.close()
     }
   }, [userId])
 
