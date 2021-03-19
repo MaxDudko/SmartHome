@@ -72,7 +72,7 @@ describe('SmartAppServices behavior:', () => {
         ],
       }
 
-      const data = await services.getDevices(home.id.toString())
+      const data = await services.getDevices(home.id.toString(), true)
 
       expect(data).toEqual(result)
     })
@@ -84,7 +84,7 @@ describe('SmartAppServices behavior:', () => {
         locks: [],
       }
 
-      const data = await services.getDevices(home.id.toString())
+      const data = await services.getDevices(home.id.toString(), true)
 
       expect(data).toEqual(result)
     })

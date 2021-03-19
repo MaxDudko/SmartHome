@@ -1,10 +1,36 @@
-import { GET_DEVICES, LOCK_TOGGLE, REMOVE_DEVICES, SAVE_DEVICES } from '../actionTypes'
+import {
+  ADD_DEVICES,
+  GET_DEVICES,
+  GET_SUPPORTED_DEVICES,
+  LOCK_TOGGLE,
+  REMOVE_DEVICES,
+  SAVE_DEVICES
+} from '../actionTypes'
 import { DevicesState } from '../reducers/devicesReducer'
 
 export const getDevicesAction = (homeId: string) => {
   return {
     type: GET_DEVICES,
     payload: {
+      homeId,
+    },
+  }
+}
+
+export const getSupportedDevicesAction = (homeId: string) => {
+  return {
+    type: GET_SUPPORTED_DEVICES,
+    payload: {
+      homeId,
+    },
+  }
+}
+
+export const addDevicesAction = (devices: any, homeId: string) => {
+  return {
+    type: ADD_DEVICES,
+    payload: {
+      devices,
       homeId,
     },
   }

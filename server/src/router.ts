@@ -61,12 +61,24 @@ router.get(
   auth.required,
   smartAppController.getDevices
 )
+router.get(
+  '/smart-api/supported-devices',
+  validate(getDevicesSchema),
+  auth.required,
+  smartAppController.getSupportedDevices
+)
 router.post('/smart-api/update-state', smartAppController.updateState)
 router.post(
   '/smart-api/lock-toggle',
   validate(lockToggleSchema),
   auth.required,
   smartAppController.lockToggle
+)
+router.post(
+  '/smart-api/add-devices',
+  // validate(lockToggleSchema),
+  auth.required,
+  smartAppController.addDevices
 )
 
 const SSE = require('express-sse')

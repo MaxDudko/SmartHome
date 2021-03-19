@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Icon } from 'react-materialize'
 import { connect } from 'react-redux'
 import { openDevicesSidebarAction, openModalAction } from '../../actions/appActions'
@@ -9,7 +9,7 @@ import styles from './DevicesSidebar.module.scss'
 interface Props {
   devicesSidebarOpen: boolean
   homeId: string
-  devices: {}
+  devices: []
   openDevicesSidebarAction: Function
   openModalAction: Function
   lockToggleAction: Function
@@ -40,9 +40,9 @@ const DevicesSidebar: React.FC<Props> = (props) => {
             </i>
           </div>
           <div className={styles.container}>
-            {Object.entries(devices).map((deviceType: any, i) =>
-              deviceType[1].map((device: any, index: number) => (
-                <div className={styles.device} key={index}>
+            {devices.length &&
+              devices.map((device: any, i) => (
+                <div className={styles.device} key={i}>
                   <div className={styles.image}>
                     <i className="material-icons">{device.type}</i>
                   </div>
@@ -64,8 +64,7 @@ const DevicesSidebar: React.FC<Props> = (props) => {
                     </div>
                   </div>
                 </div>
-              ))
-            )}
+              ))}
           </div>
         </>
       )}
@@ -74,7 +73,7 @@ const DevicesSidebar: React.FC<Props> = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-  devices: state.devices,
+  devices: state.devices.activeDevices,
   homeId: state.home.id,
   devicesSidebarOpen: state.app.devicesSidebarOpen,
 })

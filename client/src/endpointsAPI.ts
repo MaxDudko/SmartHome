@@ -1,8 +1,10 @@
 import axios from 'axios'
 import {
+  ADD_DEVICES,
   CREATE_HOME,
   GET_DEVICES,
   GET_HOME_LIST,
+  GET_SUPPORTED_DEVICES,
   JOIN_HOME,
   LOCK_TOGGLE,
   LOGIN_USER,
@@ -62,6 +64,14 @@ const sendRequest = (actionType: string, data: any) => {
     [GET_DEVICES]: {
       path: `/smart-api/devices`,
       method: GET,
+    },
+    [GET_SUPPORTED_DEVICES]: {
+      path: `/smart-api/supported-devices`,
+      method: GET,
+    },
+    [ADD_DEVICES]: {
+      path: `/smart-api/add-devices`,
+      method: POST,
     },
     [LOCK_TOGGLE]: {
       path: `/smart-api/lock-toggle`,

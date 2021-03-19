@@ -1,16 +1,29 @@
-import React, { useState } from 'react'
-import { Button, Col, Icon, TextInput } from 'react-materialize'
+import React, { useEffect, useState } from 'react'
+import { Button, Checkbox, Col, Icon, Table } from 'react-materialize'
 import { connect } from 'react-redux'
 import { openModalAction } from '../../actions/appActions'
+import { addDevicesAction, getSupportedDevicesAction } from '../../actions/devicesActions'
 import styles from './AddDevice.module.scss'
 
 interface Props {
+  homeId: string
+  devices: any
   openModalAction: Function
+  getSupportedDevicesAction: Function
+  addDevicesAction: Function
 }
 const AddDevice: React.FC<Props> = (props) => {
-  const { openModalAction } = props
-  const [currentStep, setStep] = useState(1)
-  const [selectedMethod, setSelectedMethod] = useState('')
+  const { homeId, devices, openModalAction, getSupportedDevicesAction, addDevicesAction } = props
+  const [devicesList, setDevice] = useState<any>([])
+
+  const handleChange = (id: any) => {
+    console.log(id)
+    setDevice([...devicesList, id])
+  }
+
+  useEffect(() => {
+    getSupportedDevicesAction(homeId)
+  }, [homeId])
 
   return (
     <div className={styles.AddDevice}>
@@ -21,83 +34,57 @@ const AddDevice: React.FC<Props> = (props) => {
             cancel
           </Icon>
         </div>
-        <div className={styles.main}>
-          {currentStep === 1 ? (
-            <>
-              <Col
-                s={5}
-                className={`${styles.box} ${selectedMethod === 'discover' ? styles.active : ''}`}
-                onClick={() => setSelectedMethod('discover')}
-              >
-                <Icon className={styles.icon}>wifi_tethering</Icon>
-                <p>Discover my device</p>
-              </Col>
-              <span className={styles.or}>or</span>
-              <Col
-                s={5}
-                className={`${styles.box} ${selectedMethod === 'enter' ? styles.active : ''}`}
-                onClick={() => setSelectedMethod('enter')}
-              >
-                <Icon className={styles.icon}>keyboard</Icon>
-                <p>Enter MAC address</p>
-              </Col>
-            </>
-          ) : (
-            <>
-              <Col s={6} className={styles.box}>
-                <Icon className={styles.icon}>keyboard</Icon>
-                <p>Device preview</p>
-              </Col>
-              <Col s={6} className={styles.form}>
-                <TextInput
-                  id="MAC"
-                  s={12}
-                  inputClassName="validate"
-                  required={true}
-                  label="MAC Address"
-                  placeholder=""
-                />
-                <TextInput
-                  id="location"
-                  s={12}
-                  inputClassName="validate"
-                  required={true}
-                  label="Device Location"
-                  placeholder=""
-                />
-                <TextInput
-                  id="name"
-                  s={12}
-                  inputClassName="validate"
-                  required={true}
-                  label="Device Name"
-                  placeholder=""
-                />
-              </Col>
-            </>
-          )}
-        </div>
+        <Table>
+          <thead>
+            <tr>
+              <th />
+              <th>Device</th>
+              <th>Name</th>
+              <th>Location</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.entries(devices).map((deviceType: any, i) =>
+              deviceType.map((device: any, i) => (
+                <tr key={i}>
+                  <td>
+                    <Checkbox
+                      id={`id-${i}`}
+                      label=""
+                      onChange={() => handleChange(device.deviceId)}
+                    />
+                  </td>
+                  <td>
+                    <Icon className={styles.device}>{device.type}</Icon>
+                  </td>
+                  <td>{device.type}</td>
+                  <td>{device.location}</td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </Table>
         <div className={styles.footer}>
           <Button className={styles.secondary} onClick={() => openModalAction()}>
             Cancel
           </Button>
-          {(currentStep === 1 && (
-            <Button className={styles.primary} onClick={() => setStep(currentStep + 1)}>
-              Continue
-            </Button>
-          )) || (
-            <Button className={styles.primary} onClick={null}>
-              Add Device
-            </Button>
-          )}
+          <Button className={styles.primary} onClick={() => addDevicesAction(devicesList, homeId)}>
+            Continue
+          </Button>
         </div>
       </Col>
     </div>
   )
 }
 
+const mapStateToProps = (state) => ({
+  homeId: state.home.id,
+  devices: state.devices.supportedDevices,
+})
 const mapDispatchToProps = (dispatch) => ({
   openModalAction: () => dispatch(openModalAction()),
+  getSupportedDevicesAction: (homeId: string) => dispatch(getSupportedDevicesAction(homeId)),
+  addDevicesAction: (devices: any, homeId: string) => dispatch(addDevicesAction(devices, homeId)),
 })
 
-export default connect(null, mapDispatchToProps)(AddDevice)
+export default connect(mapStateToProps, mapDispatchToProps)(AddDevice)

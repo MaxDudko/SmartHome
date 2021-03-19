@@ -75,7 +75,7 @@ class HomeServices {
       logger.info('event: ', token, tokenExpires, endpoints)
 
       await new SmartAppServices().addDevices(home.id.toString())
-      const devices = await new SmartAppServices().getDevices(home.id.toString())
+      const devices = await new SmartAppServices().getDevices(home.id.toString(), true)
 
       sse.send({
         event: EVENT_HOME,

@@ -1,12 +1,14 @@
 import { AnyAction } from 'redux'
-import { REMOVE_DEVICES, SAVE_DEVICES } from '../actionTypes'
+import { REMOVE_DEVICES, SAVE_DEVICES, SAVE_TYPES } from '../actionTypes'
 
 export interface DevicesState {
-  locks: object[]
+  activeDevices: { locks: object[] }
+  supportedDevices: { locks: object[] }
 }
 
 const initialState = {
-  locks: [],
+  activeDevices: { locks: [] },
+  supportedDevices: { locks: [] },
 }
 
 const devices = (state: DevicesState = initialState, action: AnyAction) => {
@@ -14,7 +16,12 @@ const devices = (state: DevicesState = initialState, action: AnyAction) => {
     case SAVE_DEVICES:
       return {
         ...state,
-        ...action.payload,
+        activeDevices: action.payload,
+      }
+    case SAVE_TYPES:
+      return {
+        ...state,
+        supportedDevices: action.payload,
       }
     case REMOVE_DEVICES:
       return initialState

@@ -102,13 +102,17 @@ class SmartAppServices {
     })
   }
 
-  public async getDevices(homeId: any) {
-    const list = await Device.findAll({ where: { homeId } })
-    const devices = list.map((lock: any) => lock.getAttributes)
+  public async getDevices(homeId: any, activeOnly: boolean) {
+    const list = activeOnly
+      ? await Device.findAll({ where: { homeId, active: true } })
+      : await Device.findAll({ where: { homeId } })
+    return list.map((lock: any) => lock.getAttributes)
+  }
 
-    return {
-      devices,
-    }
+  public activateDevices(homeId: any, devices: any) {
+    devices.map(async (deviceId: string) => {
+      await Device.update({ active: true }, { where: { homeId, deviceId } })
+    })
   }
 
   public async updateState(state: any) {
