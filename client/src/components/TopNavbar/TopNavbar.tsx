@@ -87,6 +87,7 @@ const TopNavbar: React.FC<Props> = (props) => {
           trigger={
             <a
               href="#"
+              className="hide-on-med-and-down"
               style={{
                 display: 'flex',
                 justifyContent: 'center',
@@ -110,6 +111,16 @@ const TopNavbar: React.FC<Props> = (props) => {
             <Icon right={true}>exit_to_app</Icon>
           </a>
         </Dropdown>
+        <div className="mob-items hide-on-large-only">
+          <NavItem href="#" onClick={switchHome}>
+            Switch Home
+          </NavItem>
+          <Divider />
+          <NavItem href="#" onClick={logout}>
+            Logout
+            <Icon right={true}>exit_to_app</Icon>
+          </NavItem>
+        </div>
       </div>
     </Navbar>
   )
