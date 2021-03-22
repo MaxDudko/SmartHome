@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, {createRef, forwardRef, useEffect, useState} from 'react'
 import { Button, Checkbox, Col, Icon, Table } from 'react-materialize'
 import { connect } from 'react-redux'
 import { openModalAction } from '../../actions/appActions'
@@ -12,13 +12,20 @@ interface Props {
   getSupportedDevicesAction: Function
   addDevicesAction: Function
 }
+
 const AddDevice: React.FC<Props> = (props) => {
   const { homeId, devices, openModalAction, getSupportedDevicesAction, addDevicesAction } = props
   const [devicesList, setDevice] = useState<any>([])
 
-  const handleChange = (id: any) => {
-    console.log(id)
-    setDevice([...devicesList, id])
+  const handleChange = (id: string) => {
+    const idsSet = new Set(devicesList)
+    if (idsSet.has(id)) {
+      idsSet.delete(id)
+    } else {
+      idsSet.add(id)
+    }
+
+    setDevice(idsSet)
   }
 
   useEffect(() => {
@@ -44,24 +51,23 @@ const AddDevice: React.FC<Props> = (props) => {
             </tr>
           </thead>
           <tbody>
-            {Object.entries(devices).map((deviceType: any, i) =>
-              deviceType.map((device: any, i) => (
-                <tr key={i}>
-                  <td>
-                    <Checkbox
-                      id={`id-${i}`}
-                      label=""
-                      onChange={() => handleChange(device.deviceId)}
-                    />
-                  </td>
-                  <td>
-                    <Icon className={styles.device}>{device.type}</Icon>
-                  </td>
-                  <td>{device.type}</td>
-                  <td>{device.location}</td>
-                </tr>
-              ))
-            )}
+            {devices.map((device: any, i) => (
+              <tr key={i}>
+                <td>
+                  <Checkbox
+                    id={device.deviceId}
+                    label=""
+                    value={device.deviceId}
+                    onChange={() => handleChange(device.deviceId)}
+                  />
+                </td>
+                <td>
+                  <Icon className={styles.device}>{device.type}</Icon>
+                </td>
+                <td>{device.type.charAt(0).toUpperCase() + device.type.slice(1)}</td>
+                <td>{device.location}</td>
+              </tr>
+            ))}
           </tbody>
         </Table>
         <div className={styles.footer}>

@@ -40,31 +40,30 @@ const DevicesSidebar: React.FC<Props> = (props) => {
             </i>
           </div>
           <div className={styles.container}>
-            {devices.length &&
-              devices.map((device: any, i) => (
-                <div className={styles.device} key={i}>
-                  <div className={styles.image}>
-                    <i className="material-icons">{device.type}</i>
-                  </div>
-                  <div className={styles.info}>
-                    <p>{device.type.charAt(0).toUpperCase() + device.type.slice(1)}</p>
-                    <p>Active since</p>
-                    <p>{DateTime.fromISO(device.updatedAt).setLocale('en-gb').toLocaleString()}</p>
-                  </div>
-                  <div className={styles.controller}>
-                    <div className="switch">
-                      <label>
-                        <input
-                          type="checkbox"
-                          checked={device.value}
-                          onChange={() => lockToggleAction(homeId.toString())}
-                        />
-                        <span className="lever" />
-                      </label>
-                    </div>
+            {devices.map((device: any, i) => (
+              <div className={styles.device} key={i}>
+                <div className={styles.image}>
+                  <i className="material-icons">{device.type}</i>
+                </div>
+                <div className={styles.info}>
+                  <p>{device.type.charAt(0).toUpperCase() + device.type.slice(1)}</p>
+                  <p>Active since</p>
+                  <p>{DateTime.fromISO(device.updatedAt).setLocale('en-gb').toLocaleString()}</p>
+                </div>
+                <div className={styles.controller}>
+                  <div className="switch">
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={device.value}
+                        onChange={() => lockToggleAction(homeId.toString())}
+                      />
+                      <span className="lever" />
+                    </label>
                   </div>
                 </div>
-              ))}
+              </div>
+            ))}
           </div>
         </>
       )}

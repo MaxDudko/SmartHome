@@ -50,35 +50,34 @@ const Devices: React.FC<Props> = (props) => {
             </tr>
           </thead>
           <tbody>
-            {devices.length &&
-              devices.map((device: any, i) => (
-                <tr key={i}>
-                  <td>
-                    <Icon className={styles.device}>{device.type}</Icon>
-                  </td>
-                  <td>{device.type}</td>
-                  <td>{device.location}</td>
-                  <td>
-                    <div className="switch">
-                      <label>
-                        <input
-                          type="checkbox"
-                          checked={device.value}
-                          onChange={() => lockToggleAction(homeId.toString())}
-                        />
-                        <span className="lever" />
-                      </label>
-                    </div>
-                  </td>
-                  <td>
-                    <span className={styles.battery}>{batteryIndicator(device.battery)}</span>
-                  </td>
-                  <td>{formatDate(device.updatedAt)}</td>
-                  <td>
-                    <Icon>more_vert</Icon>
-                  </td>
-                </tr>
-              ))}
+            {devices.map((device: any, i) => (
+              <tr key={i}>
+                <td>
+                  <Icon className={styles.device}>{device.type}</Icon>
+                </td>
+                <td>{device.type}</td>
+                <td>{device.location}</td>
+                <td>
+                  <div className="switch">
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={device.value}
+                        onChange={() => lockToggleAction(homeId.toString())}
+                      />
+                      <span className="lever" />
+                    </label>
+                  </div>
+                </td>
+                <td>
+                  <span className={styles.battery}>{batteryIndicator(device.battery)}</span>
+                </td>
+                <td>{formatDate(device.updatedAt)}</td>
+                <td>
+                  <Icon>more_vert</Icon>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </Table>
       </div>
