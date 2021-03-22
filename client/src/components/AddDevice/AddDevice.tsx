@@ -1,4 +1,4 @@
-import React, {createRef, forwardRef, useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Checkbox, Col, Icon, Table } from 'react-materialize'
 import { connect } from 'react-redux'
 import { openModalAction } from '../../actions/appActions'
