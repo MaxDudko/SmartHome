@@ -48,7 +48,7 @@ Home.init(
     salt: DataTypes.STRING,
     hash: DataTypes.TEXT,
     token: DataTypes.STRING,
-    tokenExpires: DataTypes.NUMBER,
+    tokenExpires: DataTypes.INTEGER,
     endpoints: DataTypes.JSON,
   },
   {
