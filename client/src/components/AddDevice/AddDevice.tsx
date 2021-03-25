@@ -25,7 +25,12 @@ const AddDevice: React.FC<Props> = (props) => {
       idsSet.add(id)
     }
 
-    setDevice(idsSet)
+    setDevice(Array.from(idsSet))
+  }
+
+  const handleSubmit = () => {
+    addDevicesAction(devicesList, homeId)
+    openModalAction()
   }
 
   useEffect(() => {
@@ -74,7 +79,7 @@ const AddDevice: React.FC<Props> = (props) => {
           <Button className={styles.secondary} onClick={() => openModalAction()}>
             Cancel
           </Button>
-          <Button className={styles.primary} onClick={() => addDevicesAction(devicesList, homeId)}>
+          <Button className={styles.primary} onClick={() => handleSubmit()}>
             Continue
           </Button>
         </div>
