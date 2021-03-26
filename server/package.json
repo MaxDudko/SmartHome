@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "export NODE_ENV=develop && nodemon --inspect=127.0.0.1:9229 dist/src/index.js",
-    "test": "export NODE_ENV=test && jest --config jest.config.js --runInBand",
+    "test": "export NODE_ENV=test && jest --config jest.config.js --runInBand --detectOpenHandles",
     "linter": "tslint-config-prettier-check ./tslintconfig.json"
   },
   "devDependencies": {
