@@ -118,9 +118,9 @@ class SmartAppServices {
   public async updateState(state: any) {
     const { value, deviceId, homeId } = state[0]
 
-    const lock = await Device.update({ value }, { where: { deviceId, homeId }, returning: true })
+    const device = await Device.update({ value }, { where: { deviceId, homeId }, returning: true })
 
-    return lock[1][0].getAttributes
+    return device[1][0].getAttributes
   }
 
   public async lockToggle(homeId: string) {

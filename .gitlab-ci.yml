@@ -6,8 +6,6 @@ stages:
 test:
   stage: test
   extends: .cache
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
   script:
     - cd server/
     - npm install

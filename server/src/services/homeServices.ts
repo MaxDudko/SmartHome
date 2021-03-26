@@ -87,6 +87,18 @@ class HomeServices {
       })
 
       sse.send({ event: EVENT_DEVICES, data: devices, id: resident.userId })
+
+      console.log([
+        {
+          event: EVENT_HOME,
+          data: {
+            ...home.getAttributes,
+            role: resident.getAttributes.role,
+          },
+          id: resident.userId,
+        },
+        { event: EVENT_DEVICES, data: devices, id: resident.userId },
+      ])
     })
   }
 
