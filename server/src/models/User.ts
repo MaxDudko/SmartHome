@@ -19,13 +19,13 @@ class User extends Model<UserAttributes> implements UserAttributes {
   public fullName!: string
   public getAttributes!: Function
 
-  public setPassword(password: string): void {
-    this.salt = crypto.randomBytes(16).toString('hex')
-    this.hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex')
+  public async setPassword(password: string): Promise<void> {
+    this.salt = await crypto.randomBytes(16).toString('hex')
+    this.hash = await crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex')
   }
 
-  public validatePassword(password: string): boolean {
-    const hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex')
+  public async validatePassword(password: string): Promise<boolean> {
+    const hash = await crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex')
     return this.hash === hash
   }
 
