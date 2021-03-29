@@ -3,6 +3,12 @@ image: node:latest
 services:
   - postgres:latest
 
+variables:
+  POSTGRES_DB: test
+  POSTGRES_USER: admin
+  POSTGRES_PASSWORD: admin
+  POSTGRES_HOST_AUTH_METHOD: trust
+
 stages:
   - test
 
