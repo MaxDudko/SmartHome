@@ -12,7 +12,7 @@ export const sequelize = new Sequelize(
   {
     host: process.env.DB_HOST || '127.0.0.1',
     dialect: 'postgres',
-    logging: process.env.NODE_ENV !== 'test',
+    // logging: process.env.NODE_ENV !== 'test',
     pool: {
       max: 5,
       min: 0,
