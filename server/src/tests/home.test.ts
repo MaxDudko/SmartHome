@@ -1,9 +1,16 @@
+import crypto from 'crypto'
 import Device from '../models/Device'
 import Home from '../models/Home'
 import Resident from '../models/Resident'
 import User from '../models/User'
 import { sse } from '../router'
 import HomeServices from '../services/homeServices'
+
+Object.defineProperty(global.globalThis, 'crypto', {
+  value: {
+    getRandomValues: (arr: []) => crypto.randomBytes(arr.length),
+  },
+})
 
 jest.mock('../router', () => {
   const mockSSEInstance = { send: jest.fn() }
@@ -24,7 +31,6 @@ const dropAll = async () => {
   await Home.drop()
   await Resident.drop()
   await Device.drop()
-  await new Promise((resolve: any) => setTimeout(() => resolve(), 500))
 }
 
 const createUser = async (email: string, fullName: string, pass: string) => {
