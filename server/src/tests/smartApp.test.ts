@@ -17,6 +17,7 @@ const syncAll = async () => {
 const dropAll = async () => {
   await Home.drop()
   await Device.drop()
+  await new Promise((resolve: any) => setTimeout(() => resolve(), 500))
 }
 
 const createDevice = async (

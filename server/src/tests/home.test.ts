@@ -24,6 +24,7 @@ const dropAll = async () => {
   await Home.drop()
   await Resident.drop()
   await Device.drop()
+  await new Promise((resolve: any) => setTimeout(() => resolve(), 500))
 }
 
 const createUser = async (email: string, fullName: string, pass: string) => {
@@ -231,7 +232,6 @@ describe('HomeServices behavior:', () => {
 
       const result = 'Wrong Key'
 
-      expect.assertions(1)
       try {
         await services.addResident(user.id.toString(), home.id.toString(), 'wrongKey')
       } catch (e) {
