@@ -28,12 +28,12 @@ const dropAll = async () => {
 
 const createUser = async (email: string, fullName: string, pass: string) => {
   const user = new User({ email, fullName })
-  user.setPassword(pass)
+  await user.setPassword(pass)
   return User.create(user.get())
 }
 const createHome = async (name: string, address: string, key: string) => {
   const home = new Home({ name, address })
-  home.setPassword(key)
+  await home.setPassword(key)
   return Home.create(home.get())
 }
 const createResident = async (userId: string, homeId: string, role: string) => {

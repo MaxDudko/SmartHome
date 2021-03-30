@@ -34,7 +34,7 @@ const createDevice = async (
 }
 const createHome = async (name: string, address: string, key: string) => {
   const home = new Home({ name, address })
-  home.setPassword(key)
+  await home.setPassword(key)
   return Home.create(home.get())
 }
 
