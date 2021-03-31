@@ -128,7 +128,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   appReadyAction: () => dispatch(appReadyAction()),
   tokenValidationAction: () => dispatch(tokenValidationAction()),
-  saveDevicesAction: (data: DevicesState) => dispatch(saveDevicesAction(data)),
+  saveDevicesAction: (data: object[]) => dispatch(saveDevicesAction(data)),
   saveHomeAction: (data: HomeState) => dispatch(saveHomeAction(data)),
   selectHomeAction: (homeId: string) => dispatch(selectHomeAction(homeId)),
 })

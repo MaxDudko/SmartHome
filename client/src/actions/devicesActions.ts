@@ -45,12 +45,10 @@ export const lockToggleAction = (homeId: string) => {
   }
 }
 
-export const saveDevicesAction = (data: DevicesState) => {
+export const saveDevicesAction = (data: object[]) => {
   return {
     type: SAVE_DEVICES,
-    payload: {
-      ...data,
-    },
+    payload: data,
   }
 }
 

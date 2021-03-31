@@ -40,7 +40,7 @@ const DevicesSidebar: React.FC<Props> = (props) => {
             </i>
           </div>
           <div className={styles.container}>
-            {devices.map((device: any, i) => (
+            {devices.map((device: any, i: number) => (
               <div className={styles.device} key={i}>
                 <div className={styles.image}>
                   <i className="material-icons">{device.type}</i>

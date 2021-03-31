@@ -50,7 +50,7 @@ const Devices: React.FC<Props> = (props) => {
             </tr>
           </thead>
           <tbody>
-            {devices.map((device: any, i) => (
+            {devices.map((device: any, i: number) => (
               <tr key={i}>
                 <td>
                   <Icon className={styles.device}>{device.type}</Icon>
