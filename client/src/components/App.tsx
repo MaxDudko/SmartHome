@@ -49,7 +49,7 @@ const App: React.FC<Props> = (props) => {
       userId &&
       new EventSourcePolyfill(
         `${process.env.REACT_APP_API_URL}${process.env.REACT_APP_API_PREFIX}/stream?userId=${userId}`,
-        { headers: { authorization: token } }
+        { heartbeatTimeout: 3600 * 1000, headers: { authorization: token } }
       )
 
     if (eventSource) {
