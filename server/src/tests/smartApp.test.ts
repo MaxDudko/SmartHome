@@ -1,12 +1,7 @@
-import crypto from "crypto";
 import Device from '../models/Device'
 import Home from '../models/Home'
 import SmartAppServices from '../services/smartAppServices'
-Object.defineProperty(global.globalThis, 'crypto', {
-  value: {
-    getRandomValues: (arr: []) => crypto.randomBytes(arr.length),
-  },
-})
+
 jest.mock('../router', () => {
   const mockSSEInstance = { send: jest.fn() }
   const mockSSE = jest.fn(() => mockSSEInstance)
