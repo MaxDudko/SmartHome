@@ -26,7 +26,7 @@ export const getSupportedDevicesAction = (homeId: string) => {
   }
 }
 
-export const addDevicesAction = (devices: any, homeId: string) => {
+export const addDevicesAction = (devices: string[], homeId: string) => {
   return {
     type: ADD_DEVICES,
     payload: {

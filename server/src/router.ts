@@ -4,8 +4,10 @@ import HomeController from './controllers/homeController'
 import SmartAppController from './controllers/smartAppController'
 import UserController from './controllers/userController'
 import auth from './middlewares/auth'
+import checkResident from './middlewares/checkResident'
 import {
   accessTokenSchema,
+  addDevicesSchema,
   checkPasswordTokenSchema,
   createHomeSchema,
   findHomeSchema,
@@ -48,7 +50,13 @@ router.post(
 
 const homeController = new HomeController()
 router.get('/home-list', auth.required, homeController.findHomeList)
-router.get('/home', auth.required, validate(selectHomeSchema), homeController.selectHome)
+router.get(
+  '/home',
+  auth.required,
+  validate(selectHomeSchema),
+  checkResident,
+  homeController.selectHome
+)
 router.post('/create-home', auth.required, validate(createHomeSchema), homeController.createHome)
 router.post('/join-home', auth.required, validate(joinHomeSchema), homeController.addResident)
 
@@ -59,12 +67,14 @@ router.get(
   '/smart-api/devices',
   validate(getDevicesSchema),
   auth.required,
+  checkResident,
   smartAppController.getDevices
 )
 router.get(
   '/smart-api/supported-devices',
   validate(getDevicesSchema),
   auth.required,
+  checkResident,
   smartAppController.getSupportedDevices
 )
 router.post('/smart-api/update-state', smartAppController.updateState)
@@ -72,12 +82,14 @@ router.post(
   '/smart-api/lock-toggle',
   validate(lockToggleSchema),
   auth.required,
+  checkResident,
   smartAppController.lockToggle
 )
 router.post(
   '/smart-api/add-devices',
-  // validate(lockToggleSchema),
+  validate(addDevicesSchema),
   auth.required,
+  checkResident,
   smartAppController.addDevices
 )
 

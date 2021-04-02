@@ -102,3 +102,9 @@ export const lockToggleSchema = {
     homeId: idSchema.required(),
   }),
 }
+export const addDevicesSchema = {
+  body: Joi.object({
+    homeId: idSchema.required(),
+    devices: Joi.array().items(Joi.string()),
+  }),
+}

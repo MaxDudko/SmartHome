@@ -29,7 +29,7 @@ const AddDevice: React.FC<Props> = (props) => {
   }
 
   const handleSubmit = () => {
-    addDevicesAction(devicesList, homeId)
+    addDevicesAction(devicesList, homeId.toString())
     openModalAction()
   }
 
@@ -95,7 +95,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   openModalAction: () => dispatch(openModalAction()),
   getSupportedDevicesAction: (homeId: string) => dispatch(getSupportedDevicesAction(homeId)),
-  addDevicesAction: (devices: any, homeId: string) => dispatch(addDevicesAction(devices, homeId)),
+  addDevicesAction: (devices: string[], homeId: string) =>
+    dispatch(addDevicesAction(devices, homeId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddDevice)
