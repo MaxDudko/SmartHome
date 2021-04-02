@@ -55,23 +55,22 @@ class HomeServices {
       throw Error('User not found')
     }
 
-    const newHome = new Home({
-      name: homeName,
-      address: homeAddress,
-    })
-
-    newHome.setPassword(key)
-
-    const home = await Home.create(newHome.get())
-
-    const resident = await Resident.create({
-      userId,
-      homeId: home.id,
-      role: ROLE_ADMIN,
-    })
-
     emitter.on(EVENT_SMART_APP_DATA, async (token: any, tokenExpires: any, endpoints: any) => {
-      await Home.update({ token, tokenExpires, endpoints }, { where: { id: home.id } })
+      const newHome = new Home({
+        name: homeName,
+        address: homeAddress,
+      })
+
+      await newHome.setPassword(key)
+
+      const home = await Home.create({ ...newHome.get(), token, tokenExpires, endpoints })
+
+      const resident = await Resident.create({
+        userId,
+        homeId: home.id,
+        role: ROLE_ADMIN,
+      })
+
       logger.info('event: ', token, tokenExpires, endpoints)
 
       await new SmartAppServices().addDevices(home.id.toString())
@@ -87,18 +86,6 @@ class HomeServices {
       })
 
       sse.send({ event: EVENT_DEVICES, data: devices, id: resident.userId })
-
-      console.log([
-        {
-          event: EVENT_HOME,
-          data: {
-            ...home.getAttributes,
-            role: resident.getAttributes.role,
-          },
-          id: resident.userId,
-        },
-        { event: EVENT_DEVICES, data: devices, id: resident.userId },
-      ])
     })
   }
 
