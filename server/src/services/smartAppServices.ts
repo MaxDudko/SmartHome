@@ -115,12 +115,14 @@ class SmartAppServices {
     })
   }
 
-  public async updateState(state: any) {
-    const { value, deviceId, homeId } = state[0]
-
-    const device = await Device.update({ value }, { where: { deviceId, homeId }, returning: true })
-
-    return device[1][0].getAttributes
+  public async updateState(state: any, homeId: string) {
+    const types = Object.keys(state)
+    types.forEach((type: string) => {
+      state[type].map(async (device: any) => {
+        const { value, deviceId } = device
+        await Device.update({ value }, { where: { deviceId, homeId }, returning: true })
+      })
+    })
   }
 
   public async lockToggle(homeId: string) {

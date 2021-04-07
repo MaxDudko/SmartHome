@@ -55,19 +55,19 @@ class SmartAppController {
   }
 
   public async updateState(req: Request, res: Response) {
-    const state = req.body
+    const state = req.body.devices
+    const homeId = req.body.homeId
     const token = getTokenFromHeaders(req)
 
     if (token) {
-      const valid = await services.validateToken(token, state[0].homeId)
+      const valid = await services.validateToken(token, homeId)
       if (!valid) {
         return res.status(401)
       }
 
       try {
-        const resp = await services.updateState(state)
-        const devices = await services.getDevices(resp?.homeId, true)
-        const homeId = resp?.homeId
+        await services.updateState(state, homeId)
+        const devices = await services.getDevices(homeId, true)
 
         if (devices && homeId) {
           await services.sendDevices(devices, homeId)
