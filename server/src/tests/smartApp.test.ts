@@ -208,16 +208,21 @@ describe('SmartAppServices behavior:', () => {
         true
       )
 
-      const data = await services.updateState([
+      await services.updateState(
         {
-          deviceId: device.deviceId,
-          type: device.type,
-          label: device.label,
-          value: 'unlocked',
-          battery: device.battery,
-          homeId: home.id,
+          locks: [
+            {
+              deviceId: device.deviceId,
+              type: device.type,
+              label: device.label,
+              value: 'unlocked',
+              battery: device.battery,
+              homeId: home.id,
+            },
+          ],
         },
-      ])
+        home.id.toString()
+      )
 
       const result = {
         active: true,
@@ -227,11 +232,12 @@ describe('SmartAppServices behavior:', () => {
         label: 'testLock',
         location: 'test',
         type: 'lock',
-        updatedAt: data.updatedAt,
+        updatedAt: device.updatedAt,
         value: false,
       }
 
-      expect(data).toEqual(result)
+      const updatedDevice = await Device.findOne({ where: { deviceId: device.deviceId } })
+      expect(updatedDevice?.getAttributes).toEqual(result)
     })
   })
 })
