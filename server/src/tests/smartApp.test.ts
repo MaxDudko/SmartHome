@@ -233,7 +233,7 @@ describe('SmartAppServices behavior:', () => {
         location: 'test',
         type: 'lock',
         updatedAt: device.updatedAt,
-        value: false,
+        value: true,
       }
 
       const updatedDevice = await Device.findOne({ where: { deviceId: device.deviceId } })
