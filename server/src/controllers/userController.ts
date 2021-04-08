@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
 import passport from 'passport'
-import { RequestWithPayload } from '../middlewares/auth'
 import UserServices from '../services/userServices'
 
 const services = new UserServices()
@@ -34,8 +33,8 @@ class UserController {
     })(req, res, next)
   }
 
-  public async checkToken(req: RequestWithPayload, res: Response) {
-    const email = req.payload?.email
+  public async checkToken(req: Request, res: Response) {
+    const email = req.body.email
 
     if (email) {
       try {
