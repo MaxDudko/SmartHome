@@ -1,0 +1,27 @@
+.Analytics {
+  h4 {
+    text-align: left;
+  }
+  .bg {
+    background: #2f3b52;
+  }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .leftChart {
+    .chartContainer {
+      transform: scale(.5);
+    }
+    .row {
+      flex-wrap: nowrap;
+    }
+  }
+  .rightChart {}
+  .deviceContainer {
+    margin: 10px 10px 0 0;
+  }
+}
