@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import passport from 'passport'
+import { RequestWithPayload } from '../middlewares/auth'
 import UserServices from '../services/userServices'
 
 const services = new UserServices()
@@ -33,18 +34,18 @@ class UserController {
     })(req, res, next)
   }
 
-  public async checkToken(req: Request, res: Response) {
-    const email = req.body.email
+  public async checkToken(req: RequestWithPayload, res: Response) {
+    const email = req.jwt?.email
 
-    if (email) {
-      try {
-        const user = await services.checkToken(email)
-        return res.status(200).json({ user })
-      } catch (e) {
-        return res.status(404).json({ error: e.message })
-      }
-    } else {
+    if (!email) {
       return res.status(400).send({ message: 'All fields are Required' })
+    }
+
+    try {
+      const user = await services.checkToken(email)
+      return res.status(200).json({ user })
+    } catch (e) {
+      return res.status(404).json({ error: e.message })
     }
   }
 

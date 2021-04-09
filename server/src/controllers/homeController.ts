@@ -1,12 +1,17 @@
 import { Request, Response } from 'express'
+import { RequestWithPayload } from '../middlewares/auth'
 import HomeServices from '../services/homeServices'
 import SmartAppServices from '../services/smartAppServices'
 
 const services = new HomeServices()
 
 class HomeController {
-  public async findHomeList(req: Request, res: Response) {
-    const userId = req.body.id
+  public async findHomeList(req: RequestWithPayload, res: Response) {
+    const userId = req.jwt?.id
+
+    if (!userId) {
+      return res.status(400)
+    }
 
     try {
       const homeList = await services.findHomeList(userId)
@@ -16,9 +21,13 @@ class HomeController {
     }
   }
 
-  public async selectHome(req: Request, res: Response) {
+  public async selectHome(req: RequestWithPayload, res: Response) {
     const homeId = req.query.homeId
-    const userId = req.body.id
+    const userId = req.jwt?.id
+
+    if (!userId) {
+      return res.status(400)
+    }
 
     try {
       const resData = await services.selectHome(userId, homeId)
@@ -28,9 +37,13 @@ class HomeController {
     }
   }
 
-  public async createHome(req: Request, res: Response) {
+  public async createHome(req: RequestWithPayload, res: Response) {
     const { homeName, homeAddress, key } = req.body
-    const userId = req.body.id
+    const userId = req.jwt?.id
+
+    if (!userId) {
+      return res.status(400)
+    }
 
     try {
       await services.createHome(userId, homeName, homeAddress, key)
@@ -42,9 +55,13 @@ class HomeController {
     }
   }
 
-  public async addResident(req: Request, res: Response) {
+  public async addResident(req: RequestWithPayload, res: Response) {
     const { homeId, key } = req.body
-    const userId = req.body.id
+    const userId = req.jwt?.id
+
+    if (!userId) {
+      return res.status(400)
+    }
 
     try {
       const resData = await services.addResident(userId, homeId, key)

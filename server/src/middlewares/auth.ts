@@ -12,10 +12,19 @@ export const getTokenFromHeaders = (req: Request) => {
   return null
 }
 
+export interface RequestWithPayload extends Request {
+  jwt?: {
+    id: string
+    email: string
+    exp: number
+    iat: number
+  }
+}
+
 const options = {
   algorithms: ['HS256'],
   secret: (process.env.JWT_SECRET as string) || 'secret',
-  userProperty: 'body',
+  userProperty: 'jwt',
   getTokenFromHeaders,
 }
 
