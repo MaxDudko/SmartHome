@@ -94,7 +94,7 @@ const App: React.FC<Props> = (props) => {
                   <>
                     {smartRouter.getRoutes('dashboardRoutes')}
                     {smartRouter.getRedirects('dashboardRoutes', '/overview', location.pathname)}
-                    <DevicesSidebar />
+                    {location.pathname === '/overview' ? <DevicesSidebar /> : null}
                     {modalOpen && <AddDevice />}
                   </>
                 ) : (
