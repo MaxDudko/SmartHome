@@ -3,6 +3,7 @@ import { Button, Col, Row } from 'react-materialize'
 import { connect } from 'react-redux'
 import data from '../../testData'
 import styles from '../Analytics/Analytics.module.scss'
+import LinerChart from './LinerChart'
 import PieChart from './PieChart'
 
 interface Props {}
@@ -13,30 +14,13 @@ const EnergyConsumption: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.energyConsumption}>
-      <Row className={styles.header}>
-        <Col s={9}>
-          <p className={`left ${styles.title}`}>Energy Consumption</p>
-        </Col>
-        <Col s={3} className={styles.rangBar}>
-          {rangeOptions.map((el: string, i: number) => (
-            <Button
-              node="button"
-              type="submit"
-              name={el}
-              key={i}
-              className={`waves-effect btn ${range === el ? 'blue' : 'transparent'}`}
-              style={range !== el ? { boxShadow: 'none', color: '#657d95' } : {}}
-              onClick={() => setRange(el)}
-            >
-              {el.charAt(0).toUpperCase() + el.slice(1)}
-            </Button>
-          ))}
-        </Col>
-      </Row>
       <Row>
-        <Col s={3} className={styles.pieCharts}>
+        <Col s={12} l={3} className={styles.pieCharts}>
+          <div className={styles.title}>
+            <p className="left">Energy Consumption</p>
+          </div>
           {data.rooms.map((el: any, i: number) => (
-            <div className={styles.item} key={i}>
+            <div className={`${styles.item}`} key={i}>
               <div className={styles.chartContainer}>
                 <PieChart
                   data={data.rooms}
@@ -54,7 +38,23 @@ const EnergyConsumption: React.FC<Props> = (props) => {
             </div>
           ))}
         </Col>
-        <Col s={9} className={styles.chartContainer}>
+        <Col s={12} l={9} className={styles.chartContainer}>
+          <div className={styles.rangBar}>
+            {rangeOptions.map((el: string, i: number) => (
+              <Button
+                node="button"
+                type="submit"
+                name={el}
+                key={i}
+                className={`waves-effect btn ${range === el ? 'blue' : 'transparent'}`}
+                style={range !== el ? { boxShadow: 'none', color: '#657d95' } : {}}
+                onClick={() => setRange(el)}
+              >
+                {el.charAt(0).toUpperCase() + el.slice(1)}
+              </Button>
+            ))}
+          </div>
+          <LinerChart width={600} height={300} data={data.rooms.map((el) => [...el.points])} />
         </Col>
       </Row>
     </div>
