@@ -17,11 +17,12 @@ const PieChart = (props) => {
   const createArcRound = d3.arc().innerRadius(innerRadius).outerRadius(outerRadius).cornerRadius(20)
   const format = d3.format('.2f')
   const pieData = createPie(data)
-  const text = `${pieData.find((el) => el.data.name === item).value}%`
+  const text = `${pieData.find((el) => el.data.name === item)?.value}%`
 
   return (
     <svg width={width} height={height}>
       <g transform={`translate(${outerRadius} ${outerRadius})`}>
+        <circle cx="0" cy="0" r={outerRadius} fill="#3e4e6c" />
         {pieData.map((d, i) => (
           <Arc
             key={i}
@@ -32,12 +33,21 @@ const PieChart = (props) => {
             format={format}
           />
         ))}
+        <Arc
+          index={pieData.length}
+          data={100 - pieData.reduce((a, b) => a.value + b.value)}
+          createArc={createArc}
+          color={'#3e4e6c'}
+          format={format}
+        />
+        <circle cx="0" cy="0" r={innerRadius} fill="#242E42" />
         <text
-          transform={`translate(${createArc.centroid(data)})`}
           textAnchor="middle"
           alignmentBaseline="middle"
+          dominantBaseline="middle"
           fill="white"
           fontSize="20"
+          fontWeight="300"
         >
           {text}
         </text>

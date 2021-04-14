@@ -3,7 +3,6 @@ import { Button, Col, Row } from 'react-materialize'
 import { connect } from 'react-redux'
 import data from '../../testData'
 import styles from '../Analytics/Analytics.module.scss'
-import LinerChart from './LinerChart'
 import PieChart from './PieChart'
 
 interface Props {}
@@ -42,10 +41,10 @@ const EnergyConsumption: React.FC<Props> = (props) => {
                 <PieChart
                   data={data.rooms}
                   item={el.name}
-                  width={70}
-                  height={70}
-                  innerRadius={25}
-                  outerRadius={35}
+                  width={72}
+                  height={72}
+                  innerRadius={26}
+                  outerRadius={36}
                 />
               </div>
               <div className={styles.description}>
@@ -56,7 +55,6 @@ const EnergyConsumption: React.FC<Props> = (props) => {
           ))}
         </Col>
         <Col s={9} className={styles.chartContainer}>
-          <LinerChart width={800} height={400} margin={30} />
         </Col>
       </Row>
     </div>
