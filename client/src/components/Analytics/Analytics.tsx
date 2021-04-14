@@ -1,5 +1,4 @@
 import React from 'react'
-import { Button, Col, Row } from 'react-materialize'
 import { connect } from 'react-redux'
 import styles from '../Analytics/Analytics.module.scss'
 import EnergyConsumption from './EnergyConsumption'
