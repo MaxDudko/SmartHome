@@ -3,7 +3,7 @@ import { Button, Col, Row } from 'react-materialize'
 import { connect } from 'react-redux'
 import data from '../../testData'
 import styles from '../Analytics/Analytics.module.scss'
-import LinerChart from './LinerChart'
+import LineChart from './LineChart'
 import PieChart from './PieChart'
 
 interface Props {}
@@ -54,7 +54,13 @@ const EnergyConsumption: React.FC<Props> = (props) => {
               </Button>
             ))}
           </div>
-          <LinerChart width={600} height={300} data={data.rooms.map((el) => [...el.points])} />
+          <LineChart
+            width={950}
+            height={400}
+            margin={30}
+            data={data.rooms.map((d) => [...d.points])}
+            colors={data.rooms.map((d) => d.color)}
+          />
         </Col>
       </Row>
     </div>

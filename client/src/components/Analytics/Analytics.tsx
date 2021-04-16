@@ -7,7 +7,7 @@ interface Props {}
 
 const Analytics: React.FC<Props> = (props) => {
   return (
-    <div className={`${styles.Analytics} col s12 l9`}>
+    <div className={`${styles.Analytics} col s12 l10`}>
       <h4>Analytics</h4>
       <EnergyConsumption />
     </div>

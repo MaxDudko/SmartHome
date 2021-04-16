@@ -33,13 +33,6 @@ const PieChart = (props) => {
             format={format}
           />
         ))}
-        <Arc
-          index={pieData.length}
-          data={100 - pieData.reduce((a, b) => a.value + b.value)}
-          createArc={createArc}
-          color={'#3e4e6c'}
-          format={format}
-        />
         <circle cx="0" cy="0" r={innerRadius} fill="#242E42" />
         <text
           textAnchor="middle"
