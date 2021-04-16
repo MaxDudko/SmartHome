@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Icon, Table } from 'react-materialize'
 import { connect } from 'react-redux'
 import { openModalAction } from '../../actions/appActions'
@@ -9,8 +9,8 @@ import styles from './Devices.module.scss'
 interface Props {
   homeId: string
   devices: []
-  openModalAction: Function
-  lockToggleAction: Function
+  openModalAction: () => void
+  lockToggleAction: (homeId: string) => void
 }
 
 const Devices: React.FC<Props> = (props) => {
@@ -22,11 +22,15 @@ const Devices: React.FC<Props> = (props) => {
   }
 
   const batteryIndicator = (value: number) => {
-    const icon =
-      (value > 50 && 'battery_charging_full') ||
-      (value <= 20 && value > 0 && 'battery_alert') ||
-      'battery_std'
-    const color = (value > 50 && '#05c985') || (value <= 20 && value > 0 && '#ffab4f') || '#1f8efa'
+    let [icon, color] = ['battery_std', '#1f8efa']
+
+    if (value > 50) {
+      ;[icon, color] = ['battery_charging_full', '#05c985']
+    }
+    if (value <= 20 && value > 0) {
+      ;[icon, color] = ['battery_alert', '#ffab4f']
+    }
+
     return <Icon style={{ color }}>{icon}</Icon>
   }
 
