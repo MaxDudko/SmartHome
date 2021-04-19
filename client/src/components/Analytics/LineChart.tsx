@@ -4,7 +4,7 @@ import React from 'react'
 import styles from '../Analytics/Analytics.module.scss'
 
 const LinerChart = (props) => {
-  const { width, height, margin, data, colors } = props
+  const { width, height, data, colors } = props
 
   const xScale = d3
     .scaleTime()
@@ -40,22 +40,45 @@ const LinerChart = (props) => {
         className="x-axis"
         ref={(node) => select(node).call(xAxis)}
         transform={`translate(50 ${height - 50})`}
+        strokeDasharray="5"
       />
       <g
         className="y-axis"
         ref={(node) => select(node).call(yAxis)}
         transform={`translate(50 0)`}
       />
-      {data.map((d, i) => (
-        <path
-          d={line(d)}
-          transform={`translate(50 0)`}
-          key={i}
-          fill="none"
-          stroke={colors[i]}
-          strokeWidth="2"
-        />
-      ))}
+      {data.map((d, i) => {
+        return (
+          <path
+            d={line(d)}
+            transform={`translate(50 0)`}
+            key={i}
+            fill="none"
+            stroke={colors[i]}
+            strokeWidth="2"
+          />
+        )
+      })}
+      {data.map((d, i) => {
+        const color = colors[i]
+        return d.map((d, i) => {
+          if (i > 0) {
+            return (
+              <circle
+                key={i}
+                cx={xScale(d.period)}
+                cy={yScale(+d.value)}
+                r="2"
+                transform={`translate(50 0)`}
+                stroke={color}
+                fill="#2F3B52"
+              />
+            )
+          } else {
+            return null
+          }
+        })
+      })}
     </svg>
   )
 }
