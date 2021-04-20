@@ -34,7 +34,17 @@ a {
 ::-webkit-scrollbar-thumb:hover {
   background: #242e42;
 }
-
+.x-axis, .y-axis {
+  .domain {
+    display: none;
+  }
+  .tick text {
+    text-transform: uppercase;
+  }
+  .tick line {
+    color: #242e42;
+  }
+}
 @media (max-width: 992px) {
   #mobile-nav {
     background: #242e42;

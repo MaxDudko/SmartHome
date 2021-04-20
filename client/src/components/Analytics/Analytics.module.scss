@@ -53,16 +53,6 @@
         }
       }
     }
-    .lineChart {
-      color: #5b6b80;
-      .x-axis {
-        .tick text {
-          text-transform: uppercase;
-        }
-        .tick line {
-          color: #242e42;
-        }
-      }
-    }
+    .lineChart {}
   }
 }

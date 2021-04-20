@@ -49,14 +49,23 @@ const LinerChart = (props) => {
       />
       {data.map((d, i) => {
         return (
-          <path
-            d={line(d)}
-            transform={`translate(50 0)`}
-            key={i}
-            fill="none"
-            stroke={colors[i]}
-            strokeWidth="2"
-          />
+          <>
+            {/*<defs>*/}
+            {/*  <linearGradient id="gradient" gradientTransform="rotate(90)">*/}
+            {/*    <stop offset="50%" stopColor={colors[i]} />*/}
+            {/*    <stop offset="0%" stopColor="transparent" />*/}
+            {/*  </linearGradient>*/}
+            {/*</defs>*/}
+            <path
+              d={line(d)}
+              transform={`translate(50 0)`}
+              key={i}
+              fill={i === 0 ? colors[i] : 'none'}
+              stroke={colors[i]}
+              strokeWidth="2"
+              fillOpacity="0.05"
+            />
+          </>
         )
       })}
       {data.map((d, i) => {
