@@ -3,7 +3,7 @@ import { select } from 'd3-selection'
 import React, { useEffect, useState } from 'react'
 import styles from '../Analytics/Analytics.module.scss'
 
-const Tooltip = ({ height, x }) => {
+const Tooltip = ({ height, x, value, label }) => {
   console.log(x)
   return (
     <g>
@@ -21,39 +21,54 @@ const Tooltip = ({ height, x }) => {
         x={x - 30}
         y={height - 50}
         width="66"
-        height="30"
+        height="24"
         transform={`translate(-5 -${height - 70})`}
         fill="#1F8EFA"
       />
       <text
         x={x - 52}
-        y={height - 50}
+        y={height - 52}
+        textAnchor="start"
         transform={`translate(26 -${height - 90})`}
         fontSize="20px"
+        fontWeight={400}
         fill="#fff"
       >
-        1,458
+        {value}
       </text>
-      <polygon points={`${x - 5},${50} ${x + 5},${50} ${x},${55}`} fill="#1F8EFA" />
+      <polygon points={`${x - 5},${42} ${x + 5},${42} ${x},${50}`} fill="#1F8EFA" />
       <line
         x1={x}
-        y1={58}
+        y1={52}
         x2={x}
         y2={height - 50}
         fill="#1F8EFA"
         stroke="#1F8EFA"
-        strokeWidth="3"
-        strokeDasharray="5"
+        strokeWidth="2.6"
+        strokeDasharray="4"
       />
       <circle cx={x} cy={height - 50} r="6" fill="#1F8EFA" />
+      <text
+        x={x - 11}
+        y={height - 18}
+        textAnchor="start"
+        // transform={`translate(26 -${height - 90})`}
+        fontSize="10px"
+        fontWeight={400}
+        fill="#B0B5BD"
+      >
+        {label}
+      </text>
     </g>
   )
 }
 
 const LinerChart = (props) => {
   const { width, height, data, colors } = props
-  const [isTooltip, showTooltip] = useState(false)
-  const [xTooltip, setXTooltip] = useState(0)
+  const [isTooltip, showTooltip] = useState(true)
+  const [label, setLabel] = useState('')
+  const [tooltipValue, setTooltipValue] = useState('')
+  const [xTooltip, setXTooltip] = useState<any>(0)
 
   useEffect(() => {
     // console.log(d3.selectAll('.tick'))
@@ -95,24 +110,33 @@ const LinerChart = (props) => {
     .y1((d) => yScale(+d.value))
 
   const tooltipData = (e) => {
-    const tickW = (width - 80) / 12
-    const counter = 0
-    const ticksX = Array(12).map((t) => counter)
-    setXTooltip(xScale.invert(e.nativeEvent.layerX))
-    console.log(':', e.nativeEvent.layerX)
-    console.log(xTooltip)
-    console.log(data)
+    const startDate = data[0][0].period
+    const endDate = data[0][data[0].length - 1].period
+    const date = new Date(xScale.invert(e.nativeEvent.layerX))
+    date.setDate(1)
+
+    if (date >= startDate && date <= endDate && xTooltip !== date) {
+      setXTooltip(date)
+    }
+
+    let sum = 0
+    data.forEach((item) => {
+      const value = item.find((e) => e.period.getMonth() === date.getMonth())?.value
+      sum += value || 0
+    })
+
+    setTooltipValue(sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))
+    setLabel(date.toString().split(' ')[1].toUpperCase())
   }
 
   return (
     <>
-      <svg height={height} width={width} className={styles.lineChart}>
+      <svg className={styles.lineChart} viewBox={`0 0 ${width} ${height}`}>
         <g
           className="x-axis"
           ref={(node) => select(node).call(xAxis)}
           transform={`translate(0 ${height - 50})`}
           strokeDasharray="5"
-          // children={<Tooltip height={height} x={xScale(xTooltip)} />}
         />
         <g
           className="y-axis"
@@ -147,7 +171,7 @@ const LinerChart = (props) => {
                   key={i}
                   cx={xScale(d.period)}
                   cy={yScale(+d.value)}
-                  r="2"
+                  r="1.8"
                   stroke={color}
                   fill="#2F3B52"
                 />
@@ -163,11 +187,14 @@ const LinerChart = (props) => {
           height={height - 50}
           transform={`translate(40 50)`}
           fill="transparent"
-          onMouseOver={(e) => tooltipData(e)}
+          // onMouseOver={(e) => tooltipData(e)}
           onMouseMove={(e) => tooltipData(e)}
-          onMouseOut={(e) => tooltipData(e)}
+          // onTouchMove={(e) => tooltipData(e)}
+          // onMouseOut={(e) => tooltipData(e)}
         />
-        <Tooltip height={height} x={xScale(xTooltip)} />
+        {isTooltip && (
+          <Tooltip height={height} x={xScale(xTooltip)} value={tooltipValue} label={label} />
+        )}
       </svg>
     </>
   )
