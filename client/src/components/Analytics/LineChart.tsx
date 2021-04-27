@@ -3,81 +3,104 @@ import { select } from 'd3-selection'
 import React, { useEffect, useState } from 'react'
 import styles from '../Analytics/Analytics.module.scss'
 
-const Tooltip = ({ height, x, value, label }) => {
-  console.log(x)
-  return (
-    <g>
-      <rect
-        width="66"
-        height={height}
-        x={x - 30}
-        y={height - 20}
-        transform={`translate(-5 -${height - 70})`}
-        rx="4"
-        fill="#2b374d"
-        opacity="0.5"
-      />
-      <rect
-        x={x - 30}
-        y={height - 50}
-        width="66"
-        height="24"
-        transform={`translate(-5 -${height - 70})`}
-        fill="#1F8EFA"
-      />
-      <text
-        x={x - 52}
-        y={height - 52}
-        textAnchor="start"
-        transform={`translate(26 -${height - 90})`}
-        fontSize="20px"
-        fontWeight={400}
-        fill="#fff"
-      >
-        {value}
-      </text>
-      <polygon points={`${x - 5},${42} ${x + 5},${42} ${x},${50}`} fill="#1F8EFA" />
-      <line
-        x1={x}
-        y1={52}
-        x2={x}
-        y2={height - 50}
-        fill="#1F8EFA"
-        stroke="#1F8EFA"
-        strokeWidth="2.6"
-        strokeDasharray="4"
-      />
-      <circle cx={x} cy={height - 50} r="6" fill="#1F8EFA" />
-      <text
-        x={x - 11}
-        y={height - 18}
-        textAnchor="start"
-        // transform={`translate(26 -${height - 90})`}
-        fontSize="10px"
-        fontWeight={400}
-        fill="#B0B5BD"
-      >
-        {label}
-      </text>
-    </g>
-  )
+interface TooltipProps {
+  height: number
+  x: number
+  value: string
+  label: string
 }
 
-const LinerChart = (props) => {
+const Tooltip: React.FC<TooltipProps> = ({ height, x, value, label }) => (
+  <g>
+    <rect
+      width="66"
+      height={height - 50}
+      x={x - 30}
+      y={height - 20}
+      transform={`translate(-5 -${height - 70})`}
+      rx="5"
+      ry="5"
+      fill="#2b374d"
+      opacity="0.5"
+    />
+    <rect
+      x={x - 30}
+      y={height - 50}
+      width="66"
+      height="24"
+      transform={`translate(-5 -${height - 70})`}
+      fill="#1F8EFA"
+    />
+    <text
+      x={x - 52}
+      y={height - 52}
+      textAnchor="start"
+      transform={`translate(26 -${height - 90})`}
+      fontSize="20px"
+      fontWeight={400}
+      fill="#fff"
+    >
+      {value}
+    </text>
+    <polygon points={`${x - 5},${42} ${x + 5},${42} ${x},${50}`} fill="#1F8EFA" />
+    <line
+      x1={x}
+      y1={52}
+      x2={x}
+      y2={height - 50}
+      fill="#1F8EFA"
+      stroke="#1F8EFA"
+      strokeWidth="2.6"
+      strokeDasharray="4"
+    />
+    <circle cx={x} cy={height - 50} r="6" fill="#1F8EFA" />
+    <rect
+      x={x - 20}
+      y={height - 30}
+      width="32"
+      height="24"
+      textAnchor="start"
+      fontSize="10px"
+      fontWeight={400}
+      fill="#2D394F"
+    />
+    <text
+      x={x - 10}
+      y={height - 18}
+      textAnchor="start"
+      fontSize="10px"
+      fontWeight={600}
+      fill="#B0B5BD"
+    >
+      {label}
+    </text>
+  </g>
+)
+
+interface LinerChartProps {
+  width: number
+  height: number
+  data: any
+  colors: string[]
+}
+
+const LinerChart: React.FC<LinerChartProps> = (props) => {
   const { width, height, data, colors } = props
-  const [isTooltip, showTooltip] = useState(true)
   const [label, setLabel] = useState('')
   const [tooltipValue, setTooltipValue] = useState('')
   const [xTooltip, setXTooltip] = useState<any>(0)
+  const [startDate, setStartDate] = useState<any>(0)
+  const [endDate, setEndDate] = useState<any>(0)
 
   useEffect(() => {
-    // console.log(d3.selectAll('.tick'))
-  })
+    setStartDate(data[0][0].period)
+    setEndDate(data[0][data[0].length - 1].period)
+  }, [data])
 
   const xScale = d3
     .scaleTime()
     .range([50, width - 50])
-    .domain([new Date(2020, 0, 1), new Date(2020, 10, 31)])
+    .domain([new Date(startDate), new Date(endDate)])
     .interpolate(d3.interpolateRound)
 
   const yScale = d3
@@ -110,14 +133,8 @@ const LinerChart = (props) => {
     .y1((d) => yScale(+d.value))
 
   const tooltipData = (e) => {
-    const startDate = data[0][0].period
-    const endDate = data[0][data[0].length - 1].period
     const date = new Date(xScale.invert(e.nativeEvent.layerX))
     date.setDate(1)
-
-    if (date >= startDate && date <= endDate && xTooltip !== date) {
-      setXTooltip(date)
-    }
 
     let sum = 0
     data.forEach((item) => {
@@ -127,6 +144,14 @@ const LinerChart = (props) => {
 
     setTooltipValue(sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))
     setLabel(date.toString().split(' ')[1].toUpperCase())
+
+    if (date >= startDate && date <= endDate && !xTooltip) {
+      return setXTooltip(date)
+    }
+
+    if (date >= startDate && date <= endDate && date.toDateString() !== xTooltip.toDateString()) {
+      setXTooltip(date)
+    }
   }
 
   return (
@@ -144,16 +169,7 @@ const LinerChart = (props) => {
           transform={`translate(50 0)`}
         />
         {data.map((d, i) => {
-          return (
-            <path
-              d={line(d)}
-              key={i}
-              fill={'none'}
-              stroke={colors[i]}
-              strokeWidth="2"
-              // fillOpacity="0.05"
-            />
-          )
+          return <path d={line(d)} key={i} fill={'none'} stroke={colors[i]} strokeWidth="2" />
         })}
         <g>
           <linearGradient id="Gradient1" x1="0" x2="0" y1="0" y2="1">
@@ -187,14 +203,9 @@ const LinerChart = (props) => {
           height={height - 50}
           transform={`translate(40 50)`}
           fill="transparent"
-          // onMouseOver={(e) => tooltipData(e)}
           onMouseMove={(e) => tooltipData(e)}
-          // onTouchMove={(e) => tooltipData(e)}
-          // onMouseOut={(e) => tooltipData(e)}
         />
-        {isTooltip && (
-          <Tooltip height={height} x={xScale(xTooltip)} value={tooltipValue} label={label} />
-        )}
+        <Tooltip height={height} x={xScale(xTooltip)} value={tooltipValue} label={label} />
       </svg>
     </>
   )

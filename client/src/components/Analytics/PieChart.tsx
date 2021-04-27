@@ -1,13 +1,30 @@
 import * as d3 from 'd3'
 import React from 'react'
 
-const Arc = ({ data, index, createArc, color, format }) => (
+interface ArcProps {
+  data: object
+  index: number
+  createArc: (object) => string
+  color: string
+  format: () => string
+}
+
+const Arc: React.FC<ArcProps> = ({ data, index, createArc, color, format }) => (
   <g key={index} className="arc">
     <path className="arc" d={createArc(data)} fill={color} />
   </g>
 )
 
-const PieChart = (props) => {
+interface PieChartProps {
+  width: number
+  height: number
+  innerRadius: number
+  outerRadius: number
+  data: object[]
+  item: string
+}
+
+const PieChart: React.FC<PieChartProps> = (props) => {
   const { width, height, innerRadius, outerRadius, data, item } = props
   const createPie = d3
     .pie()
