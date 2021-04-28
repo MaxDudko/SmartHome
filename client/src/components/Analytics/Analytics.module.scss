@@ -23,14 +23,20 @@
     .rangBar {
       display: flex;
       justify-content: flex-end;
-      padding: 12px 10px;
+      padding: 8px 10px;
+      margin-bottom: 10px;
     }
     .pieCharts {
+      .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
       .item {
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        margin: 20px 26px;
+        margin: 0 15px 18px;
         p {
           margin: 0;
         }
@@ -54,5 +60,25 @@
       }
     }
     .lineChart {}
+  }
+}
+
+@media (max-width: 992px) {
+  .Analytics {
+    .energyConsumption {
+      .rangBar {
+        justify-content: space-between;
+      }
+      .pieCharts {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .container {
+          width: 50%;
+          display: flex;
+          justify-content: flex-start;
+        }
+      }
+    }
   }
 }

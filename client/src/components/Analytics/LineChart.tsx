@@ -13,7 +13,7 @@ interface TooltipProps {
 const Tooltip: React.FC<TooltipProps> = ({ height, x, value, label }) => (
   <g>
     <rect
-      width="66"
+      width="68"
       height={height - 50}
       x={x - 30}
       y={height - 20}
@@ -23,26 +23,11 @@ const Tooltip: React.FC<TooltipProps> = ({ height, x, value, label }) => (
       fill="#2b374d"
       opacity="0.5"
     />
-    <rect
-      x={x - 30}
-      y={height - 50}
-      width="66"
-      height="24"
-      transform={`translate(-5 -${height - 70})`}
-      fill="#1F8EFA"
-    />
-    <text
-      x={x - 52}
-      y={height - 52}
-      textAnchor="start"
-      transform={`translate(26 -${height - 90})`}
-      fontSize="20px"
-      fontWeight={400}
-      fill="#fff"
-    >
+    <rect x={x - 34} y={20} width="68" height="24" fill="#1F8EFA" />
+    <text x={x} y={36} textAnchor="middle" fontSize="18px" fontWeight={500} fill="#fff">
       {value}
     </text>
-    <polygon points={`${x - 5},${42} ${x + 5},${42} ${x},${50}`} fill="#1F8EFA" />
+    <polygon points={`${x - 6},${42} ${x + 6},${42} ${x},${50}`} fill="#1F8EFA" />
     <line
       x1={x}
       y1={52}
@@ -55,7 +40,7 @@ const Tooltip: React.FC<TooltipProps> = ({ height, x, value, label }) => (
     />
     <circle cx={x} cy={height - 50} r="6" fill="#1F8EFA" />
     <rect
-      x={x - 20}
+      x={x - 15}
       y={height - 30}
       width="32"
       height="24"
@@ -65,7 +50,7 @@ const Tooltip: React.FC<TooltipProps> = ({ height, x, value, label }) => (
       fill="#2D394F"
     />
     <text
-      x={x - 10}
+      x={x - 8}
       y={height - 18}
       textAnchor="start"
       fontSize="10px"
@@ -91,10 +76,24 @@ const LinerChart: React.FC<LinerChartProps> = (props) => {
   const [xTooltip, setXTooltip] = useState<any>(0)
   const [startDate, setStartDate] = useState<any>(0)
   const [endDate, setEndDate] = useState<any>(0)
+  const [periodsSumValues, setPeriodsSumValues] = useState({})
 
   useEffect(() => {
     setStartDate(data[0][0].period)
     setEndDate(data[0][data[0].length - 1].period)
+
+    const obj = {}
+    data.forEach((item) => {
+      item.forEach((point) => {
+        if (!obj[point.period.toDateString()]) {
+          obj[point.period.toDateString()] = point.value || 0
+        } else {
+          obj[point.period.toDateString()] += point.value
+        }
+      })
+    })
+
+    setPeriodsSumValues(obj)
   }, [data])
 
   const xScale = d3
@@ -132,25 +131,39 @@ const LinerChart: React.FC<LinerChartProps> = (props) => {
     .y0(height - 50)
     .y1((d) => yScale(+d.value))
 
-  const tooltipData = (e) => {
-    const date = new Date(xScale.invert(e.nativeEvent.layerX))
+  const getCursorPosition = (event) => {
+    const svgElement = event.target.parentElement
+    const svgPoint = svgElement.createSVGPoint()
+
+    svgPoint.x = event.clientX
+    svgPoint.y = event.clientY
+
+    return svgPoint.matrixTransform(svgElement.getScreenCTM().inverse())
+  }
+
+  const setDataValues = (date) => {
+    setTooltipValue(
+      periodsSumValues[date.toDateString()].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    )
+    setLabel(date.toString().split(' ')[1].toUpperCase())
+    setXTooltip(date)
+  }
+
+  const tooltipData = (event) => {
+    const cursorPosition = getCursorPosition(event)
+    const date = new Date(xScale.invert(cursorPosition.x))
     date.setDate(1)
 
-    let sum = 0
-    data.forEach((item) => {
-      const value = item.find((e) => e.period.getMonth() === date.getMonth())?.value
-      sum += value || 0
-    })
-
-    setTooltipValue(sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))
-    setLabel(date.toString().split(' ')[1].toUpperCase())
-
     if (date >= startDate && date <= endDate && !xTooltip) {
-      return setXTooltip(date)
+      return setDataValues(date)
     }
 
-    if (date >= startDate && date <= endDate && date.toDateString() !== xTooltip.toDateString()) {
-      setXTooltip(date)
+    if (
+      date >= startDate &&
+      date < endDate.setDate(2) &&
+      date.toDateString() !== xTooltip.toDateString()
+    ) {
+      setDataValues(date)
     }
   }
 
@@ -204,6 +217,7 @@ const LinerChart: React.FC<LinerChartProps> = (props) => {
           transform={`translate(40 50)`}
           fill="transparent"
           onMouseMove={(e) => tooltipData(e)}
+          onMouseUp={(e) => tooltipData(e)}
         />
         <Tooltip height={height} x={xScale(xTooltip)} value={tooltipValue} label={label} />
       </svg>

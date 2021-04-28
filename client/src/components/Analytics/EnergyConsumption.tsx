@@ -19,24 +19,26 @@ const EnergyConsumption: React.FC<Props> = (props) => {
           <div className={styles.title}>
             <p className="left">Energy Consumption</p>
           </div>
-          {data.rooms.map((el: any, i: number) => (
-            <div className={`${styles.item}`} key={i}>
-              <div className={styles.chartContainer}>
-                <PieChart
-                  data={data.rooms}
-                  item={el.name}
-                  width={72}
-                  height={72}
-                  innerRadius={26}
-                  outerRadius={36}
-                />
+          <div className={styles.container}>
+            {data.rooms.map((el: any, i: number) => (
+              <div className={`${styles.item} col m5 l12`} key={i}>
+                <div className={styles.chartContainer}>
+                  <PieChart
+                    data={data.rooms}
+                    item={el.name}
+                    width={72}
+                    height={72}
+                    innerRadius={26}
+                    outerRadius={36}
+                  />
+                </div>
+                <div className={styles.description}>
+                  <p>{el.name}</p>
+                  <p>{el.km} KM</p>
+                </div>
               </div>
-              <div className={styles.description}>
-                <p>{el.name}</p>
-                <p>{el.km} KM</p>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </Col>
         <Col s={12} l={9} className={styles.chartContainer}>
           <div className={styles.rangBar}>
@@ -55,7 +57,7 @@ const EnergyConsumption: React.FC<Props> = (props) => {
             ))}
           </div>
           <LineChart
-            width={950}
+            width={980}
             height={350}
             data={data.rooms.map((d) => [...d.points])}
             colors={data.rooms.map((d) => d.color)}
