@@ -21,15 +21,15 @@ const EnergyConsumption: React.FC<Props> = (props) => {
           </div>
           <div className={styles.container}>
             {data.rooms.map((el: any, i: number) => (
-              <div className={`${styles.item} col m5 l12`} key={i}>
+              <div className={`${styles.item}`} key={i}>
                 <div className={styles.chartContainer}>
                   <PieChart
                     data={data.rooms}
                     item={el.name}
                     width={72}
                     height={72}
-                    innerRadius={26}
-                    outerRadius={36}
+                    innerRadius={25}
+                    outerRadius={35}
                   />
                 </div>
                 <div className={styles.description}>
@@ -56,12 +56,14 @@ const EnergyConsumption: React.FC<Props> = (props) => {
               </Button>
             ))}
           </div>
-          <LineChart
-            width={980}
-            height={350}
-            data={data.rooms.map((d) => [...d.points])}
-            colors={data.rooms.map((d) => d.color)}
-          />
+          <div>
+            <LineChart
+                width={980}
+                height={350}
+                data={data.rooms.map((d) => [...d.points])}
+                colors={data.rooms.map((d) => d.color)}
+            />
+          </div>
         </Col>
       </Row>
     </div>

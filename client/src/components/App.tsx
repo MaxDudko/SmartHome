@@ -45,29 +45,29 @@ const App: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const token = localStorage.getItem('token')
-    const eventSource =
-      userId &&
-      new EventSourcePolyfill(
-        `${process.env.REACT_APP_API_URL}${process.env.REACT_APP_API_PREFIX}/stream?userId=${userId}`,
-        { heartbeatTimeout: 3600 * 1000, headers: { authorization: token } }
-      )
-
-    if (eventSource) {
-      eventSource.onmessage = (stream: any) => {
-        const { event, data } = JSON.parse(stream.data)
-        switch (event) {
-          case 'devices':
-            return saveDevicesAction(data)
-          case 'home':
-            localStorage.setItem('homeId', data.id)
-            return saveHomeAction(data)
-        }
-
-        if (!userId) {
-          eventSource?.close()
-        }
-      }
-    }
+    // const eventSource =
+    //   userId &&
+    //   new EventSourcePolyfill(
+    //     `${process.env.REACT_APP_API_URL}${process.env.REACT_APP_API_PREFIX}/stream?userId=${userId}`,
+    //     { heartbeatTimeout: 3600 * 1000, headers: { authorization: token } }
+    //   )
+    //
+    // if (eventSource) {
+    //   eventSource.onmessage = (stream: any) => {
+    //     const { event, data } = JSON.parse(stream.data)
+    //     switch (event) {
+    //       case 'devices':
+    //         return saveDevicesAction(data)
+    //       case 'home':
+    //         localStorage.setItem('homeId', data.id)
+    //         return saveHomeAction(data)
+    //     }
+    //
+    //     if (!userId) {
+    //       eventSource?.close()
+    //     }
+    //   }
+    // }
   }, [userId])
 
   useEffect(() => {
@@ -90,19 +90,19 @@ const App: React.FC<Props> = (props) => {
                 <div className="hide-on-med-and-down">
                   <Sidebar />
                 </div>
-                {homeId ? (
+                {/*{homeId ? (*/}
                   <>
                     {smartRouter.getRoutes('dashboardRoutes')}
                     {smartRouter.getRedirects('dashboardRoutes', '/overview', location.pathname)}
                     {location.pathname === '/overview' ? <DevicesSidebar /> : null}
                     {modalOpen && <AddDevice />}
                   </>
-                ) : (
-                  <>
-                    {smartRouter.getRoutes('homeRoutes')}
-                    {smartRouter.getRedirects('homeRoutes', '/select-home', location.pathname)}
-                  </>
-                )}
+                {/*) : (*/}
+                {/*  <>*/}
+                {/*    {smartRouter.getRoutes('homeRoutes')}*/}
+                {/*    {smartRouter.getRedirects('homeRoutes', '/select-home', location.pathname)}*/}
+                {/*  </>*/}
+                {/*)}*/}
               </Row>
             </>
           ) : (

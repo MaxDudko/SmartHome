@@ -69,7 +69,7 @@ interface LinerChartProps {
   colors: string[]
 }
 
-const LinerChart: React.FC<LinerChartProps> = (props) => {
+const LineChart: React.FC<LinerChartProps> = (props) => {
   const { width, height, data, colors } = props
   const [label, setLabel] = useState('')
   const [tooltipValue, setTooltipValue] = useState('')
@@ -225,4 +225,4 @@ const LinerChart: React.FC<LinerChartProps> = (props) => {
   )
 }
 
-export default LinerChart
+export default LineChart
