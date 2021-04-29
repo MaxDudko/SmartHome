@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Button, Col, Row } from 'react-materialize'
 import { connect } from 'react-redux'
 import data from '../../testData'
@@ -6,9 +6,7 @@ import styles from '../Analytics/Analytics.module.scss'
 import LineChart from './LineChart'
 import PieChart from './PieChart'
 
-interface Props {}
-
-const EnergyConsumption: React.FC<Props> = (props) => {
+const EnergyConsumption: React.FC = (props) => {
   const rangeOptions = ['day', 'week', 'month', 'year']
   const [range, setRange] = useState('year')
 
@@ -56,14 +54,12 @@ const EnergyConsumption: React.FC<Props> = (props) => {
               </Button>
             ))}
           </div>
-          <div>
-            <LineChart
-                width={980}
-                height={350}
-                data={data.rooms.map((d) => [...d.points])}
-                colors={data.rooms.map((d) => d.color)}
-            />
-          </div>
+          <LineChart
+            width={980}
+            height={350}
+            data={data.rooms.map((d) => [...d.points])}
+            colors={data.rooms.map((d) => d.color)}
+          />
         </Col>
       </Row>
     </div>
