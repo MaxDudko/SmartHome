@@ -12,7 +12,7 @@ const EnergyConsumption: React.FC = (props) => {
 
   return (
     <div className={styles.energyConsumption}>
-      <Row>
+      <Row styles={"margin-bottom: 0"}>
         <Col s={12} l={3} className={styles.pieCharts}>
           <div className={styles.title}>
             <p className="left">Energy Consumption</p>

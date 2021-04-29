@@ -21,11 +21,12 @@ interface PieChartProps {
   innerRadius: number
   outerRadius: number
   data: object[]
-  item: string
+  item?: string
+  icon?: any
 }
 
 const PieChart: React.FC<PieChartProps> = (props) => {
-  const { width, height, innerRadius, outerRadius, data, item } = props
+  const { width, height, innerRadius, outerRadius, data, item, icon } = props
   const createPie = d3
     .pie()
     .value((d) => d.value)
@@ -34,7 +35,7 @@ const PieChart: React.FC<PieChartProps> = (props) => {
   const createArcRound = d3.arc().innerRadius(innerRadius).outerRadius(outerRadius).cornerRadius(20)
   const format = d3.format('.2f')
   const pieData = createPie(data)
-  const text = `${pieData.find((el) => el.data.name === item)?.value}%`
+  const insideContent = icon || `${pieData.find((el) => el.data.name === item)?.value}%`
 
   return (
     <svg width={width} height={height}>
@@ -51,16 +52,20 @@ const PieChart: React.FC<PieChartProps> = (props) => {
           />
         ))}
         <circle cx="0" cy="0" r={innerRadius} fill="#242E42" />
-        <text
-          textAnchor="middle"
-          alignmentBaseline="middle"
-          dominantBaseline="middle"
-          fill="white"
-          fontSize="20"
-          fontWeight="300"
-        >
-          {text}
-        </text>
+        {icon ? (
+          <image href={icon} height="50" width="50" x="-25" y="-26" />
+        ) : (
+          <text
+            textAnchor="middle"
+            alignmentBaseline="middle"
+            dominantBaseline="middle"
+            fill="white"
+            fontSize="20"
+            fontWeight="300"
+          >
+            {insideContent}
+          </text>
+        )}
       </g>
     </svg>
   )
