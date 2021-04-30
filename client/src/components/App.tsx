@@ -7,7 +7,6 @@ import { appReadyAction } from '../actions/appActions'
 import { saveDevicesAction } from '../actions/devicesActions'
 import { saveHomeAction, selectHomeAction } from '../actions/homeActions'
 import { tokenValidationAction } from '../actions/userActions'
-import { DevicesState } from '../reducers/devicesReducer'
 import { HomeState } from '../reducers/homeReducer'
 import SmartRouter from '../SmartRouter'
 import AddDevice from './AddDevice/AddDevice'
@@ -68,7 +67,7 @@ const App: React.FC<Props> = (props) => {
         }
       }
     }
-  }, [userId])
+  }, [saveDevicesAction, saveHomeAction, userId])
 
   useEffect(() => {
     const token = localStorage.getItem('token')

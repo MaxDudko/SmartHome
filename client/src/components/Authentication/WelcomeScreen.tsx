@@ -15,10 +15,10 @@ const WelcomeScreen: React.FC = (props) => {
         <p>Connect your life</p>
       </div>
       <div className={styles.footer}>
-        <a href="#">
+        <a href="#root">
           <i className={styles.icon + ' material-icons'}>play_circle_filled</i>
         </a>
-        <a href="#">See how it works</a>
+        <a href="#root">See how it works</a>
       </div>
     </Col>
   )

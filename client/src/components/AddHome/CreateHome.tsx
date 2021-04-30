@@ -28,14 +28,14 @@ const CreateHome: React.FC<Props> = (props) => {
       window.open(authModal)
       authModalAction('')
     }
-  }, [authModal])
+  }, [authModal, authModalAction])
 
   const handleSubmit = (event) => {
     event.preventDefault()
 
     const isValid = validate(data, throwErrors)
     if (isValid) {
-      const { userId, homeName, homeAddress, key } = data
+      const { homeName, homeAddress, key } = data
       createHomeAction(homeName, homeAddress, key)
     }
   }

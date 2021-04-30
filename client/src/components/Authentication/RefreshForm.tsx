@@ -25,7 +25,7 @@ const RefreshForm: React.FC<Props> = (props) => {
     if (token) {
       setToken(token)
     }
-  })
+  }, [])
   useEffect(() => {
     throwErrors(responseError)
   }, [responseError])

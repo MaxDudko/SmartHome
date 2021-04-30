@@ -27,7 +27,7 @@ const TopNavbar: React.FC<Props> = (props) => {
       className={styles.TopNavbar}
       alignLinks="right"
       brand={
-        <a href="#" className={styles.logo + ' brand-logo'}>
+        <a href="#root" className={styles.logo + ' brand-logo'}>
           <img src={smartHomeLogo} alt="SmartHome" />
         </a>
       }
@@ -86,7 +86,7 @@ const TopNavbar: React.FC<Props> = (props) => {
           }}
           trigger={
             <a
-              href="#"
+              href="#root"
               className="hide-on-med-and-down"
               style={{
                 display: 'flex',
@@ -102,11 +102,11 @@ const TopNavbar: React.FC<Props> = (props) => {
             </a>
           }
         >
-          <a href="#" onClick={switchHome}>
+          <a href="#root" onClick={switchHome}>
             Switch Home
           </a>
           <Divider />
-          <a href="#" onClick={logout}>
+          <a href="#root" onClick={logout}>
             Logout
             <Icon right={true}>exit_to_app</Icon>
           </a>

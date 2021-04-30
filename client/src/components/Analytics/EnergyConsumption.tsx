@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Col, Row } from 'react-materialize'
+import { Button, Col } from 'react-materialize'
 import { connect } from 'react-redux'
 import data from '../../testData'
 import styles from '../Analytics/Analytics.module.scss'

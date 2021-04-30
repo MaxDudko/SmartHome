@@ -4,9 +4,8 @@ import {
   GET_SUPPORTED_DEVICES,
   LOCK_TOGGLE,
   REMOVE_DEVICES,
-  SAVE_DEVICES
+  SAVE_DEVICES,
 } from '../actionTypes'
-import { DevicesState } from '../reducers/devicesReducer'
 
 export const getDevicesAction = (homeId: string) => {
   return {

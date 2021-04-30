@@ -35,7 +35,7 @@ const AddDevice: React.FC<Props> = (props) => {
 
   useEffect(() => {
     getSupportedDevicesAction(homeId)
-  }, [homeId])
+  }, [getSupportedDevicesAction, homeId])
 
   return (
     <div className={styles.AddDevice}>

@@ -22,7 +22,7 @@ const SelectHome: React.FC<Props> = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    const { userId, homeId } = data
+    const { homeId } = data
 
     selectHomeAction(homeId.toString())
   }

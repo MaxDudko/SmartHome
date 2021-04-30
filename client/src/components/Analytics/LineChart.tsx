@@ -97,7 +97,7 @@ const LineChart: React.FC<LinerChartProps> = (props) => {
 
       setPeriodsSumValues(obj)
     }
-  }, [data])
+  }, [data, lineOnly])
 
   const xScale = d3
     .scaleTime()

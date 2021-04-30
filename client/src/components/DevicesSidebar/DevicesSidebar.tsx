@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Icon } from 'react-materialize'
 import { connect } from 'react-redux'
 import { openDevicesSidebarAction, openModalAction } from '../../actions/appActions'
