@@ -67,10 +67,11 @@ interface LinerChartProps {
   height: number
   data: any
   colors: string[]
+  lineOnly?: boolean
 }
 
 const LineChart: React.FC<LinerChartProps> = (props) => {
-  const { width, height, data, colors } = props
+  const { width, height, data, colors, lineOnly } = props
   const [label, setLabel] = useState('')
   const [tooltipValue, setTooltipValue] = useState('')
   const [xTooltip, setXTooltip] = useState<any>(0)
@@ -82,18 +83,20 @@ const LineChart: React.FC<LinerChartProps> = (props) => {
     setStartDate(data[0][0].period)
     setEndDate(data[0][data[0].length - 1].period)
 
-    const obj = {}
-    data.forEach((item) => {
-      item.forEach((point) => {
-        if (!obj[point.period.toDateString()]) {
-          obj[point.period.toDateString()] = point.value || 0
-        } else {
-          obj[point.period.toDateString()] += point.value
-        }
+    if (!lineOnly) {
+      const obj = {}
+      data.forEach((item) => {
+        item.forEach((point) => {
+          if (!obj[point.period.toDateString()]) {
+            obj[point.period.toDateString()] = point.value || 0
+          } else {
+            obj[point.period.toDateString()] += point.value
+          }
+        })
       })
-    })
 
-    setPeriodsSumValues(obj)
+      setPeriodsSumValues(obj)
+    }
   }, [data])
 
   const xScale = d3
@@ -175,51 +178,65 @@ const LineChart: React.FC<LinerChartProps> = (props) => {
           ref={(node) => select(node).call(xAxis)}
           transform={`translate(0 ${height - 50})`}
           strokeDasharray="5"
+          display={lineOnly ? 'none' : 'block'}
         />
         <g
           className="y-axis"
           ref={(node) => select(node).call(yAxis)}
           transform={`translate(50 0)`}
+          display={lineOnly ? 'none' : 'block'}
         />
         {data.map((d, i) => {
-          return <path d={line(d)} key={i} fill={'none'} stroke={colors[i]} strokeWidth="2" />
+          return (
+            <path
+              d={line(d)}
+              key={i}
+              fill={'none'}
+              stroke={colors[i]}
+              strokeWidth={lineOnly ? 10 : 2}
+            />
+          )
         })}
-        <g>
-          <linearGradient id="Gradient1" x1="0" x2="0" y1="0" y2="1">
-            <stop stopColor={colors[0]} offset="20%" />
-            <stop stopColor="#2f3b52" offset="100%" />
-          </linearGradient>
-          <path d={area(data[0])} fill="url('#Gradient1')" fillOpacity="0.1" />
-        </g>
-        {data.map((d, i) => {
-          const color = colors[i]
-          return d.map((d, i) => {
-            if (i > 0) {
-              return (
-                <circle
-                  key={i}
-                  cx={xScale(d.period)}
-                  cy={yScale(+d.value)}
-                  r="1.8"
-                  stroke={color}
-                  fill="#2F3B52"
-                />
-              )
-            } else {
-              return null
-            }
-          })
-        })}
-        <rect
-          className="rect"
-          width={width - 80}
-          height={height - 50}
-          transform={`translate(40 50)`}
-          fill="transparent"
-          onMouseMove={(e) => tooltipData(e)}
-          onMouseUp={(e) => tooltipData(e)}
-        />
-        <Tooltip height={height} x={xScale(xTooltip)} value={tooltipValue} label={label} />
+        {lineOnly ? null : (
+          <>
+            <g>
+              <linearGradient id="Gradient1" x1="0" x2="0" y1="0" y2="1">
+                <stop stopColor={colors[0]} offset="20%" />
+                <stop stopColor="#2f3b52" offset="100%" />
+              </linearGradient>
+              <path d={area(data[0])} fill="url('#Gradient1')" fillOpacity="0.1" />
+            </g>
+            {data.map((d, i) => {
+              const color = colors[i]
+              return d.map((d, i) => {
+                if (i > 0) {
+                  return (
+                    <circle
+                      key={i}
+                      cx={xScale(d.period)}
+                      cy={yScale(+d.value)}
+                      r="1.8"
+                      stroke={color}
+                      fill="#2F3B52"
+                    />
+                  )
+                } else {
+                  return null
+                }
+              })
+            })}
+            <rect
+              className="rect"
+              width={width - 80}
+              height={height - 50}
+              transform={`translate(40 50)`}
+              fill="transparent"
+              onMouseMove={(e) => tooltipData(e)}
+              onMouseUp={(e) => tooltipData(e)}
+            />
+            <Tooltip height={height} x={xScale(xTooltip)} value={tooltipValue} label={label} />
+          </>
+        )}
       </svg>
     </>
   )

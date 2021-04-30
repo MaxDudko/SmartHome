@@ -5,6 +5,7 @@ import data from '../../testData'
 import styles from '../Analytics/Analytics.module.scss'
 import Device, { DeviceProps } from './Device'
 import EnergyConsumption from './EnergyConsumption'
+import LineChart from './LineChart'
 
 interface Props {}
 
@@ -27,6 +28,33 @@ const Analytics: React.FC<Props> = (props) => {
             difference={device.difference}
             icon={device.icon}
           />
+        ))}
+      </div>
+      <div className={styles.roomRow}>
+        {data.rooms.map((room: any, index: number) => (
+          <div className={`${styles.room} col s12 l3`} key={index}>
+            <div className={`${styles.description} col s5`}>
+              <div className={styles.field}>
+                <span className={styles.value}>{room.kwh}</span>
+                <div className={styles.label}>
+                  <Icon className={styles.icon}>info</Icon>
+                  <span>KWH</span>
+                </div>
+              </div>
+              <div className={styles.field}>
+                <span>{room.name}</span>
+              </div>
+            </div>
+            <div className={`${styles.chartContainer} col s7`}>
+              <LineChart
+                width={980}
+                height={350}
+                data={[room.points]}
+                colors={[room.color]}
+                lineOnly={true}
+              />
+            </div>
+          </div>
         ))}
       </div>
     </div>

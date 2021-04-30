@@ -17,6 +17,10 @@
   }
   .energyConsumption {
     background: #2f3b52;
+    .rowContainer {
+      align-items: stretch;
+      display: flex;
+    }
     .header {
       padding: 0 16px;
     }
@@ -41,14 +45,20 @@
         padding: 1px 22px;
       }
     }
+    .chartContainer {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
     .pieCharts {
       .container {
+        margin-bottom: 26px;
       }
       .item {
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        margin: 0 22px 18px;
+        margin: 0 22px 12px;
         p {
           margin: 0;
         }
@@ -78,6 +88,7 @@
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+    margin-bottom: 26px;
     .Device {
       background: #2f3b52;
       margin-bottom: 10px;
@@ -97,16 +108,16 @@
           display: block;
           border: none;
           outline: none;
-          background: #20293C;
           color: #657D95;
           font-size: 12px;
           width: 48%;
           height: 32px;
           margin: 10px;
-          padding: 0 10px;
+          padding: 10px 10px;
           -moz-appearance: none;
           -webkit-appearance: none;
           appearance: none;
+          background: #20293C;
           background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 12' fill='%23657D95'%3E%3Cpolygon points='0,0 27,0 14,12'%3E%3C/polygon%3E%3C/svg%3E%0A");
           background-repeat: no-repeat, repeat;
           background-position: right .7em top 50%, 0 0;
@@ -118,9 +129,9 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 10px 10px 26px 26px;
+        padding: 14px 10px 26px 22px;
         .description {
-          margin-left: 22px;
+          margin-left: 26px;
           .field {
             display: flex;
             justify-content: space-between;
@@ -129,7 +140,10 @@
             padding-top: 4px;
             color: #657D95;
             .icon {
-              font-size: 20px;
+              position: relative;
+              right: 2px;
+              bottom: 2px;
+              font-size: 18px;
             }
             .difference {
               font-size: 12px;
@@ -149,7 +163,62 @@
           }
           .field:first-child {
             align-items: flex-end;
+            .difference {
+              position: relative;
+              bottom: 2px;
+            }
           }
+        }
+      }
+    }
+  }
+  .roomRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .room {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      color: #657D95;
+      .chartContainer {
+        .lineChart {
+          .x-axis, .y-axis {
+            display: none;
+          }
+        }
+      }
+      .description {
+        .field {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          line-height: 1.2;
+          .value {
+            font-size: 26px;
+            font-weight: 400;
+            color: #ffffff;
+          }
+          .label {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-left: 5px;
+            .icon {
+              font-size: 12px;
+              position: relative;
+              right: 2px;
+              top: 1px;
+              cursor: pointer;
+            }
+            span {
+              font-size: 12px;
+              font-weight: 800;
+            }
+          }
+        }
+        .field:last-child span {
+          padding-left: 2px;
         }
       }
     }
@@ -160,6 +229,9 @@
   .Analytics {
     padding-right: 0 !important;
     .energyConsumption {
+      .rowContainer {
+        flex-direction: column;
+      }
       .rangBar {
         justify-content: flex-end;
       }
@@ -201,6 +273,9 @@
           justify-content: space-around;
         }
       }
+    }
+    .roomRow {
+      flex-direction: column;
     }
   }
 }

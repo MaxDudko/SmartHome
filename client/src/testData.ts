@@ -3,6 +3,7 @@ const data = {
     {
       name: 'Living Room',
       km: '1034',
+      kwh: '174',
       value: '12',
       color: '#05C985',
       points: [
@@ -23,6 +24,7 @@ const data = {
     {
       name: 'Studio',
       km: '1034',
+      kwh: '201',
       value: '16',
       color: '#ffab4f',
       points: [
@@ -43,6 +45,7 @@ const data = {
     {
       name: "Kid's Bedroom",
       km: '1034',
+      kwh: '289',
       value: '32',
       color: '#EE423D',
       points: [
@@ -63,6 +66,7 @@ const data = {
     {
       name: 'Kitchen',
       km: '1034',
+      kwh: '196',
       value: '18',
       color: '#843FA0',
       points: [

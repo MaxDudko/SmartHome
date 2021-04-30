@@ -12,7 +12,7 @@ const EnergyConsumption: React.FC = (props) => {
 
   return (
     <div className={styles.energyConsumption}>
-      <div className="row" style={{marginBottom: '12px'}}>
+      <div className={`row ${styles.rowContainer}`}>
         <Col s={12} l={3} className={styles.pieCharts}>
           <div className={styles.title}>
             <p className="left">Energy Consumption</p>
@@ -46,7 +46,7 @@ const EnergyConsumption: React.FC = (props) => {
                 type="submit"
                 name={el}
                 key={i}
-                className={`waves-effect btn ${range === el ? 'blue' : 'transparent'}`}
+                className={`waves-effect btn btn-small ${range === el ? 'blue' : 'transparent'}`}
                 style={range !== el ? { boxShadow: 'none', color: '#657d95' } : {}}
                 onClick={() => setRange(el)}
               >
@@ -54,12 +54,14 @@ const EnergyConsumption: React.FC = (props) => {
               </Button>
             ))}
           </div>
-          <LineChart
-            width={980}
-            height={350}
-            data={data.rooms.map((d) => [...d.points])}
-            colors={data.rooms.map((d) => d.color)}
-          />
+          <div>
+            <LineChart
+              width={1000}
+              height={370}
+              data={data.rooms.map((d) => [...d.points])}
+              colors={data.rooms.map((d) => d.color)}
+            />
+          </div>
         </Col>
       </div>
     </div>
