@@ -98,31 +98,57 @@
           border: none;
           outline: none;
           background: #20293C;
-          color: #98A7B9;
-          width: 50%;
-          height: 36px;
+          color: #657D95;
+          font-size: 12px;
+          width: 48%;
+          height: 32px;
           margin: 10px;
+          padding: 0 10px;
+          -moz-appearance: none;
+          -webkit-appearance: none;
+          appearance: none;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 12' fill='%23657D95'%3E%3Cpolygon points='0,0 27,0 14,12'%3E%3C/polygon%3E%3C/svg%3E%0A");
+          background-repeat: no-repeat, repeat;
+          background-position: right .7em top 50%, 0 0;
+          background-size: .70em auto, 100%;
+          cursor: pointer;
         }
       }
       .container {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 10px 18px 10px 18px;
+        padding: 10px 10px 26px 26px;
         .description {
-          margin-left: 15px;
+          margin-left: 22px;
           .field {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin: 10px 0;
+            padding-top: 4px;
             color: #657D95;
+            .icon {
+              font-size: 20px;
+            }
+            .difference {
+              font-size: 12px;
+              margin-left: 12px;
+            }
             .value {
               font-size: 18px;
               color: #D9DBDF;
               font-weight: 600;
               margin: 0 10px 0 5px;
             }
+            span {
+              display: flex;
+              justify-content: flex-start;
+              align-items: flex-end;
+            }
+          }
+          .field:first-child {
+            align-items: flex-end;
           }
         }
       }

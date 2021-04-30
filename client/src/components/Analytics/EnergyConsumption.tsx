@@ -12,7 +12,7 @@ const EnergyConsumption: React.FC = (props) => {
 
   return (
     <div className={styles.energyConsumption}>
-      <Row styles={"margin-bottom: 0"}>
+      <div className="row" style={{marginBottom: '12px'}}>
         <Col s={12} l={3} className={styles.pieCharts}>
           <div className={styles.title}>
             <p className="left">Energy Consumption</p>
@@ -61,7 +61,7 @@ const EnergyConsumption: React.FC = (props) => {
             colors={data.rooms.map((d) => d.color)}
           />
         </Col>
-      </Row>
+      </div>
     </div>
   )
 }

@@ -20,12 +20,10 @@ const Device: React.FC<DeviceProps> = (props) => {
     <div className={`${styles.Device}`}>
       <div className={`${styles.header}`}>
         <p className={styles.title}>{name}</p>
-        <select className={styles.selectPeriod}>
+        <select className={styles.selectPeriod} defaultValue="month">
           <option value="day">This day</option>
           <option value="week">This week</option>
-          <option value="month" selected={true}>
-            This month
-          </option>
+          <option value="month">This month</option>
           <option value="year">This year</option>
         </select>
       </div>
@@ -33,22 +31,26 @@ const Device: React.FC<DeviceProps> = (props) => {
         <PieChart
           width={100}
           height={100}
-          innerRadius={36}
-          outerRadius={48}
+          innerRadius={38}
+          outerRadius={50}
           data={[{ name, value, color: '#1F8EFA' }, { value: 100 - +value }]}
           item={name}
           icon={icon}
         />
         <div className={`${styles.description}`}>
           <div className={styles.field}>
-            <Icon>access_time</Icon>
-            <span className={styles.value}>{time}</span>
-            <span>({difference})</span>
+            <span>
+              <Icon className={styles.icon}>access_time</Icon>
+              <span className={styles.value}>{time}</span>
+            </span>
+            <span className={styles.difference}>({difference})</span>
           </div>
           <div className={styles.field}>
-            <Icon>trending_up</Icon>
-            <span className={styles.value}>{energy}</span>
-            <span>({difference})</span>
+            <span>
+              <Icon className={styles.icon}>trending_up</Icon>
+              <span className={styles.value}>{energy}</span>
+            </span>
+            <span className={styles.difference}>({difference})</span>
           </div>
         </div>
       </div>
