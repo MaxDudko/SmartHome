@@ -2,15 +2,16 @@
   padding-right: 50px !important;
   h4 {
     text-align: left;
-    margin-bottom: 40px;
+    margin-bottom: 22px;
     display: flex;
     justify-content: space-between;
     position: relative;
+    font-weight: 300;
     .settings {
       color: #3E4E6C;
       position: absolute;
-      right: 0;
-      top: 36px;
+      right: -16px;
+      top: 18px;
       font-size: 30px;
       cursor: pointer;
     }
@@ -33,7 +34,6 @@
         font-size: 18px;
         font-weight: 300;
         margin: 8px;
-        letter-spacing: 1.5px;
       }
     }
     .rangBar {
@@ -205,15 +205,16 @@
             align-items: flex-start;
             margin-left: 5px;
             .icon {
-              font-size: 12px;
+              font-size: 11px;
               position: relative;
               right: 2px;
-              top: 1px;
+              top: 0;
               cursor: pointer;
             }
             span {
-              font-size: 12px;
+              font-size: 10px;
               font-weight: 800;
+              letter-spacing: 1.2px;
             }
           }
         }
@@ -224,10 +225,19 @@
     }
   }
 }
+@media (max-width: 992px) {
+  .Analytics {
+    .devicesRow {
 
+    }
+  }
+}
 @media (max-width: 992px) {
   .Analytics {
     padding-right: 0 !important;
+    .settings {
+      display: none;
+    }
     .energyConsumption {
       .rowContainer {
         flex-direction: column;
@@ -254,7 +264,6 @@
             width: 120px;
             justify-content: space-around;
             flex-direction: column;
-            //margin-left: 50px;
             .description {
               width: 100%;
               margin: 10px 0;
@@ -265,17 +274,16 @@
       }
     }
     .devicesRow {
-      flex-direction: column;
+      justify-content: center;
       .Device {
-        width: 100%;
-        margin-bottom: 10px;
+        margin: 0 5px 10px 5px;
         .container, .header {
           justify-content: space-around;
         }
       }
     }
     .roomRow {
-      flex-direction: column;
+      flex-wrap: nowrap;
     }
   }
 }

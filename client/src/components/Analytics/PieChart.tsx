@@ -38,7 +38,7 @@ const PieChart: React.FC<PieChartProps> = (props) => {
   const insideContent = icon || `${pieData.find((el) => el.data.name === item)?.value}%`
 
   return (
-    <svg width={width} height={height}>
+    <svg width={width} height={height} xmlns="http://www.w3.org/2000/svg">
       <g transform={`translate(${outerRadius} ${outerRadius})`}>
         <circle cx="0" cy="0" r={outerRadius} fill="#3e4e6c" />
         {pieData.map((d, i) => (

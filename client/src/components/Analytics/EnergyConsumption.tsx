@@ -26,7 +26,7 @@ const EnergyConsumption: React.FC = (props) => {
                     item={el.name}
                     width={72}
                     height={72}
-                    innerRadius={25}
+                    innerRadius={26}
                     outerRadius={35}
                   />
                 </div>

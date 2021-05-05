@@ -27,7 +27,7 @@ const Tooltip: React.FC<TooltipProps> = ({ height, x, value, label }) => (
     <text x={x} y={36} textAnchor="middle" fontSize="18px" fontWeight={500} fill="#fff">
       {value}
     </text>
-    <polygon points={`${x - 6},${42} ${x + 6},${42} ${x},${50}`} fill="#1F8EFA" />
+    <polygon points={`${x - 6},42 ${x + 6},42 ${x},50`} fill="#1F8EFA" />
     <line
       x1={x}
       y1={52}
@@ -50,10 +50,10 @@ const Tooltip: React.FC<TooltipProps> = ({ height, x, value, label }) => (
       fill="#2D394F"
     />
     <text
-      x={x - 8}
-      y={height - 18}
+      x={x - 13}
+      y={height - 17}
       textAnchor="start"
-      fontSize="10px"
+      fontSize="12px"
       fontWeight={600}
       fill="#B0B5BD"
     >
@@ -84,16 +84,15 @@ const LineChart: React.FC<LinerChartProps> = (props) => {
     setEndDate(data[0][data[0].length - 1].period)
 
     if (!lineOnly) {
-      const obj = {}
-      data.forEach((item) => {
-        item.forEach((point) => {
-          if (!obj[point.period.toDateString()]) {
-            obj[point.period.toDateString()] = point.value || 0
-          } else {
-            obj[point.period.toDateString()] += point.value
-          }
-        })
-      })
+      const obj = data.reduce(
+        (accumulator, currentValue) =>
+          currentValue.reduce((accumulator, currentValue) => {
+            const month = currentValue.period.toDateString()
+            const { [month]: sum = 0 } = accumulator
+            return { ...accumulator, [month]: currentValue.value + sum }
+          }, accumulator),
+        {}
+      )
 
       setPeriodsSumValues(obj)
     }
@@ -172,7 +171,11 @@ const LineChart: React.FC<LinerChartProps> = (props) => {
 
   return (
     <>
-      <svg className={styles.lineChart} viewBox={`0 0 ${width} ${height}`}>
+      <svg
+        className={styles.lineChart}
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox={`0 0 ${width} ${height}`}
+      >
         <g
           className="x-axis"
           ref={(node) => select(node).call(xAxis)}
