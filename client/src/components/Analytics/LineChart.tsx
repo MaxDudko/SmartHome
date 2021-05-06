@@ -85,12 +85,12 @@ const LineChart: React.FC<LinerChartProps> = (props) => {
 
     if (!lineOnly) {
       const obj = data.reduce(
-        (accumulator, currentValue) =>
-          currentValue.reduce((accumulator, currentValue) => {
-            const month = currentValue.period.toDateString()
-            const { [month]: sum = 0 } = accumulator
-            return { ...accumulator, [month]: currentValue.value + sum }
-          }, accumulator),
+        (outerAccumulator, outerCurrentValue) =>
+          outerCurrentValue.reduce((innerAccumulator, innerCurrentValue) => {
+            const month = innerCurrentValue.period.toDateString()
+            const { [month]: sum = 0 } = innerAccumulator
+            return { ...innerAccumulator, [month]: innerCurrentValue.value + sum }
+          }, outerAccumulator),
         {}
       )
 
@@ -143,6 +143,20 @@ const LineChart: React.FC<LinerChartProps> = (props) => {
     return svgPoint.matrixTransform(svgElement.getScreenCTM().inverse())
   }
 
+  const getSelectedDate = (cursorPosition) => {
+    const date = new Date(xScale.invert(cursorPosition))
+    const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
+
+    if (date.getDate() < daysInMonth / 2) {
+      date.setDate(1)
+    } else {
+      date.setMonth(date.getMonth() + 1)
+      date.setDate(1)
+    }
+
+    return date
+  }
+
   const setDataValues = (date) => {
     setTooltipValue(
       periodsSumValues[date.toDateString()].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -151,10 +165,9 @@ const LineChart: React.FC<LinerChartProps> = (props) => {
     setXTooltip(date)
   }
 
-  const tooltipData = (event) => {
+  const tooltipMove = (event) => {
     const cursorPosition = getCursorPosition(event)
-    const date = new Date(xScale.invert(cursorPosition.x))
-    date.setDate(1)
+    const date = getSelectedDate(cursorPosition.x)
 
     if (date >= startDate && date <= endDate && !xTooltip) {
       return setDataValues(date)
@@ -234,8 +247,8 @@ const LineChart: React.FC<LinerChartProps> = (props) => {
               height={height - 50}
               transform={`translate(40 50)`}
               fill="transparent"
-              onMouseMove={(e) => tooltipData(e)}
-              onMouseUp={(e) => tooltipData(e)}
+              onMouseMove={(e) => tooltipMove(e)}
+              onMouseUp={(e) => tooltipMove(e)}
             />
             <Tooltip height={height} x={xScale(xTooltip)} value={tooltipValue} label={label} />
           </>
