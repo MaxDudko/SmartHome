@@ -84,15 +84,11 @@ const LineChart: React.FC<LinerChartProps> = (props) => {
     setEndDate(data[0][data[0].length - 1].period)
 
     if (!lineOnly) {
-      const obj = data.reduce(
-        (outerAccumulator, outerCurrentValue) =>
-          outerCurrentValue.reduce((innerAccumulator, innerCurrentValue) => {
-            const month = innerCurrentValue.period.toDateString()
-            const { [month]: sum = 0 } = innerAccumulator
-            return { ...innerAccumulator, [month]: innerCurrentValue.value + sum }
-          }, outerAccumulator),
-        {}
-      )
+      const obj = data.flat().reduce((accumulator, currentValue) => {
+        const month = currentValue.period.toDateString()
+        const { [month]: sum = 0 } = accumulator
+        return { ...accumulator, [month]: currentValue.value + sum }
+      }, {})
 
       setPeriodsSumValues(obj)
     }
