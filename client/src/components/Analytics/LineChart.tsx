@@ -68,20 +68,51 @@ interface LinerChartProps {
   data: any
   colors: string[]
   lineOnly?: boolean
+  range?: string
 }
 
 const LineChart: React.FC<LinerChartProps> = (props) => {
-  const { width, height, data, colors, lineOnly } = props
+  const { width, height, data, colors, lineOnly, range } = props
   const [label, setLabel] = useState('')
   const [tooltipValue, setTooltipValue] = useState('')
   const [xTooltip, setXTooltip] = useState<any>(0)
   const [startDate, setStartDate] = useState<any>(0)
   const [endDate, setEndDate] = useState<any>(0)
   const [periodsSumValues, setPeriodsSumValues] = useState({})
+  const [period, setPeriod] = useState({ format: '', ticks: 0 })
 
   useEffect(() => {
-    setStartDate(data[0][0].period)
-    setEndDate(data[0][data[0].length - 1].period)
+    switch (range) {
+      case 'year':
+        setStartDate(data[0][0].period)
+        setEndDate(data[0][data[0].length - 1].period)
+        setPeriod({ format: '%b', ticks: 12 })
+        break
+      case 'month':
+        setStartDate(data[0][data[0].length - 2].period)
+        setEndDate(data[0][data[0].length - 1].period)
+        setPeriod({
+          format: '%a',
+          ticks: new Date(
+            data[0][0].period.getFullYear(),
+            data[0][0].period.getMonth() + 1,
+            0
+          ).getDate(),
+        })
+        break
+      case 'week':
+        setStartDate(
+          new Date(data[0][data[0].length - 1].period).setDate(
+            data[0][data[0].length - 1].period.getDate() - 7
+          )
+        )
+        setEndDate(data[0][data[0].length - 1].period)
+        setPeriod({ format: '%A', ticks: 7 })
+        break
+      case 'day':
+        setPeriod({ format: '%H:00', ticks: 24 })
+        break
+    }
 
     if (!lineOnly) {
       const obj = data.flat().reduce((accumulator, currentValue) => {
@@ -92,7 +123,7 @@ const LineChart: React.FC<LinerChartProps> = (props) => {
 
       setPeriodsSumValues(obj)
     }
-  }, [data, lineOnly])
+  }, [data, lineOnly, range])
 
   const xScale = d3
     .scaleTime()
@@ -107,8 +138,8 @@ const LineChart: React.FC<LinerChartProps> = (props) => {
 
   const xAxis = d3
     .axisBottom(xScale)
-    .ticks(12)
-    .tickFormat(d3.timeFormat('%b'))
+    .ticks(period.ticks)
+    .tickFormat(d3.timeFormat(period.format))
     .tickSize(-height + 100)
     .tickPadding(25)
 
@@ -120,7 +151,11 @@ const LineChart: React.FC<LinerChartProps> = (props) => {
 
   const line = d3
     .line()
-    .x((d) => xScale(d.period))
+    .x((d) => {
+      if (d.period <= endDate) {
+        return xScale(d.period)
+      }
+    })
     .y((d) => yScale(+d.value))
 
   const area = d3
@@ -157,7 +192,9 @@ const LineChart: React.FC<LinerChartProps> = (props) => {
     setTooltipValue(
       periodsSumValues[date.toDateString()].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     )
-    setLabel(date.toString().split(' ')[1].toUpperCase())
+    const dateFormat = d3.timeFormat(period.format)
+    setLabel(dateFormat(date).toUpperCase())
+
     setXTooltip(date)
   }
 

@@ -56,10 +56,11 @@ const EnergyConsumption: React.FC = (props) => {
           </div>
           <div>
             <LineChart
-              width={1000}
+              width={1200}
               height={370}
               data={data.rooms.map((d) => [...d.points])}
               colors={data.rooms.map((d) => d.color)}
+              range={range}
             />
           </div>
         </Col>
