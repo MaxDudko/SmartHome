@@ -1,8 +1,6 @@
 # Smart Home
 #### The smart-home automation system for control the smart devices of your entire home. <br>It's helping the users to achieve the best and comfortable atmosphere for their home.
 
-![alt text](https://gitlab.com/wemyit.trainee/dudko-maksym/uploads/ebbde8f53b4727911238cc2a992d1e04/0.0-Signin-min.png)
-
 ### Technology stack:
 * **BackEnd:** Node.js, Express
 * **FrontEnd:** Materialize, React, Redux
@@ -42,5 +40,3 @@ Step 1. Register or login in application. <br>
 Step 2. Select your home or create new home, also you can join in the existing home if you can remember home ID and security Key. <br>
 Step 3. Add your smart devices from this application or from Samsung SmartThings App. <br>
 Step 4. Now you can see your devices in devices list, also you can control your devices and view statistic graph for devices exploitation.<br>
-
-![alt text](https://gitlab.com/wemyit.trainee/dudko-maksym/uploads/427d7f43616ed8220d2b76b2b9987c36/1.0-Overview-min.png)
