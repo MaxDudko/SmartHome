@@ -1,11 +1,6 @@
 # Smart Home
 #### The smart-home automation system for control the smart devices of your entire home. <br>It's helping the users to achieve the best and comfortable atmosphere for their home.
-
-### Technology stack:
-* **BackEnd:** Node.js, Express
-* **FrontEnd:** Materialize, React, Redux
-* **DataBase:** Postgresql, Sequelize
-* **Integration with devices:** Samsung SmartThings (https://graph.api.smartthings.com/)
+🛠 **Work In Progress** 🛠
 
 ### Installation
 1. Clone this repository: <br>

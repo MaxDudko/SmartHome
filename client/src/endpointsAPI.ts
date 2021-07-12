@@ -21,8 +21,8 @@ const sendRequest = (actionType: string, data: any) => {
 
   const GET = 'GET'
   const POST = 'POST'
-  // const PUT = 'PUT'
-  // const DELETE = 'DELETE'
+  const PUT = 'PUT'
+  const DELETE = 'DELETE'
 
   const endpoints = {
     [VALIDATE_TOKEN]: {

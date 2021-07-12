@@ -10,11 +10,6 @@ import strategy from './config/passport'
 import router from './router'
 
 class Server {
-  private static passport() {
-    passport.use(strategy)
-  }
-  private app
-
   constructor() {
     this.app = express()
     this.config()
@@ -22,15 +17,7 @@ class Server {
     Server.passport()
   }
 
-  public start = (port: number) => {
-    return new Promise((resolve, reject) => {
-      this.app
-        .listen(port, () => {
-          resolve(port)
-        })
-        .on('error', (err: Error) => reject(err))
-    })
-  }
+  private app
 
   private config() {
     this.app.use(bodyParser.urlencoded({ extended: true }))
@@ -46,6 +33,10 @@ class Server {
     })
   }
 
+  private static passport() {
+    passport.use(strategy)
+  }
+
   private dbConnect() {
     DB.sequelize
       .sync()
@@ -55,6 +46,16 @@ class Server {
       .catch((err) => {
         logger.error('Unable to connect to the database:', err)
       })
+  }
+
+  public start = (port: number) => {
+    return new Promise((resolve, reject) => {
+      this.app
+        .listen(port, () => {
+          resolve(port)
+        })
+        .on('error', (err: Error) => reject(err))
+    })
   }
 }
 
